@@ -1492,5 +1492,107 @@
     "boss_voice_text": "what is on my screen",
     "recorded_wav_file": "",
     "cosmos_response": "Sir, the OCR didn't pick up any distinct text on your screen right now--just a blank or non-text area."
+  },
+  {
+    "timestamp": "2026-11-01 00:42:36",
+    "boss_voice_text": "can you hear",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004227.wav",
+    "cosmos_response": "Yes sir, I can hear your voice loud and clear. I am listening and ready for your orders."
+  },
+  {
+    "timestamp": "2026-11-01 00:43:11",
+    "boss_voice_text": "Cosmos can you hear me",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004258.wav",
+    "cosmos_response": "Yes sir, I can hear your voice loud and clear. I am listening and ready for your orders."
+  },
+  {
+    "timestamp": "2026-11-01 00:43:50",
+    "boss_voice_text": "why you can't hear this",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004321.wav",
+    "cosmos_response": "I hear you loud and clear, sir--there's no issue on my end. If something's not coming through, let me know and I'll double-check the settings for you."
+  },
+  {
+    "timestamp": "2026-11-01 00:44:10",
+    "boss_voice_text": "AP formation day",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004353.wav",
+    "cosmos_response": "I'm not sure I understand what you mean by \"AP formation day,\" sir--could you give me a bit more detail so I can help you accurately?"
+  },
+  {
+    "timestamp": "2026-11-01 00:44:26",
+    "boss_voice_text": "Andhra Pradesh formation day",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004413.wav",
+    "cosmos_response": "Andhra Pradesh was formed on 1 November 1956, sir. That day marked the creation of the state from the Telugu-speaking regions of the former Madras State."
+  },
+  {
+    "timestamp": "2026-11-01 00:44:47",
+    "boss_voice_text": "but you said first October",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004429.wav",
+    "cosmos_response": "I'm sorry for any confusion, sir--my earlier reply was that Andhra Pradesh was formed on 1 November 1956; I didn't mention October at all. If you're referring to a different event or need more details, just let me know."
+  },
+  {
+    "timestamp": "2026-11-01 00:45:02",
+    "boss_voice_text": "ok",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004451.wav",
+    "cosmos_response": "Got it, sir--let me know if there's anything else you'd like to explore about Andhra Pradesh or any other topic."
+  },
+  {
+    "timestamp": "2026-11-01 00:45:11",
+    "boss_voice_text": "close yourself",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004503.wav",
+    "cosmos_response": "Ok boss, I will wait for you, until your next order."
+  },
+  {
+    "timestamp": "2026-11-01 00:45:41",
+    "boss_voice_text": "Cosmos",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004536.wav",
+    "cosmos_response": "Tell me sir, what you want to say?"
+  },
+  {
+    "timestamp": "2026-11-01 00:46:37",
+    "boss_voice_text": "what's weather",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004625.wav",
+    "cosmos_response": "Could you let me know which city or region you're interested in, sir, so I can give you the most accurate weather update?"
+  },
+  {
+    "timestamp": "2026-11-01 00:46:52",
+    "boss_voice_text": "close yourself",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_004645.wav",
+    "cosmos_response": "Ok boss, I will wait for you, until your next order."
+  },
+  {
+    "timestamp": "2026-11-01 00:54:36",
+    "boss_voice_text": "my Cosmos also be like that",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_005426.wav",
+    "cosmos_response": "Could you clarify what you mean by \"my also be like that,\" sir, so I can help you accurately?"
+  },
+  {
+    "timestamp": "2026-11-01 00:54:54",
+    "boss_voice_text": "close yourself",
+    "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_005445.wav",
+    "cosmos_response": "Ok boss, I will wait for you, until your next order."
+  },
+  {
+    "timestamp": "2026-11-01 01:12:09",
+    "boss_voice_text": "when was andhra pradesh formed",
+    "recorded_wav_file": "",
+    "cosmos_response": "Andhra Pradesh was officially formed on November 1, 1956, sir, under the States Reorganisation Act (the earlier Andhra State was carved out on October 1, 1953). November 1st is celebrated as Andhra Pradesh Formation Day."
+  },
+  {
+    "timestamp": "2026-11-01 01:12:29",
+    "boss_voice_text": "what's weather",
+    "recorded_wav_file": "",
+    "cosmos_response": "It is currently 26\u00b0C with clear skies and 72% humidity in Visakhapatnam, Andhra Pradesh, sir."
+  },
+  {
+    "timestamp": "2026-11-01 01:26:37",
+    "boss_voice_text": "andhra pradesh formation day",
+    "recorded_wav_file": "",
+    "cosmos_response": "November 1, 1956 is the official Andhra Pradesh Formation Day, sir, under the States Reorganisation Act (the earlier Andhra State was carved out on October 1, 1953). November 1st is celebrated across Andhra Pradesh as Avatharana Dinotsavam."
+  },
+  {
+    "timestamp": "2026-11-01 01:27:04",
+    "boss_voice_text": "whats weather",
+    "recorded_wav_file": "",
+    "cosmos_response": "It is currently 26\u00b0C with clear skies and 72% humidity in Visakhapatnam, Andhra Pradesh, sir."
   }
 ]

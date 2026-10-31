@@ -69,6 +69,8 @@ import jarvis_voice
 import jarvis_brain
 import jarvis_actions
 import cosmos_voice_full
+import cosmos_live_voice
+import cosmos_power_updates
 from cosmos_voice_full import (
     cosmos_speak,
     cosmos_master_solve,
@@ -226,11 +228,24 @@ def get_best_microphone_index() -> Optional[int]:
 # ═══════════════════════════════════════════════════════════════════════
 #  VOICE OUTPUT WRAPPER (SYNCS "TALKING" STATE & PREVENTS ECHO/COLLISION)
 # ═══════════════════════════════════════════════════════════════════════
-def speak_cosmos(text: str):
-    """Speaks text while setting UI state to TALKING and locking hardware audio."""
+def speak_cosmos(text: str, full_chat_text: Optional[str] = None):
+    """Speaks text while setting UI state to TALKING, routing dual-channel output, and locking hardware audio."""
     global current_state, last_response
     if not text:
         return
+
+    # Process through dual channel layer: code blocks to chat/clipboard, acoustic speech to TTS
+    proc = cosmos_live_voice.dual_channel_process(text)
+    chat_display = full_chat_text if full_chat_text else proc["chat_text"]
+    voice_to_speak = proc["voice_text"]
+
+    # Auto-inject any code blocks into Windows clipboard
+    if proc.get("code_blocks"):
+        try:
+            cosmos_power_updates.copy_code_to_clipboard(proc["code_blocks"][0])
+        except Exception:
+            pass
+
     # Maximize Windows hardware wave volume to 100%
     if sys.platform == "win32":
         try:
@@ -242,19 +257,19 @@ def speak_cosmos(text: str):
     time.sleep(0.08)
     with state_lock:
         current_state = "talking"
-        last_response = text
-    add_chat_message("bot", text)
-    print(f"\n[COSMOS VOICE]: {text}", flush=True)
+        last_response = voice_to_speak
+    add_chat_message("bot", chat_display)
+    print(f"\n[COSMOS VOICE]: {voice_to_speak}", flush=True)
     try:
-        if not is_muted:
+        if not is_muted and voice_to_speak:
             with hardware_audio_lock:
-                cosmos_speak(text)
+                cosmos_speak(voice_to_speak)
     except Exception as e:
         print(f"[COSMOS Voice Output Error]: {e}", flush=True)
     finally:
         time.sleep(0.2)
         with state_lock:
-            if mic_enabled:
+            if mic_enabled and not is_sleeping:
                 current_state = "listening"
             else:
                 current_state = "idle"
@@ -767,12 +782,13 @@ async def toggle_mute():
     return {"muted": muted_status}
 
 
+@app.post("/api/command")
 @app.post("/api/query")
 async def execute_query(request: Request):
-    """Processes typed text query from the frontend or external API."""
+    """Processes typed text query from the frontend side-chat or external API."""
     global has_greeted_initial, last_transcript, last_response, is_sleeping
     data = await request.json()
-    query = data.get("query", "").strip()
+    query = (data.get("query") or data.get("command") or data.get("text") or "").strip()
     if not query:
         return {"response": ""}
 
