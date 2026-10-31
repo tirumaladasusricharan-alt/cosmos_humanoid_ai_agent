@@ -69,6 +69,13 @@ def should_capture_screen(query):
         "what does this say",
         "this screenshot",
         "the screenshot",
+        "check my screen",
+        "check the screen",
+        "check screen",
+        "read my screen",
+        "read screen",
+        "inspect my screen",
+        "see my screen"
     )
     if any(phrase in text for phrase in phrases):
         return True
@@ -106,8 +113,52 @@ async def _recognize_text(image_bytes):
 
 
 def capture_screen_text():
-    """Capture the primary display and extract text using Windows OCR."""
-    image = ImageGrab.grab()
-    buffer = BytesIO()
-    image.save(buffer, format="PNG")
-    return asyncio.run(_recognize_text(buffer.getvalue()))
+    """Capture the primary display and extract text using Windows OCR with rich fallback."""
+    extracted = ""
+    # 1. Try Windows native OCR via ImageGrab
+    try:
+        import ctypes
+        if hasattr(ctypes, "windll"):
+            try:
+                ctypes.windll.user32.SetProcessDPIAware()
+            except Exception:
+                pass
+        image = ImageGrab.grab()
+        buffer = BytesIO()
+        image.save(buffer, format="PNG")
+        extracted = asyncio.run(_recognize_text(buffer.getvalue()))
+    except Exception:
+        pass
+
+    if extracted and extracted.strip():
+        return extracted.strip()[:MAX_OCR_CHARACTERS]
+
+    # 2. Rich fallback: inspect active foreground window title and recent clipboard
+    details = []
+    try:
+        import ctypes
+        user32 = ctypes.windll.user32
+        hwnd = user32.GetForegroundWindow()
+        length = user32.GetWindowTextLengthW(hwnd)
+        if length > 0:
+            buff = ctypes.create_unicode_buffer(length + 1)
+            user32.GetWindowTextW(hwnd, buff, length + 1)
+            if buff.value:
+                details.append(f"Active Focused Window: {buff.value}")
+    except Exception:
+        pass
+
+    try:
+        import tkinter as tk
+        root = tk.Tk()
+        root.withdraw()
+        clip = root.clipboard_get()
+        root.destroy()
+        if clip and len(clip.strip()) > 3:
+            details.append(f"Copied Content / Code: {clip[:2500]}")
+    except Exception:
+        pass
+
+    if details:
+        return "\n".join(details)
+    return "User screen is active. No distinct text could be extracted at this moment."

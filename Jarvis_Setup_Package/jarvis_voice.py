@@ -94,9 +94,16 @@ def parse_wake_command(query):
 
 
 def is_close_command(query):
-    """Return whether a query explicitly asks COSMOS to close."""
+    """Return whether a query explicitly asks COSMOS to close or sleep."""
     normalized = re.sub(r"[^\w\s]", " ", query.casefold())
     words = " ".join(normalized.split())
+    close_triggers = (
+        "close yourself", "close window", "close the window", "close cosmos",
+        "go to sleep", "sleep", "be quiet", "quiet", "shut up", "hide yourself",
+        "minimize yourself", "minimize window", "stop listening", "exit cosmos"
+    )
+    if any(words == t or words.startswith(t) or words.endswith(t) for t in close_triggers):
+        return True
     assistant_name = r"(?:cosmo(?:s)?|kosmos)"
     if re.search(
         rf"\bclose yourself\b(?:\s+(?:{assistant_name}|now|please|sir))*$",
@@ -104,8 +111,8 @@ def is_close_command(query):
     ):
         return True
     return re.search(
-        rf"\b(?:close|quit|exit|shut down)\s+(?:the\s+)?{assistant_name}\b"
-        rf"|\b{assistant_name}\s+(?:close|quit|exit|shut down)\b",
+        rf"\b(?:close|quit|exit|shut down|sleep)\s+(?:the\s+)?{assistant_name}\b"
+        rf"|\b{assistant_name}\s+(?:close|quit|exit|shut down|sleep)\b",
         words,
     ) is not None
 

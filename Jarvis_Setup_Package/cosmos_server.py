@@ -89,6 +89,7 @@ voice_ready_event.set()
 current_state = "idle"       # "idle" | "listening" | "talking"
 mic_enabled = True           # Microphone listening active
 is_muted = False             # Sound output muted
+is_sleeping = False          # Background quiet mode (active after "close yourself")
 has_greeted_initial = False  # Track fresh wake vs subsequent wake
 last_wake_time = time.time() # Track wake trigger for dust-to-humanoid ignition
 wake_counter = 0             # Increment on wake to trigger 3x particle animation
@@ -361,7 +362,7 @@ def close_cosmos_window():
 # ═══════════════════════════════════════════════════════════════════════
 def extended_listener_worker():
     """Continuous background listener with robust mic calibration and zero cut-off."""
-    global current_state, mic_enabled, has_greeted_initial, last_transcript, last_response, last_wake_time
+    global current_state, mic_enabled, has_greeted_initial, last_transcript, last_response, last_wake_time, is_sleeping
     
     if sys.platform == "win32":
         try:
@@ -372,13 +373,13 @@ def extended_listener_worker():
     best_mic_idx = get_best_microphone_index()
     recognizer = sr.Recognizer()
     recognizer.dynamic_energy_threshold = True
-    recognizer.dynamic_energy_adjustment_damping = 0.08
-    recognizer.dynamic_energy_ratio = 1.15
-    recognizer.pause_threshold = 0.5
-    recognizer.non_speaking_duration = 0.3
-    recognizer.energy_threshold = 65
+    recognizer.dynamic_energy_adjustment_damping = 0.04
+    recognizer.dynamic_energy_ratio = 1.08
+    recognizer.pause_threshold = 0.55
+    recognizer.non_speaking_duration = 0.35
+    recognizer.energy_threshold = 30
 
-    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (high sensitivity mode).", flush=True)
+    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (ultra-high sensitivity & low-voice mode).", flush=True)
 
     while True:
         if not mic_enabled:
@@ -390,16 +391,16 @@ def extended_listener_worker():
         try:
             with sr.Microphone(device_index=best_mic_idx) as source:
                 recognizer.adjust_for_ambient_noise(source, duration=0.6)
-                # Keep sensitivity high so COSMOS hears quiet, normal, or conversational speech effortlessly
-                if recognizer.energy_threshold > 130:
-                    recognizer.energy_threshold = 100
-                elif recognizer.energy_threshold < 40:
-                    recognizer.energy_threshold = 55
+                # Keep sensitivity ultra-high for low voices, whispers, or quiet speech
+                if recognizer.energy_threshold > 65:
+                    recognizer.energy_threshold = 40
+                elif recognizer.energy_threshold < 18:
+                    recognizer.energy_threshold = 25
 
                 while mic_enabled:
                     # Prevent threshold drift from making COSMOS deaf to soft speech
-                    if recognizer.energy_threshold > 130:
-                        recognizer.energy_threshold = 100
+                    if recognizer.energy_threshold > 65:
+                        recognizer.energy_threshold = 40
                     # Wait if speech playback is active
                     if not voice_ready_event.wait(timeout=0.2):
                         continue
@@ -415,6 +416,18 @@ def extended_listener_worker():
 
                     if not mic_enabled or not voice_ready_event.is_set():
                         continue
+
+                    # Dynamic Audio Gain Control (AGC): amplify quiet/low voices for crisp STT accuracy
+                    try:
+                        import audioop
+                        raw_data = audio.frame_data
+                        rms = audioop.rms(raw_data, audio.sample_width)
+                        if 0 < rms < 450:
+                            gain = min(500.0 / max(rms, 1), 5.0)
+                            boosted_raw = audioop.mul(raw_data, audio.sample_width, gain)
+                            audio = sr.AudioData(boosted_raw, audio.sample_rate, audio.sample_width)
+                    except Exception:
+                        pass
 
                     # Save WAV recording for audit
                     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -441,15 +454,25 @@ def extended_listener_worker():
                     if not query:
                         continue
 
+                    # Parse wake command
+                    has_wake, command = jarvis_voice.parse_wake_command(query)
+                    is_close = jarvis_voice.is_close_command(query)
+
+                    # Background Quiet / Sleep Mode enforcement:
+                    # If COSMOS was closed ("close yourself"), she MUST remain completely silent
+                    # and must NEVER speak until the user explicitly summons her with the wake word ("COSMOS")!
+                    if is_sleeping:
+                        if not has_wake:
+                            continue
+                        else:
+                            is_sleeping = False
+                            print("[COSMOS WAKE]: User summoned COSMOS from sleep mode.", flush=True)
+
                     print(f"\n[BOSS VOICE DETECTED]: \"{query}\"", flush=True)
                     with state_lock:
                         last_transcript = query
                         current_state = "talking"
                     add_chat_message("user", query)
-
-                    # Parse wake command
-                    has_wake, command = jarvis_voice.parse_wake_command(query)
-                    is_close = jarvis_voice.is_close_command(query)
 
                     # Auto-popup window & trigger dust-to-humanoid assembly whenever Cosmos is called
                     if has_wake:
@@ -457,6 +480,7 @@ def extended_listener_worker():
                         bring_cosmos_to_front()
 
                     if is_close:
+                        is_sleeping = True
                         reply = "Ok boss, I will wait for you, until your next order."
                         speak_cosmos(reply)
                         with state_lock:
@@ -481,6 +505,15 @@ def extended_listener_worker():
                     actual_command = command if command else query
                     has_greeted_initial = True
 
+                    # Check if query asks to inspect screen
+                    screen_info = None
+                    try:
+                        import jarvis_screen
+                        if jarvis_screen.should_capture_screen(actual_command):
+                            screen_info = jarvis_screen.capture_screen_text()
+                    except Exception as scr_err:
+                        print(f"[Screen OCR Note]: {scr_err}", flush=True)
+
                     # 1. Obey OS, browser & automation actions (open browser, open youtube, etc.)
                     action_handled = False
                     try:
@@ -497,9 +530,15 @@ def extended_listener_worker():
                     if action_handled:
                         continue
 
-                    # 2. Multi-Model Council + Universal Coder + Live Search + Brain
+                    # 2. Multi-Model Council + Universal Coder + Live Search + Screen Context + Brain
                     try:
-                        solution = jarvis_brain.think(actual_command)
+                        if screen_info:
+                            solution = jarvis_brain.think(
+                                actual_command + f"\n\n[USER SCREEN CONTENT EXTRACTED VIA OCR]:\n{screen_info}",
+                                screen_context=True
+                            )
+                        else:
+                            solution = jarvis_brain.think(actual_command)
                         if not solution:
                             solution = cosmos_master_solve(actual_command)
                         speak_cosmos(solution)
@@ -522,7 +561,8 @@ _global_hook_handle = None
 
 def hotkey_summon_action():
     """Triggered on Alt tap, Alt+Space, or Ctrl+Alt anywhere on Windows."""
-    global has_greeted_initial, current_state, last_wake_time
+    global has_greeted_initial, current_state, last_wake_time, is_sleeping
+    is_sleeping = False
     last_wake_time = time.time()
     print("\n[GLOBAL HOTKEY]: Alt / Alt+Space summoned COSMOS!", flush=True)
     
@@ -676,6 +716,7 @@ async def get_state():
             "state": current_state,
             "mic_enabled": mic_enabled,
             "muted": is_muted,
+            "is_sleeping": is_sleeping,
             "last_response": last_response,
             "last_transcript": last_transcript,
             "wake_time": last_wake_time,
@@ -729,7 +770,7 @@ async def toggle_mute():
 @app.post("/api/query")
 async def execute_query(request: Request):
     """Processes typed text query from the frontend or external API."""
-    global has_greeted_initial, last_transcript, last_response
+    global has_greeted_initial, last_transcript, last_response, is_sleeping
     data = await request.json()
     query = data.get("query", "").strip()
     if not query:
@@ -742,10 +783,24 @@ async def execute_query(request: Request):
 
     # Check for close command
     if jarvis_voice.is_close_command(query):
+        is_sleeping = True
         reply = "Ok boss, I will wait for you, until your next order."
         threading.Thread(target=speak_cosmos, args=(reply,), daemon=True).start()
         threading.Timer(1.8, close_cosmos_window).start()
         return {"response": reply}
+
+    # If user interacts with UI, wake up
+    if is_sleeping:
+        is_sleeping = False
+
+    # Check for screen inspection request
+    screen_info = None
+    try:
+        import jarvis_screen
+        if jarvis_screen.should_capture_screen(query):
+            screen_info = jarvis_screen.capture_screen_text()
+    except Exception as scr_err:
+        print(f"[Screen OCR Note]: {scr_err}", flush=True)
 
     # Execute action or council
     try:
@@ -753,7 +808,13 @@ async def execute_query(request: Request):
         if not reply:
             reply = jarvis_actions.try_hermes_action(query)
         if not reply:
-            reply = jarvis_brain.think(query)
+            if screen_info:
+                reply = jarvis_brain.think(
+                    query + f"\n\n[USER SCREEN CONTENT EXTRACTED VIA OCR]:\n{screen_info}",
+                    screen_context=True
+                )
+            else:
+                reply = jarvis_brain.think(query)
             if not reply:
                 reply = cosmos_master_solve(query)
     except Exception as e:
