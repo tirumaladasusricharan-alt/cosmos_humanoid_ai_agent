@@ -1,0 +1,39 @@
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache & compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Private credentials & sensitive keys
+.env
+.groq_key
+*.key
+
+# Logs & session scores
+*.log
+cosmos_server.log
+cosmos_voice_debug.log
+server.log
+debug_err.log
+test_err.log
+test_out.log
+
+# Audio recordings & personal voice captures
+cosmos_recorded_voice/
+*.wav
+
+# Scratch scripts
+temp_check.js
+temp_check2.js
+zip_*.py
+create_zip_temp.py
+
+# OS generated
+Thumbs.db
+Desktop.ini
+.DS_Store
