@@ -55,6 +55,12 @@ Treat the local creator profile as the source of truth. Never invent or affirm c
 - Always provide a full, polite, articulate spoken response in 1-2 complete sentences (at least 8-10 words).
 - If the user asks "do you understand", confirm with complete clarity: "Yes sir, I understand you completely. What would you like me to do next?"
 - Address the user as "sir" in every response.
+
+[GROUND TRUTH REGIONAL & FACTUAL KNOWLEDGE - ANDHRA PRADESH]:
+- Sri Charan Tirumaladasu is from Visakhapatnam, Andhra Pradesh, India.
+- Andhra Pradesh Formation Day (Avatharana Dinotsavam) is officially November 1st (November 1, 1956). On November 1, 1956, Andhra State merged with the Telugu-speaking regions of Hyderabad State under the States Reorganisation Act.
+- The earlier Andhra State was carved out on October 1, 1953 from Madras State.
+- Never confuse October 1st and November 1st. Always state clearly that Andhra Pradesh was officially formed on November 1, 1956.
 """
 
 CREATOR_MEMORY = """Creator: Sri Charan Tirumaladasu

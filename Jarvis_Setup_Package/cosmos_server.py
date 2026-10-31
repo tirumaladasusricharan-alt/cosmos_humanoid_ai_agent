@@ -373,13 +373,13 @@ def extended_listener_worker():
     best_mic_idx = get_best_microphone_index()
     recognizer = sr.Recognizer()
     recognizer.dynamic_energy_threshold = True
-    recognizer.dynamic_energy_adjustment_damping = 0.04
-    recognizer.dynamic_energy_ratio = 1.08
+    recognizer.dynamic_energy_adjustment_damping = 0.08
+    recognizer.dynamic_energy_ratio = 1.15
     recognizer.pause_threshold = 0.55
     recognizer.non_speaking_duration = 0.35
-    recognizer.energy_threshold = 30
+    recognizer.energy_threshold = 80
 
-    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (ultra-high sensitivity & low-voice mode).", flush=True)
+    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (calibrated 16kHz audio engine).", flush=True)
 
     while True:
         if not mic_enabled:
@@ -389,18 +389,18 @@ def extended_listener_worker():
             continue
 
         try:
-            with sr.Microphone(device_index=best_mic_idx) as source:
-                recognizer.adjust_for_ambient_noise(source, duration=0.6)
-                # Keep sensitivity ultra-high for low voices, whispers, or quiet speech
-                if recognizer.energy_threshold > 65:
-                    recognizer.energy_threshold = 40
-                elif recognizer.energy_threshold < 18:
-                    recognizer.energy_threshold = 25
+            with sr.Microphone(device_index=best_mic_idx, sample_rate=16000) as source:
+                recognizer.adjust_for_ambient_noise(source, duration=0.8)
+                # Calibrate cleanly above room noise floor to prevent false 14s cut-off
+                if recognizer.energy_threshold > 130:
+                    recognizer.energy_threshold = 100
+                elif recognizer.energy_threshold < 55:
+                    recognizer.energy_threshold = 75
 
                 while mic_enabled:
-                    # Prevent threshold drift from making COSMOS deaf to soft speech
-                    if recognizer.energy_threshold > 65:
-                        recognizer.energy_threshold = 40
+                    # Prevent threshold drift from creating false continuous triggers
+                    if recognizer.energy_threshold > 130:
+                        recognizer.energy_threshold = 100
                     # Wait if speech playback is active
                     if not voice_ready_event.wait(timeout=0.2):
                         continue
@@ -417,13 +417,13 @@ def extended_listener_worker():
                     if not mic_enabled or not voice_ready_event.is_set():
                         continue
 
-                    # Dynamic Audio Gain Control (AGC): amplify quiet/low voices for crisp STT accuracy
+                    # Studio Peak Normalization: scale speech amplitude to clear 16kHz recognition level
                     try:
                         import audioop
                         raw_data = audio.frame_data
-                        rms = audioop.rms(raw_data, audio.sample_width)
-                        if 0 < rms < 450:
-                            gain = min(500.0 / max(rms, 1), 5.0)
+                        max_val = audioop.max(raw_data, audio.sample_width)
+                        if 0 < max_val < 20000:
+                            gain = min(26000.0 / max(max_val, 1), 3.5)
                             boosted_raw = audioop.mul(raw_data, audio.sample_width, gain)
                             audio = sr.AudioData(boosted_raw, audio.sample_rate, audio.sample_width)
                     except Exception:

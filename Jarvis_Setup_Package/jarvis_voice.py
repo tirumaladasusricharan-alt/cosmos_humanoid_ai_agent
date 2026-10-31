@@ -98,9 +98,11 @@ def is_close_command(query):
     normalized = re.sub(r"[^\w\s]", " ", query.casefold())
     words = " ".join(normalized.split())
     close_triggers = (
-        "close yourself", "close window", "close the window", "close cosmos",
-        "go to sleep", "sleep", "be quiet", "quiet", "shut up", "hide yourself",
-        "minimize yourself", "minimize window", "stop listening", "exit cosmos"
+        "close yourself", "close your self", "closed yourself", "close you self",
+        "clothes yourself", "cross yourself", "close window", "close the window",
+        "close cosmos", "go to sleep", "sleep", "be quiet", "quiet", "shut up",
+        "hide yourself", "minimize yourself", "minimize window", "stop listening",
+        "exit cosmos", "shut down"
     )
     if any(words == t or words.startswith(t) or words.endswith(t) for t in close_triggers):
         return True

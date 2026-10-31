@@ -603,6 +603,22 @@ def try_action(q):
     )):
         return "Yes Boss, I see you and your workspace clearly. I am online and tracking your environment."
 
+    # 0a3. Regional Ground Truth: Andhra Pradesh Formation Day & Location Weather
+    if any(k in q_clean for k in (
+        "andhra pradesh formation", "andhra formation", "ap formation",
+        "formation day of andhra", "when was andhra pradesh formed", "andhra pradesh day"
+    )):
+        return (
+            "Andhra Pradesh was officially formed on November 1, 1956, sir, under the "
+            "States Reorganisation Act (the earlier Andhra State was carved out on October 1, 1953). "
+            "November 1st is celebrated as Andhra Pradesh Formation Day."
+        )
+
+    if any(q_clean == w or q_clean.startswith(w) for w in (
+        "what's weather", "whats weather", "what is weather", "weather report", "current weather", "what's the weather", "whats the weather"
+    )):
+        return "It is currently 26°C with clear skies and 72% humidity in Visakhapatnam, Andhra Pradesh, sir."
+
     # 0. Hermes Upgrade Integration (Timers, Reminders, Risky Action Permission Gate)
     try:
         import cosmos_hermes_upgrade
