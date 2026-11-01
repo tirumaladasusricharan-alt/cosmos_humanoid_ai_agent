@@ -534,3 +534,4 @@ for p in target_paths:
     with open(p, 'w', encoding='utf-8') as f:
         f.write(final_html)
     print(f"[OK] Wrote {p}: {os.path.getsize(p):,} bytes")
+

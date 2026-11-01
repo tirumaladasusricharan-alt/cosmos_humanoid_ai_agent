@@ -444,14 +444,8 @@ def extended_listener_worker():
                     except Exception:
                         pass
 
-                    # Save WAV recording for audit
-                    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    wav_path = os.path.join(RECORDINGS_DIR, f"boss_voice_{stamp}.wav")
-                    try:
-                        with open(wav_path, "wb") as f:
-                            f.write(audio.get_wav_data())
-                    except Exception:
-                        wav_path = ""
+                    # Keep mic capture 100% in RAM — zero disk impact, never save voice files to OneDrive
+                    wav_path = ""
 
                     # Transcribe via Google STT (direct en-IN with fallback to en-US for maximum speed and accuracy)
                     query = ""
@@ -787,7 +781,14 @@ async def toggle_mute():
 async def execute_query(request: Request):
     """Processes typed text query from the frontend side-chat or external API."""
     global has_greeted_initial, last_transcript, last_response, is_sleeping
-    data = await request.json()
+    try:
+        data = await request.json()
+    except Exception:
+        try:
+            body = await request.body()
+            data = json.loads(body.decode("utf-8", errors="ignore"))
+        except Exception:
+            data = {}
     query = (data.get("query") or data.get("command") or data.get("text") or "").strip()
     if not query:
         return {"response": ""}

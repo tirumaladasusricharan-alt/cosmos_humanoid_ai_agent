@@ -112,9 +112,13 @@ def cosmos_speak(text: str):
 # 2. FULL-STATEMENT VOICE RECORDER (FIXES 2-3 LINE CUTOFF + SAVES AUDIO)
 # =====================================================================
 
-RECORDINGS_DIR = os.path.join(os.path.dirname(__file__), "cosmos_recorded_voice")
+RECORDINGS_DIR = os.path.join(os.environ.get("TEMP", "C:\\temp"), "cosmos_ram_voice")
 SESSION_SCORE_FILE = os.path.join(os.path.dirname(__file__), "cosmos_session_score.json")
-os.makedirs(RECORDINGS_DIR, exist_ok=True)
+# Zero disk accumulation in OneDrive - keep in temporary RAM directory only if ever needed
+try:
+    os.makedirs(RECORDINGS_DIR, exist_ok=True)
+except Exception:
+    pass
 
 
 def log_everything_to_score(user_text: str, cosmos_reply: str, audio_path: str = ""):
@@ -136,7 +140,7 @@ def log_everything_to_score(user_text: str, cosmos_reply: str, audio_path: str =
         pass
 
 
-def cosmos_listen_full_statement(save_wav: bool = True) -> str:
+def cosmos_listen_full_statement(save_wav: bool = False) -> str:
     """Listens to your complete multi-sentence statement without cutting off after 2-3 lines."""
     recognizer = sr.Recognizer()
 
