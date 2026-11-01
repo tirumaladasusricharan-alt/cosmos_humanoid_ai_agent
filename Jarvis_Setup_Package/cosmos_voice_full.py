@@ -13,6 +13,7 @@ Capabilities:
 import ast
 import asyncio
 import concurrent.futures
+import ctypes
 from datetime import datetime
 import io
 import json
@@ -52,6 +53,7 @@ import speech_recognition as sr
 # =====================================================================
 
 VOICE_NAME = "en-US-EmmaMultilingualNeural"
+VOICE_RATE = "+18%"
 _pygame_initialized = False
 _speech_lock = threading.Lock()
 
@@ -67,11 +69,23 @@ def _init_audio():
 
 
 def _clean_text_for_speech(text: str) -> str:
-    """Strips code blocks and markdown symbols so COSMOS speaks naturally."""
-    text = re.sub(r"```.*?```", " ", text, flags=re.DOTALL)
-    text = re.sub(r"`[^`]+`", " ", text)
-    text = re.sub(r"[#*_~>|]", " ", text)
-    return re.sub(r"\s+", " ", text).strip()
+    """Normalize text into warm, natural human spoken delivery."""
+    text = re.sub(r"```[\s\S]*?```", " ", text)
+    text = re.sub(r"!\[([^\]]*)\]\([^)]+\)", r"\1", text)
+    text = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", text)
+    text = re.sub(r"<https?://[^>]+>", " ", text)
+    text = re.sub(r"https?://\S+|www\.\S+", " ", text)
+    text = re.sub(r"(?m)^\s{0,3}#{1,6}\s*", "", text)
+    text = re.sub(r"(?m)^\s*(?:[-*+]|\d+[.)])\s+", "", text)
+    text = re.sub(r"[*_`#~]+", "", text)
+    text = re.sub(r"[<>|{}\[\]]", " ", text)
+    text = re.sub(r"[:;]\s*", ", ", text)
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\s*\n\s*", ". ", text)
+    text = re.sub(r"(?:\.\s*){3,}", "... ", text)
+    text = re.sub(r"\s+([,.!?])", r"\1", text)
+    text = re.sub(r"([,.!?])(?=\S)", r"\1 ", text)
+    return text.strip(" ,.")
 
 
 def split_into_natural_sentences(text: str) -> list[str]:
@@ -82,8 +96,8 @@ def split_into_natural_sentences(text: str) -> list[str]:
 
 
 async def _stream_tts_to_memory(text: str) -> bytes:
-    # Soft, warm conversational neural contour (natural 1.0x human speaking cadence) in RAM
-    communicate = edge_tts.Communicate(text, VOICE_NAME, rate="+0%", pitch="+0Hz", volume="+100%")
+    # Soft, warm conversational neural contour at human reaction speed (+18%)
+    communicate = edge_tts.Communicate(text, VOICE_NAME, rate=VOICE_RATE, pitch="+0Hz", volume="+100%")
     audio_stream = io.BytesIO()
     async for chunk in communicate.stream():
         if chunk["type"] == "audio":
@@ -94,7 +108,7 @@ async def _stream_tts_to_memory(text: str) -> bytes:
 def _synthesize_sentence_to_file(sent: str, idx: int) -> str:
     temp_path = os.path.join(tempfile.gettempdir(), f"cosmos_v_{idx}_{int(time.time()*1000)}.mp3")
     async def _save():
-        c = edge_tts.Communicate(sent, VOICE_NAME, rate="+0%", pitch="+0Hz", volume="+100%")
+        c = edge_tts.Communicate(sent, VOICE_NAME, rate=VOICE_RATE, pitch="+0Hz", volume="+100%")
         await c.save(temp_path)
     asyncio.run(_save())
     return temp_path
