@@ -246,10 +246,21 @@ def speak_cosmos(text: str, full_chat_text: Optional[str] = None):
         except Exception:
             pass
 
-    # Maximize Windows hardware wave volume to 100%
+    # Maximize Windows hardware wave volume to 100% (force loudest output)
     if sys.platform == "win32":
         try:
             ctypes.windll.winmm.waveOutSetVolume(0, 0xFFFFFFFF)
+            # Also maximize master volume via WASAPI if available
+            try:
+                from ctypes import cast, POINTER
+                from comtypes import CLSCTX_ALL
+                from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+                devices = AudioUtilities.GetSpeakers()
+                interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+                volume = cast(interface, POINTER(IAudioEndpointVolume))
+                volume.SetMasterVolumeLevelScalar(1.0, None)
+            except Exception:
+                pass
         except Exception:
             pass
     # Pause microphone while speaking
@@ -424,12 +435,11 @@ def extended_listener_worker():
     recognizer = sr.Recognizer()
     recognizer.dynamic_energy_threshold = True
     recognizer.dynamic_energy_adjustment_damping = 0.15
-    recognizer.dynamic_energy_ratio = 1.2
+    recognizer.dynamic_energy_ratio = 1.12
     recognizer.pause_threshold = 1.8
     recognizer.non_speaking_duration = 0.6
-    recognizer.energy_threshold = 45
 
-    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (calibrated high-sensitivity 16kHz audio engine).", flush=True)
+    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (native hardware sample rate engine).", flush=True)
 
     while True:
         if not mic_enabled:
@@ -439,20 +449,12 @@ def extended_listener_worker():
             continue
 
         try:
-            with sr.Microphone(device_index=best_mic_idx, sample_rate=16000) as source:
-                recognizer.adjust_for_ambient_noise(source, duration=0.6)
-                # Calibrate cleanly above room noise floor with high sensitivity for low voice
-                if recognizer.energy_threshold > 140:
-                    recognizer.energy_threshold = 110
-                elif recognizer.energy_threshold < 25:
-                    recognizer.energy_threshold = 35
+            # Open microphone at native hardware sample rate (44.1kHz Realtek) for maximum acoustic clarity
+            with sr.Microphone(device_index=best_mic_idx) as source:
+                recognizer.adjust_for_ambient_noise(source, duration=0.8)
+                print(f"[COSMOS MIC CALIBRATED]: Ambient noise floor={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
 
                 while mic_enabled:
-                    # Prevent threshold drift from deafening soft speech
-                    if recognizer.energy_threshold > 140:
-                        recognizer.energy_threshold = 110
-                    elif recognizer.energy_threshold < 25:
-                        recognizer.energy_threshold = 35
                     # Wait if speech playback is active
                     if not voice_ready_event.wait(timeout=0.2):
                         continue
@@ -469,13 +471,14 @@ def extended_listener_worker():
                     if not mic_enabled or not voice_ready_event.is_set():
                         continue
 
-                    # Studio AGC Gain Boost: amplify low / quiet voices up to 4.5x for crystal-clear STT
+                    # Studio AGC Gain Boost: amplify low / whisper voices up to 5x in RAM for crystal-clear STT
                     try:
                         import audioop
                         raw_data = audio.frame_data
+                        rms_val = audioop.rms(raw_data, audio.sample_width)
                         max_val = audioop.max(raw_data, audio.sample_width)
                         if 0 < max_val < 26000:
-                            gain = min(30000.0 / max(max_val, 1), 4.5)
+                            gain = min(30000.0 / max(max_val, 1), 5.0)
                             boosted_raw = audioop.mul(raw_data, audio.sample_width, gain)
                             audio = sr.AudioData(boosted_raw, audio.sample_rate, audio.sample_width)
                     except Exception:

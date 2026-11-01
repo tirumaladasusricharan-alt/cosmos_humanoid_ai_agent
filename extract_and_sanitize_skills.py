@@ -115,3 +115,4 @@ if os.path.exists("_temp_paperclip"):
         print("[CLEANUP OK] _temp_paperclip removed completely.")
     except Exception as e:
         print(f"[CLEANUP NOTE]: {e}")
+

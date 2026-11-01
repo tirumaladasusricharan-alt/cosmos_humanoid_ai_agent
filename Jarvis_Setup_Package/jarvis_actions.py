@@ -646,6 +646,15 @@ def try_action(q):
     except Exception:
         pass
 
+    # 0c. Cognitive Skills Execution Router (All 25 Paperclip & COSMOS skills)
+    try:
+        import cosmos_skill_loader
+        skill_res = cosmos_skill_loader.try_execute_skill(q_clean, q_text)
+        if skill_res is not None:
+            return skill_res
+    except Exception as skill_err:
+        print(f"[Skill Execution Notice]: {skill_err}", flush=True)
+
     # 0b. Zero-Cost Live Web Search & Data Retrieval (cosmos_free_search)
     try:
         import cosmos_free_search

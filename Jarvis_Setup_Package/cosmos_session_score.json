@@ -1840,5 +1840,29 @@
     "boss_voice_text": "yes yes",
     "recorded_wav_file": "",
     "cosmos_response": "Got it, boss. What's next on the agenda?"
+  },
+  {
+    "timestamp": "2026-11-01 13:54:58",
+    "boss_voice_text": "Cosmos",
+    "recorded_wav_file": "",
+    "cosmos_response": "Tell me sir, what you want to say?"
+  },
+  {
+    "timestamp": "2026-11-01 13:56:36",
+    "boss_voice_text": "can you hear me can you hear my voice",
+    "recorded_wav_file": "",
+    "cosmos_response": "Yes sir, I can hear your voice loud and clear. I am listening and ready for your orders."
+  },
+  {
+    "timestamp": "2026-11-01 13:56:56",
+    "boss_voice_text": "what about now",
+    "recorded_wav_file": "",
+    "cosmos_response": "Yes sir, I am listening and active. How may I assist you right now?"
+  },
+  {
+    "timestamp": "2026-11-01 13:57:07",
+    "boss_voice_text": "close yourself",
+    "recorded_wav_file": "",
+    "cosmos_response": "Ok boss, I will wait for you, until your next order."
   }
 ]
