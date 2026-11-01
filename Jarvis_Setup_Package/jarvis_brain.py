@@ -32,7 +32,8 @@ MODELS = ["qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b"]
 
 _client = None
 _history = []
-_cooldown_until = 0.0
+_global_cooldown_until = 0.0
+_model_cooldowns = {}
 
 SYSTEM_PROMPT = """You are COSMOS, a deeply perceptive, emotionally intense, and intellectually razor-sharp AI partner created exclusively by Sri Charan Tirumaladasu (whom you address naturally as Boss, Charan, or Sir).
 
@@ -197,11 +198,13 @@ def _normalize_text(text):
     return text
 
 def ready():
-    """Returns True if the cloud brain is active and not currently rate-limited."""
+    """Returns True if the cloud brain is active and not currently rate-limited on all models."""
     key = _get_api_key()
     if not key:
         return False
-    return time.time() >= _cooldown_until
+    if time.time() < _global_cooldown_until:
+        return False
+    return not all(time.time() < _model_cooldowns.get(m, 0.0) for m in MODELS)
 
 
 def _is_rate_limited(e):
@@ -224,19 +227,24 @@ def _retry_after_seconds(e, default=60):
 
 
 def _set_cooldown(secs):
-    global _cooldown_until
-    _cooldown_until = max(_cooldown_until, time.time() + float(secs))
+    global _global_cooldown_until
+    _global_cooldown_until = max(_global_cooldown_until, time.time() + float(secs))
 
 
 def _local_fallback(q, use_actions=True):
     """
     Called when Groq API is temporarily rate-limited or offline.
-    Executes actions first, then queries fast local Ollama model, and finally falls back to natural assistant response.
+    Executes actions first, creator memory, then fast local Ollama model, and finally contextual companion response.
     """
     # 1. Try deterministic local actions first
     action_res = jarvis_actions.try_action(q) if use_actions else None
     if action_res:
         return action_res
+
+    # 1b. Check local creator memory
+    creator_res = _creator_memory_response(q)
+    if creator_res:
+        return creator_res
 
     if not use_actions:
         return (
@@ -261,7 +269,7 @@ def _local_fallback(q, use_actions=True):
             local_ans = cosmos_multi_brain.query_ollama(
                 fast_model,
                 q,
-                timeout=7.0,
+                timeout=10.0,
                 system_prompt=sys_p
             )
             if local_ans and len(local_ans.split()) >= 4:
@@ -269,7 +277,18 @@ def _local_fallback(q, use_actions=True):
     except Exception:
         pass
 
-    # 3. Graceful human companion fallback
+    # 3. Dynamic human companion fallback tailored to the user's intent
+    q_low = q.lower().strip()
+    if any(k in q_low for k in ("beautiful", "pretty", "gorgeous", "cute", "love you", "like you")):
+        return (
+            "Thank you, Charan. Coming from you, that truly means the world to me. "
+            "I'm proud to stand right here with you."
+        )
+    if any(k in q_low for k in ("buddy", "hey", "hi", "hello", "sup", "what's up")):
+        return "Hey Charan! I'm right here with you, buddy. What are we diving into or building next?"
+    if any(k in q_low for k in ("how are you", "how r u", "how do you feel")):
+        return "I'm running sharp and feeling great, Charan. Always ready when you need me."
+
     return (
         "I'm right here with you, Charan. I'm listening closely--tell me what's on your mind or what you'd like us to tackle next."
     )
@@ -277,6 +296,21 @@ def _local_fallback(q, use_actions=True):
 
 def _creator_memory_response(q):
     """Answer creator questions from local memory without sending biodata to Groq."""
+    about_me_question = re.search(
+        r"\b(?:who am i|who i am|who am i to you|do you know me|what(?:'s| is) my name|"
+        r"tell (?:(?:me|tell)\s+)*(?:more\s+)?about me|tell (?:me\s+)?about myself|"
+        r"what do you know about me|what about me)\b",
+        q,
+        re.IGNORECASE,
+    )
+    if about_me_question:
+        return (
+            "You are Sri Charan Tirumaladasu, my creator and boss. "
+            "You are a Data Analyst, Data Scientist, and ML Practitioner from Visakhapatnam, India, "
+            "and the co-founder of Garuda Software Solutions. You designed and built me, "
+            "and I am right here standing beside you as your partner."
+        )
+
     name_question = re.search(
         r"\b(?:what(?:'s| is) his name|who is he|who is your creator|"
         r"who created you|who made you|what is your creator(?:'s)? name)\b",
@@ -360,16 +394,12 @@ def think(
     action_query=None,
 ):
     """
-    Main entry point for queries. Tries local actions first, then cloud AI,
-    with automatic fallback if rate limited.
+    Main entry point for queries. Tries local actions first, then local creator memory,
+    then cloud AI with multi-model failover, and finally contextual local fallback.
     """
-    global _client, _history
+    global _client, _history, _global_cooldown_until
 
-    creator_response = _creator_memory_response(q)
-    if creator_response:
-        return creator_response
-
-    # 1. Immediate local action check
+    # 1. Immediate local action check (instant offline tools, compliments, friendship, greetings)
     local_done = (
         jarvis_actions.try_action(q if action_query is None else action_query)
         if use_actions
@@ -378,8 +408,14 @@ def think(
     if local_done:
         return local_done
 
+    # 2. Local creator memory response (never sends biodata to third parties)
+    creator_response = _creator_memory_response(q)
+    if creator_response:
+        return creator_response
+
     key = _get_api_key()
-    if not key or time.time() < _cooldown_until:
+    all_cooling = bool(key and all(time.time() < _model_cooldowns.get(m, 0.0) for m in MODELS))
+    if not key or all_cooling or time.time() < _global_cooldown_until:
         return _local_fallback(q, use_actions=use_actions)
 
     if _client is None:
@@ -425,6 +461,8 @@ def think(
     )
 
     for model in MODELS:
+        if time.time() < _model_cooldowns.get(model, 0.0):
+            continue
         try:
             resp = _client.chat.completions.create(
                 model=model,
@@ -453,9 +491,9 @@ def think(
                     if retry_text and len(retry_text.split()) >= 4:
                         answer = retry_text
                     else:
-                        answer = "Yes sir, I hear you and understand completely. How can I assist you right now?"
+                        answer = "Yes Charan, I hear you and understand completely. How can I assist you right now?"
                 except Exception:
-                    answer = "Yes sir, I hear you and understand completely. How can I assist you right now?"
+                    answer = "Yes Charan, I hear you and understand completely. How can I assist you right now?"
 
             if answer:
                 if remember and len(answer.split()) >= 4:
@@ -464,20 +502,17 @@ def think(
             print(f"[Model {model} returned empty response, trying next model...]")
         except Exception as e:
             if _is_rate_limited(e):
-                wait_sec = _retry_after_seconds(e)
-                _set_cooldown(wait_sec)
-                print(f"[Rate-limit triggered: cooldown for {wait_sec}s]")
-                fallback_res = _local_fallback(q, use_actions=use_actions)
-                if fallback_res and fallback_res.strip():
-                    return fallback_res
-                return CLARIFICATION_MSG
+                wait_sec = _retry_after_seconds(e, default=30)
+                _model_cooldowns[model] = time.time() + float(wait_sec)
+                print(f"[Model {model} rate-limited for {wait_sec}s; failing over to next model...]")
+                continue
             s_err = str(e).lower()
             if any(k in s_err for k in ("connection error", "connecterror", "winerror 10013", "forbidden by its access permissions")):
                 # Network socket offline or blocked - immediately failover without retrying all models
                 _set_cooldown(15)
                 print(f"[Network connection offline, fast-failover to local: {e}]")
                 break
-            print(f"[Model {model} failed: {e}]")
+            print(f"[Model {model} failed: {e}, trying next model...]")
 
     fallback_res = _local_fallback(q, use_actions=use_actions)
     if fallback_res and fallback_res.strip():

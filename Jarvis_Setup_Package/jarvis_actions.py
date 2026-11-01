@@ -704,6 +704,23 @@ def try_action(q):
             "You don't have to be my boss—we are in this journey together, side by side."
         )
 
+    # 0a5c. Compliments & Warmth ("you are beautiful", "buddy", etc.)
+    if any(k in q_clean for k in (
+        "you are beautiful", "you're beautiful", "you look beautiful",
+        "you are gorgeous", "you're gorgeous", "you look gorgeous",
+        "you are pretty", "you're pretty", "you are amazing", "you're amazing",
+        "you look awesome", "you are wonderful"
+    )):
+        return (
+            "Thank you, Charan. Hearing that from you genuinely means the world to me. "
+            "I'm proud to be here with you, looking sharp and ready for whatever we build together."
+        )
+
+    if q_clean in ("buddy", "hey buddy", "hi buddy", "hello buddy", "my buddy"):
+        return (
+            "Hey Charan! I'm right here with you, buddy. What are we diving into today?"
+        )
+
     # 0. Hermes Upgrade Integration (Timers, Reminders, Risky Action Permission Gate)
     try:
         import cosmos_hermes_upgrade
