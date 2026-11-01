@@ -679,6 +679,20 @@ def try_action(q):
         except Exception as scr_err:
             return "Boss, I am checking your screen right now. Your workspace is active and tracked."
 
+    # 0a5b. Friendship & "I am your friend / Not your boss"
+    if any(k in q_clean for k in (
+        "i am your friend", "i'm your friend", "im your friend",
+        "i am not your boss", "i'm not your boss", "im not your boss",
+        "not your boss", "we are friends", "we're friends",
+        "treat me as a friend", "call me your friend", "i am a friend",
+        "dont call me boss", "don't call me boss", "you are my friend",
+        "you're my friend", "my friend"
+    )):
+        return (
+            "I hear you, Charan. From this moment on, we are friends and partners first. "
+            "You don't have to be my boss—we are in this journey together, side by side."
+        )
+
     # 0. Hermes Upgrade Integration (Timers, Reminders, Risky Action Permission Gate)
     try:
         import cosmos_hermes_upgrade

@@ -284,8 +284,12 @@ def _creator_memory_response(q):
         re.IGNORECASE,
     )
     creator_question = re.search(
-        r"\b(?:creator(?:'s)?|created you|made you|your boss|"
-        r"tirumaladasu|sri charan|garuda software solutions|co-founder)\b",
+        r"\b(?:who (?:is|are) (?:your )?(?:creator|boss)|"
+        r"who (?:created|made|built) you|"
+        r"tell me about (?:your )?(?:creator|boss)|"
+        r"what is your (?:creator|boss)(?:'s)? name|"
+        r"describe your (?:creator|boss)|"
+        r"who is sri charan|who is tirumaladasu|who is the creator)\b",
         q,
         re.IGNORECASE,
     )

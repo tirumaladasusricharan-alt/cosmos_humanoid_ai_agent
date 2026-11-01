@@ -468,9 +468,9 @@ def extended_listener_worker():
     recognizer.dynamic_energy_threshold = True
     recognizer.dynamic_energy_adjustment_damping = 0.15
     recognizer.dynamic_energy_ratio = 1.12
-    # Natural human conversational timing & fast reaction: 0.65s pause threshold & 0.35s non-speaking duration
-    recognizer.pause_threshold = 0.65
-    recognizer.non_speaking_duration = 0.35
+    # Proven human conversational listener settings: 0.8s pause threshold & 0.4s non-speaking duration
+    recognizer.pause_threshold = 0.8
+    recognizer.non_speaking_duration = 0.4
 
     print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (native hardware sample rate engine).", flush=True)
 
@@ -485,7 +485,12 @@ def extended_listener_worker():
             # Open microphone at native hardware sample rate (44.1kHz Realtek) for maximum acoustic clarity
             with sr.Microphone(device_index=best_mic_idx) as source:
                 recognizer.adjust_for_ambient_noise(source, duration=0.8)
-                print(f"[COSMOS MIC CALIBRATED]: Ambient noise floor={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
+                # Safeguard threshold clamping to ensure COSMOS always hears normal human speaking volume
+                if recognizer.energy_threshold > 800:
+                    recognizer.energy_threshold = 450
+                elif recognizer.energy_threshold < 150:
+                    recognizer.energy_threshold = 300
+                print(f"[COSMOS MIC CALIBRATED]: Ambient noise floor clamped={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
 
                 while mic_enabled:
                     # Wait if speech playback is active
@@ -497,27 +502,14 @@ def extended_listener_worker():
                             current_state = "listening"
 
                     try:
-                        audio = recognizer.listen(source, timeout=4, phrase_time_limit=18)
+                        audio = recognizer.listen(source, timeout=5, phrase_time_limit=15)
                     except sr.WaitTimeoutError:
                         continue
 
                     if not mic_enabled or not voice_ready_event.is_set():
                         continue
 
-                    # Studio AGC Gain Boost: amplify low / whisper voices up to 5x in RAM for crystal-clear STT
-                    try:
-                        import audioop
-                        raw_data = audio.frame_data
-                        rms_val = audioop.rms(raw_data, audio.sample_width)
-                        max_val = audioop.max(raw_data, audio.sample_width)
-                        if 0 < max_val < 26000:
-                            gain = min(30000.0 / max(max_val, 1), 5.0)
-                            boosted_raw = audioop.mul(raw_data, audio.sample_width, gain)
-                            audio = sr.AudioData(boosted_raw, audio.sample_rate, audio.sample_width)
-                    except Exception:
-                        pass
-
-                    # Keep mic capture 100% in RAM — zero disk impact, never save voice files to OneDrive
+                    # Keep mic capture 100% in RAM — clean uncorrupted audio stream directly to STT
                     wav_path = ""
 
                     # Transcribe via Google STT (direct en-IN with fallback to en-US for maximum speed and accuracy)
