@@ -197,12 +197,15 @@ def try_execute_skill(q_clean: str, raw_query: str) -> Optional[str]:
     """
     today = datetime.now().strftime("%Y-%m-%d")
 
-    # 0. List all 25 skills inquiry
-    if any(k in q_clean for k in (
-        "what are your new skills", "what are your skills", "what skills do you have",
-        "list your skills", "tell me your skills", "show your skills", "what are all your skills",
-        "which skills do you have", "what new skills", "list all skills", "show skills"
-    )):
+    # 0. List all 25 skills inquiry (flexible pattern matching typos like "you new skills", "what skills", etc.)
+    if (
+        any(k in q_clean for k in (
+            "new skill", "new skills", "your skill", "your skills", "you new skills", "you skills",
+            "list skills", "skills list", "show skills", "all skills", "what skills", "tell me skills"
+        )) or (
+            "skill" in q_clean and any(w in q_clean for w in ("what", "list", "show", "tell", "which", "how many", "new"))
+        )
+    ):
         return (
             "Boss, I have 25 cognitive skills fully active across 6 operational domains:\n\n"
             "1. **Planning & Execution:** `task-planning`, `first-task`, `converting-plans-to-tasks`, `delegate-work`, `task-bridge`\n"
