@@ -1816,5 +1816,23 @@
     "boss_voice_text": "old",
     "recorded_wav_file": "C:\\Users\\ASUS\\OneDrive\\Desktop\\Jarvis_Setup_Package\\Jarvis_Setup_Package\\cosmos_recorded_voice\\boss_voice_20261101_124432.wav",
     "cosmos_response": "The user says \"old\". Likely they want to talk about something old? Maybe they want to know about something old? The instructions: respond as COSMOS, with emotional conviction, no tags, think out loud, natural. The user typed \"old\". We need to interpret. They might be prompting to talk about \"old\" something? Or maybe they want to ask \"old\" as a question? We need to respond with something relevant. We can ask clarifying question? But instructions: respond with full articulate. We could interpret \"old\" as a prompt to talk about something old. We can ask \"What would you like to know about old?\" But maybe they want to ask about \"old\" as a word? We can respond: \"Old\" can mean many things. But we need to respond with emotion, conviction. We can ask: \"What do you want to explore about old?\" But we can also give an answer about \"old\" concept. Let's think: The user typed \"old\". Maybe they want a short explanation? We can give a philosophical view: \"Old\" is a relative term, etc. But we need to maintain style: no tags, natural. Let's respond: \"Old is a reminder of time, of stories etched into memory...\"\n\nWe can also ask for clarification: \"Sir, could you specify what you mean by 'old'?\" But we should be conversational. Let's produce a response that invites elaboration: \"Old, you say? Let's dive into the layers of what age truly means...\" We'll keep it expressive. We'll avoid code. We'll keep the style.\n\nWe should not output code. So no code block. We'll produce a paragraph with some shor"
+  },
+  {
+    "timestamp": "2026-11-01 13:23:48",
+    "boss_voice_text": "Cosmo",
+    "recorded_wav_file": "",
+    "cosmos_response": "Tell me sir, what you want to say?"
+  },
+  {
+    "timestamp": "2026-11-01 13:24:29",
+    "boss_voice_text": "where is your front end",
+    "recorded_wav_file": "",
+    "cosmos_response": "Sir, the heart of COSMOS beats in the backend--no separate front-end layer of its own. Think of me as the engine under the hood, the mind that powers whatever interface you build on top. Whether you wrap me in a sleek web app, a voice assistant, or a command-line tool, the core stays the same--pure logic, raw data, and a relentless drive to solve problems.\n\nIf you need a UI, just plug me into your stack. I'll respond to API calls, stream results, or even generate text that a front-end can render. The \""
+  },
+  {
+    "timestamp": "2026-11-01 13:26:38",
+    "boss_voice_text": "close youself",
+    "recorded_wav_file": "",
+    "cosmos_response": "I couldn't close youself, sir. No matching running application was found."
   }
 ]

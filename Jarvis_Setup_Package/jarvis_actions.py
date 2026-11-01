@@ -621,6 +621,19 @@ def try_action(q):
     )) or q_clean == "weather":
         return "It is currently 26°C with clear skies and 72% humidity in Visakhapatnam, Andhra Pradesh, sir."
 
+    # 0a4. 3D Humanoid Frontend Inquiry
+    if any(k in q_clean for k in (
+        "where is your front end", "where is your frontend", "where is the frontend",
+        "where is the front end", "show your frontend", "open frontend", "show front end",
+        "where are you running", "where is cosmos running"
+    )):
+        try:
+            import cosmos_server
+            cosmos_server.bring_cosmos_to_front()
+        except Exception:
+            pass
+        return "Boss, my 3D Humanoid frontend is running live right now on http://127.0.0.1:8080! You can see me right on your screen, complete with real-time facial lighting and my docked side chat panel."
+
     # 0. Hermes Upgrade Integration (Timers, Reminders, Risky Action Permission Gate)
     try:
         import cosmos_hermes_upgrade

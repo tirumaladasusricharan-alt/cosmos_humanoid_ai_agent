@@ -239,14 +239,19 @@ def _local_fallback(q, use_actions=True):
     # 2. Try fast local Ollama model if available
     try:
         import cosmos_multi_brain
+        import cosmos_skill_loader
         installed = cosmos_multi_brain.get_installed_ollama_models()
         if installed:
+            skill_ctx = cosmos_skill_loader.match_and_inject_skill_context(q)
+            sys_p = "You are COSMOS, built by Sri Charan Tirumaladasu. Answer the user (sir) concisely in 1-2 complete sentences. Never output a single word."
+            if skill_ctx:
+                sys_p += f"\n\n[ACTIVE COGNITIVE SKILL]:\n{skill_ctx}"
             fast_model = cosmos_multi_brain.select_best_model_for_task("fast", installed) or installed[0]
             local_ans = cosmos_multi_brain.query_ollama(
                 fast_model,
                 q,
-                timeout=3.0,
-                system_prompt="You are COSMOS, built by Sri Charan Tirumaladasu. Answer the user (sir) concisely in 1-2 complete sentences. Never output a single word."
+                timeout=4.0,
+                system_prompt=sys_p
             )
             if local_ans and len(local_ans.split()) >= 4:
                 return _normalize_text(local_ans)
@@ -384,6 +389,18 @@ def think(
                 })
     except Exception as e:
         print(f"[COSMOS LIVE SEARCH HOOK ERROR] {e}")
+
+    # Dynamic Cognitive Skill & PARA Memory Injection (cosmos_skill_loader)
+    try:
+        import cosmos_skill_loader
+        skill_ctx = cosmos_skill_loader.match_and_inject_skill_context(q)
+        if skill_ctx:
+            msgs.append({
+                "role": "system",
+                "content": f"[DYNAMIC COGNITIVE SKILL & MEMORY CONTEXT]:\n{skill_ctx}"
+            })
+    except Exception as e:
+        print(f"[COSMOS SKILL LOADER ERROR] {e}")
 
     msgs.append({"role": "user", "content": q})
 

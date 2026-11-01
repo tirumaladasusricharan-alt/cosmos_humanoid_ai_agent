@@ -52,14 +52,41 @@ COSMOS_LIVE_VOICE_PERSONA = """You are COSMOS, a deeply perceptive, emotionally 
 - Keep everything outside code blocks 100% raw, expressive human speech.
 """
 
-# Default Neural Voice Model
-VOICE_NAME = "en-US-AriaNeural"
+# Primary and fallback high-expressivity neural voice models
+PRIMARY_VOICE = "en-US-AvaMultilingualNeural"
+FALLBACK_VOICE = "en-US-AriaNeural"
+VOICE_NAME = PRIMARY_VOICE
 _pygame_initialized = False
 _speech_lock = threading.Lock()
 
 # ═══════════════════════════════════════════════════════════════════════
-# 2. DUAL-CHANNEL PROCESSOR & ACOUSTIC FORMATTER
+# 2. PROSODY INFERENCE & ACOUSTIC FORMATTER
 # ═══════════════════════════════════════════════════════════════════════
+
+def infer_natural_prosody(sentence: str) -> dict:
+    """
+    Infers emotional prosody shifts per clause:
+    - Questions / inquiries: slightly higher pitch, gentle tempo
+    - Sudden pivots (em-dashes): urgent tempo (+14%), punchy
+    - Reflective thoughts (ellipses / 'honestly' / 'look'): calm, deliberate (+4% rate, -1Hz pitch)
+    - Declarative facts: authoritative, crisp
+    """
+    s = sentence.strip()
+    rate = "+10%"
+    pitch = "+0Hz"
+    volume = "+100%"
+
+    if s.endswith("?"):
+        pitch = "+3Hz"
+        rate = "+8%"
+    elif "—" in s or "!" in s or any(w in s.lower() for w in ["electric", "urgent", "critical", "immediately", "listen"]):
+        rate = "+14%"
+        pitch = "+2Hz"
+    elif "..." in s or any(s.lower().startswith(w) for w in ["look,", "honestly,", "wait...", "think about", "here's the"]):
+        rate = "+4%"
+        pitch = "-1Hz"
+
+    return {"rate": rate, "pitch": pitch, "volume": volume}
 
 def extract_code_blocks(text: str) -> list[str]:
     """Extracts all fenced code blocks from markdown text for clipboard delivery."""
@@ -146,12 +173,33 @@ def _init_audio():
 
 
 async def _stream_tts_to_memory(text: str, voice: str = VOICE_NAME) -> bytes:
-    """Streams neural Edge-TTS voice audio directly into RAM with 0 disk writes."""
-    communicate = edge_tts.Communicate(text, voice, rate="+10%", volume="+100%")
+    """Streams neural Edge-TTS voice audio directly into RAM with 0 disk writes using natural prosody modulation."""
+    prosody = infer_natural_prosody(text)
+    communicate = edge_tts.Communicate(
+        text,
+        voice,
+        rate=prosody["rate"],
+        pitch=prosody["pitch"],
+        volume=prosody["volume"]
+    )
     audio_stream = io.BytesIO()
-    async for chunk in communicate.stream():
-        if chunk["type"] == "audio":
-            audio_stream.write(chunk["data"])
+    try:
+        async for chunk in communicate.stream():
+            if chunk["type"] == "audio":
+                audio_stream.write(chunk["data"])
+    except Exception:
+        # Fallback to secondary resilient voice model if primary fails
+        fallback_comm = edge_tts.Communicate(
+            text,
+            FALLBACK_VOICE,
+            rate=prosody["rate"],
+            pitch=prosody["pitch"],
+            volume=prosody["volume"]
+        )
+        audio_stream = io.BytesIO()
+        async for chunk in fallback_comm.stream():
+            if chunk["type"] == "audio":
+                audio_stream.write(chunk["data"])
     return audio_stream.getvalue()
 
 

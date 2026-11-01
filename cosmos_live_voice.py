@@ -1,8 +1,5 @@
 """
-cosmos_live_voice.py - Tag-Free Emotionally Intense Human Voice & Reasoning Layer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Combines Anthropic's "Claude Soul" and Google DeepMind's "Gemini Live" Cadence
-Architected exclusively for Sri Charan Tirumaladasu ("Boss" / "Charan" / "Sir")
+cosmos_live_voice.py - Root Bridge
 """
 import os
 import sys
@@ -18,6 +15,8 @@ from cosmos_live_voice import (
     dual_channel_process,
     speak_live_voice,
     clean_bracketed_tags,
-    extract_code_blocks
+    extract_code_blocks,
+    infer_natural_prosody,
+    PRIMARY_VOICE,
+    FALLBACK_VOICE
 )
-
