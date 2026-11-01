@@ -52,8 +52,8 @@ import speech_recognition as sr
 # 1. VOICE OUTPUT ENGINE (EDGE-TTS + PYGAME IN-MEMORY STREAMING)
 # =====================================================================
 
-VOICE_NAME = "en-US-EmmaMultilingualNeural"
-VOICE_RATE = "+18%"
+VOICE_NAME = "en-US-AriaNeural"
+VOICE_RATE = "+12%"
 _pygame_initialized = False
 _speech_lock = threading.Lock()
 

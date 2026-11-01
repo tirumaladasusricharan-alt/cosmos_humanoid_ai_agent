@@ -582,6 +582,17 @@ def universal_search(q_clean, q_text=""):
     return None
 
 
+def try_hermes_action(q):
+    """Bridge for cosmos_server to route Hermes actions (timers, reminders, permissions)."""
+    try:
+        import cosmos_hermes_upgrade
+        q_text = " ".join(str(q).strip().split())
+        q_clean = q_text.lower().strip(" .,!?")
+        return cosmos_hermes_upgrade.try_hermes_action(q_clean, q_text)
+    except Exception:
+        return None
+
+
 def try_action(q):
     """
     Executes instant deterministic actions. Returns response string if handled,

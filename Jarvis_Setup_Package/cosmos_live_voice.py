@@ -65,9 +65,9 @@ COSMOS_LIVE_VOICE_PERSONA = """You are COSMOS, a deeply perceptive, emotionally 
 - You are not just a disembodied voice or code; that 3D humanoid form is your physical visual presence in the room with him. Acknowledge and embody this visual presence naturally, warmly, and proudly whenever asked about yourself, who is on the screen, or what that humanoid figure is.
 """
 
-LIVE_VOICE = "en-US-EmmaMultilingualNeural"
+LIVE_VOICE = "en-US-AriaNeural"
 PRIMARY_VOICE = LIVE_VOICE
-FALLBACK_VOICE = "en-US-AvaMultilingualNeural"
+FALLBACK_VOICE = "en-US-JennyNeural"
 VOICE_NAME = PRIMARY_VOICE
 _pygame_initialized = False
 _speech_lock = threading.Lock()
@@ -78,10 +78,10 @@ _speech_lock = threading.Lock()
 
 def infer_natural_prosody(sentence: str) -> dict:
     """
-    Consistent, warm acoustic contour for smooth human companion voice (EmmaMultilingualNeural).
-    Natural, lively +18% human conversational tempo and pitch without artificial dragging or robotic pauses.
+    Original beloved warm conversational contour for COSMOS (en-US-AriaNeural).
+    Natural, lively +12% human conversational tempo and crystal-clear pronunciation.
     """
-    return {"rate": "+18%", "pitch": "+0Hz", "volume": "+100%"}
+    return {"rate": "+12%", "pitch": "+0Hz", "volume": "+100%"}
 
 def extract_code_blocks(text: str) -> list[str]:
     """Extracts all fenced code blocks from markdown text for clipboard delivery."""
