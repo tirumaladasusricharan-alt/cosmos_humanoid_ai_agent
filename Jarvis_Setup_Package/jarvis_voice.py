@@ -32,12 +32,17 @@ _voice_fh = logging.FileHandler(_voice_log_path, mode="w", encoding="utf-8")
 _voice_fh.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
 _voice_logger.addHandler(_voice_fh)
 
-if sys.platform == "win32":
-    import pyaudiowpatch as pyaudio
-
-    sys.modules.setdefault("pyaudio", pyaudio)
-else:
-    import pyaudio
+try:
+    if sys.platform == "win32":
+        try:
+            import pyaudiowpatch as pyaudio
+        except ImportError:
+            import pyaudio
+        sys.modules.setdefault("pyaudio", pyaudio)
+    else:
+        import pyaudio
+except Exception:
+    pyaudio = None
 
 import speech_recognition as sr
 import jarvis_brain
