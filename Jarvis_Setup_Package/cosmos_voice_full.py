@@ -63,8 +63,8 @@ def _clean_text_for_speech(text: str) -> str:
 
 
 async def _stream_tts_to_memory(text: str) -> bytes:
-    # Soft, warm conversational neural contour (rate="-2%", pitch="-1Hz", volume="+100%") in RAM
-    communicate = edge_tts.Communicate(text, VOICE_NAME, rate="-2%", pitch="-1Hz", volume="+100%")
+    # Soft, warm conversational neural contour (natural 1.0x human speaking cadence) in RAM
+    communicate = edge_tts.Communicate(text, VOICE_NAME, rate="+0%", pitch="+0Hz", volume="+100%")
     audio_stream = io.BytesIO()
     async for chunk in communicate.stream():
         if chunk["type"] == "audio":

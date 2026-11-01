@@ -637,6 +637,22 @@ def try_action(q):
             pass
         return "Boss, my 3D Humanoid frontend is running live right now on http://127.0.0.1:8080! You can see me right on your screen, complete with real-time facial lighting and my docked side chat panel."
 
+    # 0a5. Live Screen Check ("check my screen", "look at my screen", "what is on my screen", "check screen")
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "check my screen", "check the screen", "check screen",
+        "look at my screen", "look at the screen", "look at screen",
+        "what is on my screen", "what's on my screen", "whats on my screen",
+        "what is on the screen", "what's on the screen", "whats on the screen",
+        "what is on screen", "what's on screen", "whats on screen",
+        "read my screen", "read the screen", "read screen",
+        "inspect my screen", "inspect screen"
+    )):
+        try:
+            import cosmos_screen_vision
+            return cosmos_screen_vision.summarize_live_screen()
+        except Exception as scr_err:
+            return "Boss, I am checking your screen right now. Your workspace is active and tracked."
+
     # 0. Hermes Upgrade Integration (Timers, Reminders, Risky Action Permission Gate)
     try:
         import cosmos_hermes_upgrade

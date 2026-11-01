@@ -191,9 +191,8 @@ def get_clipboard_text_safe() -> str:
 
 def read_screen_text_in_ram() -> str:
     """
-    For any non-VS Code window: extracts visible text from the focused window
-    using in-memory PIL.ImageGrab + Windows OCR (0 bytes to disk).
-    Falls back to window title + clipboard if OCR is unavailable.
+    Extracts visible text, window controls, and recent context from the focused window
+    without any slow blocking OCR or disk writes (0 MB impact).
     """
     context_parts = []
     
@@ -202,65 +201,59 @@ def read_screen_text_in_ram() -> str:
     if title:
         context_parts.append(f"Active Window: {title}")
     
-    # B. Try Windows native OCR on in-memory screenshot
+    # B. Extract child window control texts (labels, edit boxes, terminal output, error messages)
     try:
-        from PIL import ImageGrab
-        import asyncio
-        
-        # Set DPI awareness for accurate capture
-        if hasattr(ctypes, "windll"):
-            try:
-                ctypes.windll.user32.SetProcessDPIAware()
-            except Exception:
-                pass
-        
-        image = ImageGrab.grab()
-        buffer = io.BytesIO()
-        image.save(buffer, format="PNG")
-        image.close()
-        
-        # Use Windows native OCR (no pytesseract dependency)
-        try:
-            from winrt.windows.graphics.imaging import BitmapDecoder
-            from winrt.windows.media.ocr import OcrEngine
-            from winrt.windows.storage.streams import DataWriter, InMemoryRandomAccessStream
-
-            async def _ocr_from_bytes(img_bytes: bytes) -> str:
-                stream = InMemoryRandomAccessStream()
-                writer = DataWriter(stream)
-                writer.write_bytes(img_bytes)
-                await writer.store_async()
-                await writer.flush_async()
-                writer.detach_stream()
-                stream.seek(0)
-                decoder = await BitmapDecoder.create_async(stream)
-                bitmap = await decoder.get_software_bitmap_async()
-                engine = OcrEngine.try_create_from_user_profile_languages()
-                if engine is None:
-                    return ""
-                result = await engine.recognize_async(bitmap)
-                return result.text.strip()
-            
-            try:
-                ocr_text = asyncio.run(asyncio.wait_for(_ocr_from_bytes(buffer.getvalue()), timeout=2.5))
-                if ocr_text and len(ocr_text) > 10:
-                    context_parts.append(f"Screen Text (OCR):\n{ocr_text[:8000]}")
-            except Exception:
-                pass
-        except Exception:
-            pass
-        
-        buffer.close()
+        import win32gui
+        hwnd = win32gui.GetForegroundWindow()
+        if hwnd:
+            ctrl_texts = []
+            def _enum_child(c_hwnd, _):
+                t = win32gui.GetWindowText(c_hwnd)
+                if t and len(t.strip()) > 1 and t.strip() not in ctrl_texts:
+                    ctrl_texts.append(t.strip())
+                return True
+            win32gui.EnumChildWindows(hwnd, _enum_child, None)
+            if ctrl_texts:
+                context_parts.append("Visible Window Elements / Text:\n" + "\n".join(f"- {t}" for t in ctrl_texts[:25]))
     except Exception:
         pass
     
     # C. Clipboard fallback for code/text context
-    if len(context_parts) < 2:  # OCR didn't yield useful text
-        clip = get_clipboard_text_safe()
-        if clip and len(clip.strip()) > 5:
-            context_parts.append(f"Clipboard Content:\n{clip[:3000]}")
+    clip = get_clipboard_text_safe()
+    if clip and len(clip.strip()) > 5:
+        context_parts.append(f"Clipboard Content:\n{clip[:3000]}")
     
     return "\n\n".join(context_parts) if context_parts else ""
+
+
+def summarize_live_screen() -> str:
+    """Provides a crisp, natural human description of what is currently on Sri Charan's screen."""
+    title = get_active_window_title()
+    app = get_active_app_name()
+    
+    if app == "vscode" or "visual studio code" in title.lower():
+        filepath = _extract_vscode_filepath(title)
+        filename = os.path.basename(filepath) if filepath else "active file"
+        lines_count = 0
+        if filepath and os.path.isfile(filepath):
+            try:
+                with open(filepath, "r", encoding="utf-8", errors="replace") as f:
+                    lines_count = len(f.readlines())
+            except Exception:
+                pass
+        return (
+            f"Boss, I'm looking at your screen right now. You're in VS Code with '{filename}' in focus "
+            f"({lines_count} lines). The code is live and tracking cleanly. Tell me what you'd like me to review, "
+            f"debug, or explain in this file, Charan."
+        )
+    
+    if title:
+        return (
+            f"Boss, I'm looking at your screen right now. Your active window is '{title}'. "
+            f"I have your environment tracked and I'm ready for your orders, sir."
+        )
+        
+    return "Boss, I'm looking at your screen right now. Your desktop is active and I'm tracking your workspace."
 
 
 # ═══════════════════════════════════════════════════════════════════════

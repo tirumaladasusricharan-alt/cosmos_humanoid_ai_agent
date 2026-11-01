@@ -315,6 +315,43 @@ def launch_humanoid_window():
             pass
 
 
+def _is_cosmos_frontend_hwnd(hwnd) -> bool:
+    """
+    Returns True ONLY if hwnd belongs to Chrome/Edge running the COSMOS frontend UI.
+    CRITICAL: Never touches Antigravity IDE, VS Code, PowerShell, or Python!
+    """
+    if not user32 or not hwnd:
+        return False
+    length = user32.GetWindowTextLengthW(hwnd)
+    if length <= 0:
+        return False
+    buff = ctypes.create_unicode_buffer(length + 1)
+    user32.GetWindowTextW(hwnd, buff, length + 1)
+    title = buff.value.lower()
+
+    # 1. ABSOLUTE SHIELD: Never touch Antigravity IDE, VS Code, terminals, or developer tools!
+    for forbidden in ("antigravity", "visual studio code", "vscode", "powershell", "cmd.exe", "terminal", "python", "cursor", "gemini"):
+        if forbidden in title:
+            return False
+
+    # 2. Check Process Name: Must be Chrome or Edge
+    pid = wintypes.DWORD()
+    user32.GetWindowThreadProcessId(hwnd, ctypes.byref(pid))
+    try:
+        import psutil
+        p = psutil.Process(pid.value)
+        pname = p.name().lower()
+        if pname not in ("chrome.exe", "msedge.exe", "browser.exe"):
+            return False
+    except Exception:
+        return False
+
+    # 3. Window title must belong to the COSMOS 3D frontend
+    if any(k in title for k in ("cosmos - humanoid ai", "127.0.0.1:8080", "localhost:8080", "cosmos humanoid")):
+        return True
+    return False
+
+
 def bring_cosmos_to_front() -> bool:
     """Brings the 3D Humanoid window to the front immediately, breaking Windows 11 foreground lock."""
     global wake_counter
@@ -326,31 +363,26 @@ def bring_cosmos_to_front() -> bool:
     try:
         def enum_cb(hwnd, extra):
             nonlocal found
-            length = user32.GetWindowTextLengthW(hwnd)
-            if length > 0:
-                buff = ctypes.create_unicode_buffer(length + 1)
-                user32.GetWindowTextW(hwnd, buff, length + 1)
-                title = buff.value
-                if any(k.lower() in title.lower() for k in ("cosmos", "8080", "sri charan")):
-                    user32.ShowWindow(hwnd, 9)  # SW_RESTORE
-                    # Simulate Alt key down/up to break Windows 11 foreground lock
-                    user32.keybd_event(0x12, 0, 0, 0)
-                    user32.keybd_event(0x12, 0, 2, 0)
-                    # Force Topmost momentarily to break Windows foreground lock
-                    user32.SetWindowPos(hwnd, -1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040)
-                    fore_thread = user32.GetWindowThreadProcessId(user32.GetForegroundWindow(), None)
-                    app_thread = ctypes.windll.kernel32.GetCurrentThreadId()
-                    if fore_thread != app_thread:
-                        user32.AttachThreadInput(fore_thread, app_thread, True)
-                        user32.BringWindowToTop(hwnd)
-                        user32.SetForegroundWindow(hwnd)
-                        user32.AttachThreadInput(fore_thread, app_thread, False)
-                    else:
-                        user32.BringWindowToTop(hwnd)
-                        user32.SetForegroundWindow(hwnd)
-                    # Release topmost to standard window
-                    user32.SetWindowPos(hwnd, -2, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040)
-                    found = True
+            if _is_cosmos_frontend_hwnd(hwnd):
+                user32.ShowWindow(hwnd, 9)  # SW_RESTORE
+                # Simulate Alt key down/up to break Windows 11 foreground lock
+                user32.keybd_event(0x12, 0, 0, 0)
+                user32.keybd_event(0x12, 0, 2, 0)
+                # Force Topmost momentarily to break Windows foreground lock
+                user32.SetWindowPos(hwnd, -1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040)
+                fore_thread = user32.GetWindowThreadProcessId(user32.GetForegroundWindow(), None)
+                app_thread = ctypes.windll.kernel32.GetCurrentThreadId()
+                if fore_thread != app_thread:
+                    user32.AttachThreadInput(fore_thread, app_thread, True)
+                    user32.BringWindowToTop(hwnd)
+                    user32.SetForegroundWindow(hwnd)
+                    user32.AttachThreadInput(fore_thread, app_thread, False)
+                else:
+                    user32.BringWindowToTop(hwnd)
+                    user32.SetForegroundWindow(hwnd)
+                # Release topmost to standard window
+                user32.SetWindowPos(hwnd, -2, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040)
+                found = True
             return True
 
         EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, wintypes.HWND, wintypes.LPARAM)
@@ -365,31 +397,36 @@ def bring_cosmos_to_front() -> bool:
 
 
 def close_cosmos_window():
-    """Smoothly and completely closes the COSMOS 3D Humanoid window and process when ordered."""
+    """Smoothly closes the COSMOS 3D Humanoid browser window without touching Antigravity, VS Code, or system tools."""
     global _browser_pids
-    print("[COSMOS WINDOW] Closing 3D Humanoid window...", flush=True)
+    print("[COSMOS WINDOW] Closing 3D Humanoid browser window...", flush=True)
 
     # 1. Terminate tracked browser subprocesses
     for pid in list(_browser_pids):
         try:
             import psutil
             p = psutil.Process(pid)
-            for child in p.children(recursive=True):
-                try:
-                    child.kill()
-                except Exception:
-                    pass
-            p.kill()
+            pname = p.name().lower()
+            if pname in ("chrome.exe", "msedge.exe"):
+                for child in p.children(recursive=True):
+                    try:
+                        child.kill()
+                    except Exception:
+                        pass
+                p.kill()
         except Exception:
             pass
         _browser_pids.discard(pid)
 
-    # 2. Terminate any browser process running with --app=http://127.0.0.1:8080
+    # 2. Terminate any browser process running specifically with --app=http://127.0.0.1:8080
     try:
         import psutil
         for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
             try:
-                cmd = " ".join(proc.info.get('cmdline') or [])
+                pname = (proc.info.get('name') or '').lower()
+                if pname not in ("chrome.exe", "msedge.exe"):
+                    continue
+                cmd = " ".join(proc.info.get('cmdline') or []).lower()
                 if "--app=http://127.0.0.1:8080" in cmd or "--app=http://localhost:8080" in cmd:
                     proc.kill()
             except (psutil.NoSuchProcess, psutil.AccessDenied):
@@ -397,19 +434,14 @@ def close_cosmos_window():
     except Exception:
         pass
 
-    # 3. Hide and close all HWNDs matching titles
+    # 3. Close ONLY verified frontend HWNDs
     if user32:
         try:
             def enum_cb(hwnd, extra):
-                length = user32.GetWindowTextLengthW(hwnd)
-                if length > 0:
-                    buff = ctypes.create_unicode_buffer(length + 1)
-                    user32.GetWindowTextW(hwnd, buff, length + 1)
-                    title = buff.value
-                    if any(k.lower() in title.lower() for k in ("cosmos", "8080", "sri charan")):
-                        user32.ShowWindow(hwnd, 0)  # SW_HIDE: vanish instantly
-                        user32.PostMessageW(hwnd, 0x0112, 0xF060, 0)  # WM_SYSCOMMAND SC_CLOSE
-                        user32.PostMessageW(hwnd, 0x0010, 0, 0)        # WM_CLOSE
+                if _is_cosmos_frontend_hwnd(hwnd):
+                    user32.ShowWindow(hwnd, 0)  # SW_HIDE: vanish instantly
+                    user32.PostMessageW(hwnd, 0x0112, 0xF060, 0)  # WM_SYSCOMMAND SC_CLOSE
+                    user32.PostMessageW(hwnd, 0x0010, 0, 0)        # WM_CLOSE
                 return True
 
             EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, wintypes.HWND, wintypes.LPARAM)
@@ -436,8 +468,9 @@ def extended_listener_worker():
     recognizer.dynamic_energy_threshold = True
     recognizer.dynamic_energy_adjustment_damping = 0.15
     recognizer.dynamic_energy_ratio = 1.12
-    recognizer.pause_threshold = 1.8
-    recognizer.non_speaking_duration = 0.6
+    # Instant responsiveness: 0.8s pause threshold (cuts latency by over 1.0s)
+    recognizer.pause_threshold = 0.8
+    recognizer.non_speaking_duration = 0.4
 
     print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (native hardware sample rate engine).", flush=True)
 

@@ -66,9 +66,9 @@ _speech_lock = threading.Lock()
 def infer_natural_prosody(sentence: str) -> dict:
     """
     Consistent, warm acoustic contour for smooth human companion voice (EmmaMultilingualNeural).
-    Avoids frantic micro-chopping and wild pitch swings across clauses.
+    Natural 1.0x human speed and pitch without artificial dragging or robotic pauses.
     """
-    return {"rate": "-2%", "pitch": "-1Hz", "volume": "+100%"}
+    return {"rate": "+0%", "pitch": "+0Hz", "volume": "+100%"}
 
 def extract_code_blocks(text: str) -> list[str]:
     """Extracts all fenced code blocks from markdown text for clipboard delivery."""
