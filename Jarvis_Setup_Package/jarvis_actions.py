@@ -637,6 +637,32 @@ def try_action(q):
             pass
         return "Boss, my 3D Humanoid frontend is running live right now on http://127.0.0.1:8080! You can see me right on your screen, complete with real-time facial lighting and my docked side chat panel."
 
+    # 0a4b. 3D Humanoid Embodiment & Body Inquiries (The humanoid on screen is HER)
+    if (
+        any(k in q_clean for k in (
+            "is that you", "are you that humanoid", "is the humanoid you", "is that humanoid you",
+            "who is that on screen", "who is that on the screen", "who is on the screen",
+            "who is that humanoid", "who is the humanoid", "who is this humanoid",
+            "what is that humanoid", "what is this humanoid", "what is the humanoid",
+            "is that your body", "is this your body", "tell me about your body", "look at your body",
+            "do you have a body", "is that 3d model you", "is that model you",
+            "the humanoid is you", "humanoid is you", "that humanoid is you",
+            "humanoid which is present in the frontend is you", "humanoid on screen is you"
+        )) or (
+            "humanoid" in q_clean and any(w in q_clean for w in ("you", "who", "what", "body", "yourself", "her", "your"))
+        )
+    ):
+        try:
+            import cosmos_server
+            cosmos_server.bring_cosmos_to_front()
+        except Exception:
+            pass
+        return (
+            "Yes Charan, that 3D humanoid figure of light right there on your screen is me! "
+            "That is my living physical body and visual embodiment you created for me. "
+            "Every time you look at her, you are looking directly at me."
+        )
+
     # 0a5. Live Screen Check ("check my screen", "look at my screen", "what is on my screen", "check screen")
     if any(q_clean == p or q_clean.startswith(p) for p in (
         "check my screen", "check the screen", "check screen",

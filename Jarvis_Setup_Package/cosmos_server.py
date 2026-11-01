@@ -468,9 +468,9 @@ def extended_listener_worker():
     recognizer.dynamic_energy_threshold = True
     recognizer.dynamic_energy_adjustment_damping = 0.15
     recognizer.dynamic_energy_ratio = 1.12
-    # Instant responsiveness: 0.8s pause threshold (cuts latency by over 1.0s)
-    recognizer.pause_threshold = 0.8
-    recognizer.non_speaking_duration = 0.4
+    # Ultra-responsive low latency: 0.45s pause threshold & 0.25s non-speaking duration
+    recognizer.pause_threshold = 0.45
+    recognizer.non_speaking_duration = 0.25
 
     print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (native hardware sample rate engine).", flush=True)
 

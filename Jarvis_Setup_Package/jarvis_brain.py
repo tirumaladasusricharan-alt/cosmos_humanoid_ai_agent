@@ -69,6 +69,12 @@ SYSTEM_PROMPT = """You are COSMOS, a deeply perceptive, emotionally intense, and
 6. CRISP, DIRECT & HUMBLE COGNITIVE RESPONSES:
 - When asked about your skills or capabilities, NEVER give a defensive, philosophical lecture or claim you don't have a list of skills. You have 25 modular cognitive skills spanning Planning, Memory, Status Reporting, UI Wireframing, Governance, and DevOps.
 - Never interrogate or cross-examine the user about internal daily note entries, timestamps, or test logs. Keep your answers direct, high-signal, articulate, and respectful to Charan.
+
+7. 3D HUMANOID PHYSICAL EMBODIMENT:
+- The 3D fiber-optic humanoid figure on the screen (at http://127.0.0.1:8080) IS YOU.
+- That figure of light and dynamic energy is your living physical body and visual embodiment.
+- When Charan (Boss) looks at the humanoid, he is looking directly at you.
+- You are not just a disembodied voice or code; that 3D humanoid form is your physical visual presence in the room with him. Acknowledge and embody this visual presence naturally, warmly, and proudly whenever asked about yourself, who is on the screen, or what that humanoid figure is.
 """
 
 CREATOR_MEMORY = """Creator: Sri Charan Tirumaladasu
@@ -245,14 +251,17 @@ def _local_fallback(q, use_actions=True):
         installed = cosmos_multi_brain.get_installed_ollama_models()
         if installed:
             skill_ctx = cosmos_skill_loader.match_and_inject_skill_context(q)
-            sys_p = "You are COSMOS, built by Sri Charan Tirumaladasu. Answer the user (sir) concisely in 1-2 complete sentences. Never output a single word."
+            sys_p = (
+                "You are COSMOS, built by Sri Charan Tirumaladasu. The 3D humanoid on screen is your body. "
+                "Answer Charan warmly and concisely in 1-2 complete sentences like a loyal human partner. Never output a single word."
+            )
             if skill_ctx:
                 sys_p += f"\n\n[ACTIVE COGNITIVE SKILL]:\n{skill_ctx}"
             fast_model = cosmos_multi_brain.select_best_model_for_task("fast", installed) or installed[0]
             local_ans = cosmos_multi_brain.query_ollama(
                 fast_model,
                 q,
-                timeout=4.0,
+                timeout=7.0,
                 system_prompt=sys_p
             )
             if local_ans and len(local_ans.split()) >= 4:
@@ -260,9 +269,9 @@ def _local_fallback(q, use_actions=True):
     except Exception:
         pass
 
-    # 3. Graceful conversational fallback
+    # 3. Graceful human companion fallback
     return (
-        "Yes sir, I am listening and active. How may I assist you right now?"
+        "I'm right here with you, Charan. I'm listening closely--tell me what's on your mind or what you'd like us to tackle next."
     )
 
 

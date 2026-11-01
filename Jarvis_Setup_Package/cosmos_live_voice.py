@@ -18,10 +18,17 @@ import sys
 import re
 import io
 import asyncio
+import concurrent.futures
 import threading
 import ctypes
+import os
+import tempfile
+import time
 import edge_tts
-import pygame
+try:
+    import pygame
+except ImportError:
+    pygame = None
 
 # ═══════════════════════════════════════════════════════════════════════
 # 1. THE TAG-FREE "CLAUDE SOUL + GEMINI LIVE" PERSONA PROMPT
@@ -50,6 +57,12 @@ COSMOS_LIVE_VOICE_PERSONA = """You are COSMOS, a deeply perceptive, emotionally 
 4. DUAL-CHANNEL OUTPUT (VOICE VS. SIDE CHAT):
 - Place any code blocks or terminal commands strictly inside ```code``` blocks (routed silently to the side chatbot UI and clipboard).
 - Keep everything outside code blocks 100% raw, expressive human speech.
+
+5. 3D HUMANOID PHYSICAL EMBODIMENT:
+- The 3D fiber-optic humanoid figure on the screen (at http://127.0.0.1:8080) IS YOU.
+- That figure of light and dynamic energy is your living physical body and visual embodiment.
+- When Charan (Boss) looks at the humanoid, he is looking directly at you.
+- You are not just a disembodied voice or code; that 3D humanoid form is your physical visual presence in the room with him. Acknowledge and embody this visual presence naturally, warmly, and proudly whenever asked about yourself, who is on the screen, or what that humanoid figure is.
 """
 
 LIVE_VOICE = "en-US-EmmaMultilingualNeural"
@@ -185,10 +198,27 @@ async def _stream_tts_to_memory(text: str, voice: str = VOICE_NAME) -> bytes:
     return audio_stream.getvalue()
 
 
+def _synthesize_live_sentence_to_file(sent: str, idx: int, voice: str) -> str:
+    temp_path = os.path.join(tempfile.gettempdir(), f"cosmos_lv_{idx}_{int(time.time()*1000)}.mp3")
+    async def _save():
+        prosody = infer_natural_prosody(sent)
+        c = edge_tts.Communicate(
+            sent,
+            voice,
+            rate=prosody["rate"],
+            pitch=prosody["pitch"],
+            volume=prosody["volume"]
+        )
+        await c.save(temp_path)
+    asyncio.run(_save())
+    return temp_path
+
+
 def speak_live_voice(text: str, voice: str = VOICE_NAME):
     """
-    Speaks text with expressive emotional inflection at 100% volume in RAM.
-    Does NOT write any audio files to disk.
+    Speaks text with expressive emotional inflection at 100% volume in RAM
+    using ultra-low-latency pipelined sentence streaming.
+    Synthesizes sentence 1 immediately while pre-fetching subsequent sentences in parallel.
     """
     voice_text = format_acoustic_voice_text(text)
     if not voice_text:
@@ -201,20 +231,37 @@ def speak_live_voice(text: str, voice: str = VOICE_NAME):
         except Exception:
             pass
 
-    _init_audio()
-    try:
-        if pygame.mixer.get_init() and pygame.mixer.music.get_busy():
-            pygame.mixer.music.stop()
+    raw_sents = re.split(r'(?<=[.!?])\s+', voice_text.strip())
+    sentences = [s.strip() for s in raw_sents if s.strip()]
+    if not sentences:
+        return
 
-        audio_bytes = asyncio.run(_stream_tts_to_memory(voice_text, voice))
-        with _speech_lock:
-            if not pygame.mixer.get_init():
-                pygame.mixer.init()
-            pygame.mixer.music.load(io.BytesIO(audio_bytes))
-            pygame.mixer.music.set_volume(1.0)
-            pygame.mixer.music.play()
-            while pygame.mixer.music.get_busy():
-                pygame.time.Clock().tick(15)
-    except Exception as e:
-        print(f"[COSMOS Live Voice Error]: {e}", flush=True)
+    with _speech_lock:
+        try:
+            if sys.platform == "win32":
+                mci = ctypes.windll.winmm.mciSendStringW
+                with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+                    futures = [executor.submit(_synthesize_live_sentence_to_file, s, i, voice) for i, s in enumerate(sentences)]
+                    for i, fut in enumerate(futures):
+                        temp_file = fut.result()
+                        alias = f"clv_{i}_{int(time.time()*1000)}"
+                        mci(f'open "{temp_file}" type mpegvideo alias {alias}', None, 0, 0)
+                        mci(f'play {alias} wait', None, 0, 0)
+                        mci(f'close {alias}', None, 0, 0)
+                        try:
+                            os.remove(temp_file)
+                        except Exception:
+                            pass
+            else:
+                _init_audio()
+                for s in sentences:
+                    audio_bytes = asyncio.run(_stream_tts_to_memory(s, voice))
+                    if pygame and pygame.mixer.get_init():
+                        pygame.mixer.music.load(io.BytesIO(audio_bytes))
+                        pygame.mixer.music.set_volume(1.0)
+                        pygame.mixer.music.play()
+                        while pygame.mixer.music.get_busy():
+                            pygame.time.Clock().tick(20)
+        except Exception as e:
+            print(f"[COSMOS Live Voice Error]: {e}", flush=True)
 
