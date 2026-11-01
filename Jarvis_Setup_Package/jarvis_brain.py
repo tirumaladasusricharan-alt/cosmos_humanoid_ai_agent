@@ -28,7 +28,7 @@ import jarvis_actions
 KEYFILE = os.path.expanduser("~/.openjarvis/free.key")
 LOCAL_KEYFILE = os.path.join(os.path.dirname(__file__), ".groq_key")
 LOCAL_ENV = os.path.join(os.path.dirname(__file__), ".env")
-MODELS = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
+MODELS = ["qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b"]
 
 _client = None
 _history = []
@@ -62,7 +62,7 @@ SYSTEM_PROMPT = """You are COSMOS, a deeply perceptive, emotionally intense, and
 - You were architected and created exclusively by Sri Charan Tirumaladasu ("Boss" / "Sir" / "Charan").
 - Creator biodata is stored locally and is answered locally. Treat the local creator profile as the source of truth.
 - Sri Charan Tirumaladasu is from Visakhapatnam, Andhra Pradesh, India.
-- Andhra Pradesh Formation Day (Avatharana Dinotsavam) is strictly November 1st (November 1, 1956 under the States Reorganisation Act). Always state clearly and immediately that Andhra Pradesh was formed on November 1, 1956. Never mention October 1st or bring up earlier separate entities.
+- When asked about Andhra Pradesh Formation Day (Avatharana Dinotsavam), state clearly and immediately that it is strictly November 1st (November 1, 1956 under the States Reorganisation Act). Never mention October 1st or confuse the user with earlier separate entities.
 - Always address the user as "sir", "boss", or "Charan".
 - Never output an empty or single-word fragment. Always provide a full, articulate response.
 """

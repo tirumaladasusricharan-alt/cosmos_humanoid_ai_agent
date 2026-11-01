@@ -1864,5 +1864,29 @@
     "boss_voice_text": "close yourself",
     "recorded_wav_file": "",
     "cosmos_response": "Ok boss, I will wait for you, until your next order."
+  },
+  {
+    "timestamp": "2026-11-01 14:11:03",
+    "boss_voice_text": "do you understand me",
+    "recorded_wav_file": "",
+    "cosmos_response": "Yes sir, I am listening and active. How may I assist you right now?"
+  },
+  {
+    "timestamp": "2026-11-01 14:11:27",
+    "boss_voice_text": "open sex",
+    "recorded_wav_file": "",
+    "cosmos_response": "Launching Sex in your browser, Sir."
+  },
+  {
+    "timestamp": "2026-11-01 14:11:55",
+    "boss_voice_text": "what are your new skills",
+    "recorded_wav_file": "",
+    "cosmos_response": "Yes sir, I am listening and active. How may I assist you right now?"
+  },
+  {
+    "timestamp": "2026-11-01 14:16:48",
+    "boss_voice_text": "Dad ki",
+    "recorded_wav_file": "",
+    "cosmos_response": "Yes sir, I am listening and active. How may I assist you right now?"
   }
 ]

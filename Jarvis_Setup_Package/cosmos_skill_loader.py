@@ -197,6 +197,23 @@ def try_execute_skill(q_clean: str, raw_query: str) -> Optional[str]:
     """
     today = datetime.now().strftime("%Y-%m-%d")
 
+    # 0. List all 25 skills inquiry
+    if any(k in q_clean for k in (
+        "what are your new skills", "what are your skills", "what skills do you have",
+        "list your skills", "tell me your skills", "show your skills", "what are all your skills",
+        "which skills do you have", "what new skills", "list all skills", "show skills"
+    )):
+        return (
+            "Boss, I have 25 cognitive skills fully active across 6 operational domains:\n\n"
+            "1. **Planning & Execution:** `task-planning`, `first-task`, `converting-plans-to-tasks`, `delegate-work`, `task-bridge`\n"
+            "2. **Knowledge & Memory:** `para-memory-files`, `wiki-ingest`, `wiki-query`, `wiki-lint`, `wiki-maintainer`\n"
+            "3. **Reporting & Insights:** `summarize-status`, `status-card-query`, `cosmos-distill`\n"
+            "4. **Design & Frontend:** `wireframe`, `cosmos-capsules`, `directions-lab`, `design-guide`\n"
+            "5. **Governance & Subagents:** `cosmos-board`, `cosmos-create-agent`, `agent-browser`\n"
+            "6. **DevOps & Feedback:** `setup-code-maintenance-bot`, `create-verification-skill`, `prepare-mcp-integration`, `suggestion-box`, `complain`\n\n"
+            "You can ask me to execute any of them right now, sir!"
+        )
+
     # 1. summarize-status: 1-3 concrete blockers & status standup
     if any(q_clean.startswith(w) or q_clean == w for w in ("summarize status", "status update", "standup", "give me a status", "project status")):
         return (
