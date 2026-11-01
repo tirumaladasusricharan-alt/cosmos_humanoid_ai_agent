@@ -217,51 +217,19 @@ def _synthesize_live_sentence_to_file(sent: str, idx: int, voice: str) -> str:
 def speak_live_voice(text: str, voice: str = VOICE_NAME):
     """
     Speaks text with expressive emotional inflection at 100% volume in RAM
-    using ultra-low-latency pipelined sentence streaming.
-    Synthesizes sentence 1 immediately while pre-fetching subsequent sentences in parallel.
+    using the dedicated human voice engine from cosmos_human_voice.
     """
     voice_text = format_acoustic_voice_text(text)
     if not voice_text:
         return
-
-    # Maximize Windows hardware wave volume
-    if sys.platform == "win32":
+    try:
+        import cosmos_human_voice
+        cosmos_human_voice.cosmos_speak(voice_text)
+    except Exception as e:
+        print(f"[COSMOS Live Voice Error]: {e}", flush=True)
         try:
-            ctypes.windll.winmm.waveOutSetVolume(0, 0xFFFFFFFF)
+            import jarvis_voice
+            jarvis_voice.speak(voice_text)
         except Exception:
             pass
-
-    raw_sents = re.split(r'(?<=[.!?])\s+', voice_text.strip())
-    sentences = [s.strip() for s in raw_sents if s.strip()]
-    if not sentences:
-        return
-
-    with _speech_lock:
-        try:
-            if sys.platform == "win32":
-                mci = ctypes.windll.winmm.mciSendStringW
-                with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-                    futures = [executor.submit(_synthesize_live_sentence_to_file, s, i, voice) for i, s in enumerate(sentences)]
-                    for i, fut in enumerate(futures):
-                        temp_file = fut.result()
-                        alias = f"clv_{i}_{int(time.time()*1000)}"
-                        mci(f'open "{temp_file}" type mpegvideo alias {alias}', None, 0, 0)
-                        mci(f'play {alias} wait', None, 0, 0)
-                        mci(f'close {alias}', None, 0, 0)
-                        try:
-                            os.remove(temp_file)
-                        except Exception:
-                            pass
-            else:
-                _init_audio()
-                for s in sentences:
-                    audio_bytes = asyncio.run(_stream_tts_to_memory(s, voice))
-                    if pygame and pygame.mixer.get_init():
-                        pygame.mixer.music.load(io.BytesIO(audio_bytes))
-                        pygame.mixer.music.set_volume(1.0)
-                        pygame.mixer.music.play()
-                        while pygame.mixer.music.get_busy():
-                            pygame.time.Clock().tick(20)
-        except Exception as e:
-            print(f"[COSMOS Live Voice Error]: {e}", flush=True)
 

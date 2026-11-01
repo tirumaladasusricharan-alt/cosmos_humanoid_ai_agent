@@ -116,60 +116,22 @@ def _synthesize_sentence_to_file(sent: str, idx: int) -> str:
 
 def cosmos_speak(text: str):
     """
-    Speaks text out loud with ultra-low latency via pipelined sentence streaming.
-    Synthesizes sentence 1 immediately while pre-fetching remaining sentences in background threads.
-    Plays natively through Windows Multimedia hardware or Pygame with 0 MB storage accumulation.
+    Speaks text out loud using the human voice engine from cosmos_human_voice.
+    100% in-memory streaming via Edge-TTS and Pygame mixer at +20% rate.
     """
-    clean_msg = _clean_text_for_speech(text)
-    if not clean_msg:
+    if not text:
         return
-    print(f"\n[COSMOS VOICE]: {clean_msg}")
-
-    # Maximize Windows hardware wave volume to 100%
-    if sys.platform == "win32":
+    print(f"\n[COSMOS VOICE]: {text}")
+    try:
+        import cosmos_human_voice
+        cosmos_human_voice.cosmos_speak(text)
+    except Exception as e:
+        print(f"[COSMOS Voice Output Note]: {e}", flush=True)
         try:
-            ctypes.windll.winmm.waveOutSetVolume(0, 0xFFFFFFFF)
+            import jarvis_voice
+            jarvis_voice.speak(text)
         except Exception:
             pass
-
-    sentences = split_into_natural_sentences(clean_msg)
-    if not sentences:
-        return
-
-    with _speech_lock:
-        try:
-            if sys.platform == "win32":
-                mci = ctypes.windll.winmm.mciSendStringW
-                with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
-                    futures = [executor.submit(_synthesize_sentence_to_file, s, i) for i, s in enumerate(sentences)]
-                    for i, fut in enumerate(futures):
-                        temp_file = fut.result()
-                        alias = f"cv_{i}_{int(time.time()*1000)}"
-                        mci(f'open "{temp_file}" type mpegvideo alias {alias}', None, 0, 0)
-                        mci(f'play {alias} wait', None, 0, 0)
-                        mci(f'close {alias}', None, 0, 0)
-                        try:
-                            os.remove(temp_file)
-                        except Exception:
-                            pass
-            else:
-                _init_audio()
-                for s in sentences:
-                    audio_bytes = asyncio.run(_stream_tts_to_memory(s))
-                    if pygame and pygame.mixer.get_init():
-                        pygame.mixer.music.load(io.BytesIO(audio_bytes))
-                        pygame.mixer.music.set_volume(1.0)
-                        pygame.mixer.music.play()
-                        while pygame.mixer.music.get_busy():
-                            pygame.time.Clock().tick(20)
-        except Exception as e:
-            print(f"[Pipelined Voice Engine Note]: {e}", flush=True)
-            # Resilient fallback if edge-tts or audio pipeline encounters any transient error
-            try:
-                import jarvis_voice
-                jarvis_voice.speak(clean_msg)
-            except Exception:
-                pass
 
 
 # =====================================================================
