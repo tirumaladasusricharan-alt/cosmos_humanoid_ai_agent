@@ -157,11 +157,8 @@ def cosmos_listen_full_statement(save_wav: bool = False) -> str:
             audio_data = recognizer.listen(source, timeout=15, phrase_time_limit=None)
 
             wav_path = ""
-            if save_wav:
-                stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                wav_path = os.path.join(RECORDINGS_DIR, f"boss_voice_{stamp}.wav")
-                with open(wav_path, "wb") as f:
-                    f.write(audio_data.get_wav_data())
+            # RAM-only audio processing: 0 MB disk impact, never write voice files to disk or OneDrive
+            _ = save_wav
 
             text = recognizer.recognize_google(audio_data)
             print(f"[BOSS SAID]: {text}")

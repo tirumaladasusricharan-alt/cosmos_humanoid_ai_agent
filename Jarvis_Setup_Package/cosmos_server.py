@@ -279,8 +279,11 @@ def speak_cosmos(text: str, full_chat_text: Optional[str] = None):
 # ═══════════════════════════════════════════════════════════════════════
 #  WINDOW FOCUS & POPUP AUTOMATION
 # ═══════════════════════════════════════════════════════════════════════
+_browser_pids = set()
+
 def launch_humanoid_window():
     """Launches the 3D Humanoid in dedicated standalone app window mode."""
+    global _browser_pids
     url = "http://127.0.0.1:8080"
     chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
     edge_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
@@ -288,7 +291,8 @@ def launch_humanoid_window():
     for browser in [chrome_path, edge_path]:
         if os.path.exists(browser):
             try:
-                subprocess.Popen([browser, f"--app={url}"])
+                proc = subprocess.Popen([browser, f"--app={url}"])
+                _browser_pids.add(proc.pid)
                 launched = True
                 break
             except Exception:
@@ -306,37 +310,36 @@ def bring_cosmos_to_front() -> bool:
     wake_counter += 1
     found = False
     if not user32:
-        return found
+        launch_humanoid_window()
+        return True
     try:
         def enum_cb(hwnd, extra):
             nonlocal found
-            if user32.IsWindowVisible(hwnd):
-                length = user32.GetWindowTextLengthW(hwnd)
-                if length > 0:
-                    buff = ctypes.create_unicode_buffer(length + 1)
-                    user32.GetWindowTextW(hwnd, buff, length + 1)
-                    title = buff.value
-                    if any(k in title for k in ("COSMOS", "8080", "Sri Charan")):
-                        user32.ShowWindow(hwnd, 9)  # SW_RESTORE
-                        # Simulate Alt key down/up to break Windows 11 foreground lock
-                        user32.keybd_event(0x12, 0, 0, 0)
-                        user32.keybd_event(0x12, 0, 2, 0)
-                        # Force Topmost momentarily to break Windows foreground lock
-                        user32.SetWindowPos(hwnd, -1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040)
-                        fore_thread = user32.GetWindowThreadProcessId(user32.GetForegroundWindow(), None)
-                        app_thread = ctypes.windll.kernel32.GetCurrentThreadId()
-                        if fore_thread != app_thread:
-                            user32.AttachThreadInput(fore_thread, app_thread, True)
-                            user32.BringWindowToTop(hwnd)
-                            user32.SetForegroundWindow(hwnd)
-                            user32.AttachThreadInput(fore_thread, app_thread, False)
-                        else:
-                            user32.BringWindowToTop(hwnd)
-                            user32.SetForegroundWindow(hwnd)
-                        # Release topmost to standard window
-                        user32.SetWindowPos(hwnd, -2, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040)
-                        found = True
-                        return False
+            length = user32.GetWindowTextLengthW(hwnd)
+            if length > 0:
+                buff = ctypes.create_unicode_buffer(length + 1)
+                user32.GetWindowTextW(hwnd, buff, length + 1)
+                title = buff.value
+                if any(k.lower() in title.lower() for k in ("cosmos", "8080", "sri charan")):
+                    user32.ShowWindow(hwnd, 9)  # SW_RESTORE
+                    # Simulate Alt key down/up to break Windows 11 foreground lock
+                    user32.keybd_event(0x12, 0, 0, 0)
+                    user32.keybd_event(0x12, 0, 2, 0)
+                    # Force Topmost momentarily to break Windows foreground lock
+                    user32.SetWindowPos(hwnd, -1, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040)
+                    fore_thread = user32.GetWindowThreadProcessId(user32.GetForegroundWindow(), None)
+                    app_thread = ctypes.windll.kernel32.GetCurrentThreadId()
+                    if fore_thread != app_thread:
+                        user32.AttachThreadInput(fore_thread, app_thread, True)
+                        user32.BringWindowToTop(hwnd)
+                        user32.SetForegroundWindow(hwnd)
+                        user32.AttachThreadInput(fore_thread, app_thread, False)
+                    else:
+                        user32.BringWindowToTop(hwnd)
+                        user32.SetForegroundWindow(hwnd)
+                    # Release topmost to standard window
+                    user32.SetWindowPos(hwnd, -2, 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040)
+                    found = True
             return True
 
         EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, wintypes.HWND, wintypes.LPARAM)
@@ -351,25 +354,57 @@ def bring_cosmos_to_front() -> bool:
 
 
 def close_cosmos_window():
-    """Smoothly closes the COSMOS 3D Humanoid window when ordered."""
-    if not user32:
-        return
+    """Smoothly and completely closes the COSMOS 3D Humanoid window and process when ordered."""
+    global _browser_pids
+    print("[COSMOS WINDOW] Closing 3D Humanoid window...", flush=True)
+
+    # 1. Terminate tracked browser subprocesses
+    for pid in list(_browser_pids):
+        try:
+            import psutil
+            p = psutil.Process(pid)
+            for child in p.children(recursive=True):
+                try:
+                    child.kill()
+                except Exception:
+                    pass
+            p.kill()
+        except Exception:
+            pass
+        _browser_pids.discard(pid)
+
+    # 2. Terminate any browser process running with --app=http://127.0.0.1:8080
     try:
-        def enum_cb(hwnd, extra):
-            if user32.IsWindowVisible(hwnd):
+        import psutil
+        for proc in psutil.process_iter(['pid', 'name', 'cmdline']):
+            try:
+                cmd = " ".join(proc.info.get('cmdline') or [])
+                if "--app=http://127.0.0.1:8080" in cmd or "--app=http://localhost:8080" in cmd:
+                    proc.kill()
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                continue
+    except Exception:
+        pass
+
+    # 3. Hide and close all HWNDs matching titles
+    if user32:
+        try:
+            def enum_cb(hwnd, extra):
                 length = user32.GetWindowTextLengthW(hwnd)
                 if length > 0:
                     buff = ctypes.create_unicode_buffer(length + 1)
                     user32.GetWindowTextW(hwnd, buff, length + 1)
                     title = buff.value
-                    if any(k in title for k in ("COSMOS", "8080", "Sri Charan")):
-                        user32.PostMessageW(hwnd, 0x0010, 0, 0)  # WM_CLOSE
-                        return False
-            return True
-        EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, wintypes.HWND, wintypes.LPARAM)
-        user32.EnumWindows(EnumWindowsProc(enum_cb), 0)
-    except Exception as e:
-        print(f"[Close Window Notice]: {e}", flush=True)
+                    if any(k.lower() in title.lower() for k in ("cosmos", "8080", "sri charan")):
+                        user32.ShowWindow(hwnd, 0)  # SW_HIDE: vanish instantly
+                        user32.PostMessageW(hwnd, 0x0112, 0xF060, 0)  # WM_SYSCOMMAND SC_CLOSE
+                        user32.PostMessageW(hwnd, 0x0010, 0, 0)        # WM_CLOSE
+                return True
+
+            EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, wintypes.HWND, wintypes.LPARAM)
+            user32.EnumWindows(EnumWindowsProc(enum_cb), 0)
+        except Exception as e:
+            print(f"[Close Window Notice]: {e}", flush=True)
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -388,13 +423,13 @@ def extended_listener_worker():
     best_mic_idx = get_best_microphone_index()
     recognizer = sr.Recognizer()
     recognizer.dynamic_energy_threshold = True
-    recognizer.dynamic_energy_adjustment_damping = 0.08
-    recognizer.dynamic_energy_ratio = 1.15
-    recognizer.pause_threshold = 0.55
-    recognizer.non_speaking_duration = 0.35
-    recognizer.energy_threshold = 80
+    recognizer.dynamic_energy_adjustment_damping = 0.15
+    recognizer.dynamic_energy_ratio = 1.2
+    recognizer.pause_threshold = 1.8
+    recognizer.non_speaking_duration = 0.6
+    recognizer.energy_threshold = 45
 
-    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (calibrated 16kHz audio engine).", flush=True)
+    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (calibrated high-sensitivity 16kHz audio engine).", flush=True)
 
     while True:
         if not mic_enabled:
@@ -405,17 +440,19 @@ def extended_listener_worker():
 
         try:
             with sr.Microphone(device_index=best_mic_idx, sample_rate=16000) as source:
-                recognizer.adjust_for_ambient_noise(source, duration=0.8)
-                # Calibrate cleanly above room noise floor to prevent false 14s cut-off
-                if recognizer.energy_threshold > 130:
-                    recognizer.energy_threshold = 100
-                elif recognizer.energy_threshold < 55:
-                    recognizer.energy_threshold = 75
+                recognizer.adjust_for_ambient_noise(source, duration=0.6)
+                # Calibrate cleanly above room noise floor with high sensitivity for low voice
+                if recognizer.energy_threshold > 140:
+                    recognizer.energy_threshold = 110
+                elif recognizer.energy_threshold < 25:
+                    recognizer.energy_threshold = 35
 
                 while mic_enabled:
-                    # Prevent threshold drift from creating false continuous triggers
-                    if recognizer.energy_threshold > 130:
-                        recognizer.energy_threshold = 100
+                    # Prevent threshold drift from deafening soft speech
+                    if recognizer.energy_threshold > 140:
+                        recognizer.energy_threshold = 110
+                    elif recognizer.energy_threshold < 25:
+                        recognizer.energy_threshold = 35
                     # Wait if speech playback is active
                     if not voice_ready_event.wait(timeout=0.2):
                         continue
@@ -425,20 +462,20 @@ def extended_listener_worker():
                             current_state = "listening"
 
                     try:
-                        audio = recognizer.listen(source, timeout=4, phrase_time_limit=14)
+                        audio = recognizer.listen(source, timeout=4, phrase_time_limit=18)
                     except sr.WaitTimeoutError:
                         continue
 
                     if not mic_enabled or not voice_ready_event.is_set():
                         continue
 
-                    # Studio Peak Normalization: scale speech amplitude to clear 16kHz recognition level
+                    # Studio AGC Gain Boost: amplify low / quiet voices up to 4.5x for crystal-clear STT
                     try:
                         import audioop
                         raw_data = audio.frame_data
                         max_val = audioop.max(raw_data, audio.sample_width)
-                        if 0 < max_val < 20000:
-                            gain = min(26000.0 / max(max_val, 1), 3.5)
+                        if 0 < max_val < 26000:
+                            gain = min(30000.0 / max(max_val, 1), 4.5)
                             boosted_raw = audioop.mul(raw_data, audio.sample_width, gain)
                             audio = sr.AudioData(boosted_raw, audio.sample_rate, audio.sample_width)
                     except Exception:
@@ -494,8 +531,8 @@ def extended_listener_worker():
                         speak_cosmos(reply)
                         with state_lock:
                             current_state = "idle"
-                        # Smoothly close window after delivering speech
-                        threading.Timer(1.8, close_cosmos_window).start()
+                        # Smoothly and completely close window after speech finishes
+                        close_cosmos_window()
                         log_everything_to_score(query, reply, wav_path)
                         continue
 
@@ -802,8 +839,10 @@ async def execute_query(request: Request):
     if jarvis_voice.is_close_command(query):
         is_sleeping = True
         reply = "Ok boss, I will wait for you, until your next order."
-        threading.Thread(target=speak_cosmos, args=(reply,), daemon=True).start()
-        threading.Timer(1.8, close_cosmos_window).start()
+        def _speak_then_close():
+            speak_cosmos(reply)
+            close_cosmos_window()
+        threading.Thread(target=_speak_then_close, daemon=True).start()
         return {"response": reply}
 
     # If user interacts with UI, wake up

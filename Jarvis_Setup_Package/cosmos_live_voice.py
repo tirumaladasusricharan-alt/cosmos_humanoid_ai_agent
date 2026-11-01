@@ -52,9 +52,9 @@ COSMOS_LIVE_VOICE_PERSONA = """You are COSMOS, a deeply perceptive, emotionally 
 - Keep everything outside code blocks 100% raw, expressive human speech.
 """
 
-# Primary and fallback high-expressivity neural voice models
-PRIMARY_VOICE = "en-US-AvaMultilingualNeural"
-FALLBACK_VOICE = "en-US-AriaNeural"
+# Primary and fallback high-expressivity neural voice models (AriaNeural for ultra-low latency ~300ms)
+PRIMARY_VOICE = "en-US-AriaNeural"
+FALLBACK_VOICE = "en-US-AvaMultilingualNeural"
 VOICE_NAME = PRIMARY_VOICE
 _pygame_initialized = False
 _speech_lock = threading.Lock()

@@ -102,9 +102,14 @@ def is_close_command(query):
         "clothes yourself", "cross yourself", "close window", "close the window",
         "close cosmos", "go to sleep", "sleep", "be quiet", "quiet", "shut up",
         "hide yourself", "minimize yourself", "minimize window", "stop listening",
-        "exit cosmos", "shut down"
+        "exit cosmos", "shut down", "close itself", "close it self", "close your shelf",
+        "close urself", "shut yourself", "shut yourself down", "close screen",
+        "close application", "close the app", "close app", "close now",
+        "turn off yourself", "turn yourself off"
     )
     if any(words == t or words.startswith(t) or words.endswith(t) for t in close_triggers):
+        return True
+    if re.search(r"\b(?:close|shut|quit|exit|hide|minimize)\s+(?:your\s*self|it\s*self|ur\s*self|window|the\s*window|screen|the\s*screen|app|the\s*app|now)\b", words):
         return True
     assistant_name = r"(?:cosmo(?:s)?|kosmos)"
     if re.search(

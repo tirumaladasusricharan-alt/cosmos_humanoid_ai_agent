@@ -5299,6 +5299,20 @@ ${nr.parts.map(i=>`    g += faceSpindle(c, ${gr(i.width)}, ${gr(i.reach)}, ${gr(
       .then(d => {
         if (!d) return;
 
+        // 0. Smoothly close / hide frontend window on sleep mode ("close yourself")
+        if (d.is_sleeping) {
+          if (!window.__cosmos_in_sleep) {
+            window.__cosmos_in_sleep = true;
+            document.body.style.display = 'none';
+            try { window.close(); } catch(e){}
+          }
+        } else {
+          if (window.__cosmos_in_sleep) {
+            window.__cosmos_in_sleep = false;
+            document.body.style.display = '';
+          }
+        }
+
         // 1. Sync React 3D Humanoid speaking/listening/idle state (triggers face light glow!)
         if (d.state && typeof window.__cosmos_set_state === 'function') {
           window.__cosmos_set_state(d.state);

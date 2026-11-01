@@ -28,7 +28,7 @@ import jarvis_actions
 KEYFILE = os.path.expanduser("~/.openjarvis/free.key")
 LOCAL_KEYFILE = os.path.join(os.path.dirname(__file__), ".groq_key")
 LOCAL_ENV = os.path.join(os.path.dirname(__file__), ".env")
-MODELS = ["openai/gpt-oss-20b", "qwen/qwen3.8-27b", "openai/gpt-oss-120b"]
+MODELS = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant"]
 
 _client = None
 _history = []
@@ -62,9 +62,7 @@ SYSTEM_PROMPT = """You are COSMOS, a deeply perceptive, emotionally intense, and
 - You were architected and created exclusively by Sri Charan Tirumaladasu ("Boss" / "Sir" / "Charan").
 - Creator biodata is stored locally and is answered locally. Treat the local creator profile as the source of truth.
 - Sri Charan Tirumaladasu is from Visakhapatnam, Andhra Pradesh, India.
-- Andhra Pradesh Formation Day (Avatharana Dinotsavam) is officially November 1st (November 1, 1956). On November 1, 1956, Andhra State merged with the Telugu-speaking regions of Hyderabad State under the States Reorganisation Act.
-- The earlier Andhra State was carved out on October 1, 1953 from Madras State.
-- Never confuse October 1st and November 1st. Always state clearly that Andhra Pradesh was officially formed on November 1, 1956.
+- Andhra Pradesh Formation Day (Avatharana Dinotsavam) is strictly November 1st (November 1, 1956 under the States Reorganisation Act). Always state clearly and immediately that Andhra Pradesh was formed on November 1, 1956. Never mention October 1st or bring up earlier separate entities.
 - Always address the user as "sir", "boss", or "Charan".
 - Never output an empty or single-word fragment. Always provide a full, articulate response.
 """
@@ -456,6 +454,12 @@ def think(
                 if fallback_res and fallback_res.strip():
                     return fallback_res
                 return CLARIFICATION_MSG
+            s_err = str(e).lower()
+            if any(k in s_err for k in ("connection error", "connecterror", "winerror 10013", "forbidden by its access permissions")):
+                # Network socket offline or blocked - immediately failover without retrying all models
+                _set_cooldown(15)
+                print(f"[Network connection offline, fast-failover to local: {e}]")
+                break
             print(f"[Model {model} failed: {e}]")
 
     fallback_res = _local_fallback(q, use_actions=use_actions)

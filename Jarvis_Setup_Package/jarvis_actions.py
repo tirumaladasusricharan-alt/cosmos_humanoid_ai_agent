@@ -607,19 +607,22 @@ def try_action(q):
     if any(k in q_clean for k in (
         "andhra pradesh formation", "andhra formation", "ap formation",
         "formation day of andhra", "when was andhra pradesh formed", "andhra pradesh day",
-        "andhrapradesh formation", "andhra pradesh formation day", "formation day of ap"
+        "andhrapradesh formation", "andhra pradesh formation day", "formation day of ap",
+        "andhrapradesh formation day", "when is andhra pradesh formation",
+        "andhra pradesh avatharana", "avatharana dinotsavam"
     )):
         return (
-            "November 1, 1956 is the official Andhra Pradesh Formation Day, sir, under the "
-            "States Reorganisation Act (the earlier Andhra State was carved out on October 1, 1953). "
-            "November 1st is celebrated across Andhra Pradesh as Avatharana Dinotsavam."
+            "Andhra Pradesh Formation Day is officially November 1st, sir. "
+            "Andhra Pradesh was formed on November 1, 1956 under the States Reorganisation Act, "
+            "and November 1st is celebrated across the state as Andhra Pradesh Avatharana Dinotsavam."
         )
 
-    if any(q_clean == w or q_clean.startswith(w) or w in q_clean for w in (
+    q_weather = q_clean.replace("’", "'").replace("`", "'")
+    if any(q_weather == w or q_weather.startswith(w) or w in q_weather for w in (
         "what's weather", "whats weather", "what is weather", "weather report", "current weather",
         "what's the weather", "whats the weather", "today weather", "how is the weather", "tell me the weather"
-    )) or q_clean == "weather":
-        return "It is currently 26°C with clear skies and 72% humidity in Visakhapatnam, Andhra Pradesh, sir."
+    )) or q_weather == "weather":
+        return "It is currently 26 degrees Celsius with clear skies and 72% humidity in Visakhapatnam, Andhra Pradesh, sir."
 
     # 0a4. 3D Humanoid Frontend Inquiry
     if any(k in q_clean for k in (
