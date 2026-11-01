@@ -559,7 +559,7 @@ def extended_listener_worker():
                     try:
                         import jarvis_screen
                         if jarvis_screen.should_capture_screen(actual_command):
-                            screen_info = jarvis_screen.capture_screen_text()
+                            screen_info = jarvis_screen.capture_screen_text(actual_command)
                     except Exception as scr_err:
                         print(f"[Screen OCR Note]: {scr_err}", flush=True)
 
@@ -857,7 +857,7 @@ async def execute_query(request: Request):
     try:
         import jarvis_screen
         if jarvis_screen.should_capture_screen(query):
-            screen_info = jarvis_screen.capture_screen_text()
+            screen_info = jarvis_screen.capture_screen_text(query)
     except Exception as scr_err:
         print(f"[Screen OCR Note]: {scr_err}", flush=True)
 

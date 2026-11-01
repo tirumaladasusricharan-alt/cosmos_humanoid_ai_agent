@@ -39,7 +39,7 @@ import speech_recognition as sr
 # 1. VOICE OUTPUT ENGINE (EDGE-TTS + PYGAME IN-MEMORY STREAMING)
 # =====================================================================
 
-VOICE_NAME = "en-US-AriaNeural"
+VOICE_NAME = "en-US-EmmaMultilingualNeural"
 _pygame_initialized = False
 _speech_lock = threading.Lock()
 
@@ -63,8 +63,8 @@ def _clean_text_for_speech(text: str) -> str:
 
 
 async def _stream_tts_to_memory(text: str) -> bytes:
-    # Set volume gain to +100% (maximum Edge-TTS amplitude) for crisp, loud and clear voice
-    communicate = edge_tts.Communicate(text, VOICE_NAME, rate="+10%", volume="+100%")
+    # Soft, warm conversational neural contour (rate="-2%", pitch="-1Hz", volume="+100%") in RAM
+    communicate = edge_tts.Communicate(text, VOICE_NAME, rate="-2%", pitch="-1Hz", volume="+100%")
     audio_stream = io.BytesIO()
     async for chunk in communicate.stream():
         if chunk["type"] == "audio":

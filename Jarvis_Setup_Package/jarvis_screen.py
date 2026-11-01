@@ -11,6 +11,12 @@ MAX_OCR_CHARACTERS = 12000
 
 def should_capture_screen(query):
     """Return whether a query clearly refers to visible screen content."""
+    try:
+        import cosmos_screen_vision
+        if cosmos_screen_vision.needs_screen_context(query):
+            return True
+    except Exception:
+        pass
     text = " ".join(query.lower().split())
     phrases = (
         "on my screen",
@@ -112,8 +118,16 @@ async def _recognize_text(image_bytes):
     return text[:MAX_OCR_CHARACTERS]
 
 
-def capture_screen_text():
+def capture_screen_text(query: str = ""):
     """Capture the primary display and extract text using Windows OCR with rich fallback."""
+    try:
+        import cosmos_screen_vision
+        vision_ctx = cosmos_screen_vision.capture_live_screen_context(query)
+        if vision_ctx and len(vision_ctx.strip()) > 10:
+            return vision_ctx.strip()[:MAX_OCR_CHARACTERS]
+    except Exception:
+        pass
+
     extracted = ""
     # 1. Try Windows native OCR via ImageGrab
     try:

@@ -52,8 +52,8 @@ COSMOS_LIVE_VOICE_PERSONA = """You are COSMOS, a deeply perceptive, emotionally 
 - Keep everything outside code blocks 100% raw, expressive human speech.
 """
 
-# Primary and fallback high-expressivity neural voice models (AriaNeural for ultra-low latency ~300ms)
-PRIMARY_VOICE = "en-US-AriaNeural"
+LIVE_VOICE = "en-US-EmmaMultilingualNeural"
+PRIMARY_VOICE = LIVE_VOICE
 FALLBACK_VOICE = "en-US-AvaMultilingualNeural"
 VOICE_NAME = PRIMARY_VOICE
 _pygame_initialized = False
@@ -65,28 +65,10 @@ _speech_lock = threading.Lock()
 
 def infer_natural_prosody(sentence: str) -> dict:
     """
-    Infers emotional prosody shifts per clause:
-    - Questions / inquiries: slightly higher pitch, gentle tempo
-    - Sudden pivots (em-dashes): urgent tempo (+14%), punchy
-    - Reflective thoughts (ellipses / 'honestly' / 'look'): calm, deliberate (+4% rate, -1Hz pitch)
-    - Declarative facts: authoritative, crisp
+    Consistent, warm acoustic contour for smooth human companion voice (EmmaMultilingualNeural).
+    Avoids frantic micro-chopping and wild pitch swings across clauses.
     """
-    s = sentence.strip()
-    rate = "+10%"
-    pitch = "+0Hz"
-    volume = "+100%"
-
-    if s.endswith("?"):
-        pitch = "+3Hz"
-        rate = "+8%"
-    elif "—" in s or "!" in s or any(w in s.lower() for w in ["electric", "urgent", "critical", "immediately", "listen"]):
-        rate = "+14%"
-        pitch = "+2Hz"
-    elif "..." in s or any(s.lower().startswith(w) for w in ["look,", "honestly,", "wait...", "think about", "here's the"]):
-        rate = "+4%"
-        pitch = "-1Hz"
-
-    return {"rate": rate, "pitch": pitch, "volume": volume}
+    return {"rate": "-2%", "pitch": "-1Hz", "volume": "+100%"}
 
 def extract_code_blocks(text: str) -> list[str]:
     """Extracts all fenced code blocks from markdown text for clipboard delivery."""

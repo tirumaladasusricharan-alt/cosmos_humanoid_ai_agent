@@ -384,4 +384,21 @@ def try_execute_skill(q_clean: str, raw_query: str) -> Optional[str]:
     if any(k in q_clean for k in ("maintenance bot", "code maintenance bot", "auto fix bot")):
         return "Code Maintenance Watchdog is active, Boss: Continuously monitoring AST syntax, preventing disk bloat in OneDrive, and ensuring self-healing sandbox execution."
 
+    # 17. converting-plans-to-tasks / task decomposition
+    if any(k in q_clean for k in ("decompose plan", "break down plan", "plan to tasks", "break down task", "breakdown task", "decompose task")):
+        try:
+            import cosmos_paperclip_all_skills
+            return cosmos_paperclip_all_skills.decompose_plan_to_tasks(raw_query)
+        except Exception:
+            pass
+
+    # 18. AST code gardening & syntax verification
+    if any(k in q_clean for k in ("garden code", "verify python code", "ast check", "check syntax")):
+        try:
+            import cosmos_paperclip_all_skills
+            res = cosmos_paperclip_all_skills.garden_and_verify_python_code(raw_query)
+            return res.get("message", "AST Code Verification Complete.")
+        except Exception:
+            pass
+
     return None
