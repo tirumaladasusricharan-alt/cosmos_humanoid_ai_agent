@@ -118,12 +118,9 @@ class SmoothCompanionVoice:
     def __init__(self):
         if not pygame.mixer.get_init():
             try:
-                pygame.mixer.init(frequency=24000, size=-16, channels=1, buffer=512)
+                pygame.mixer.init(frequency=24000)
             except Exception:
-                try:
-                    pygame.mixer.init(frequency=24000)
-                except Exception:
-                    pass
+                pass
         self.voice = "en-US-EmmaMultilingualNeural"
         self.audio_queue = queue.Queue()
         self.stop_flag = False
