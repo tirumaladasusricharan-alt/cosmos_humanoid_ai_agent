@@ -22,6 +22,10 @@ server.log
 debug_err.log
 test_err.log
 test_out.log
+cosmos_session_score.json
+test_*.py
+check_*.py
+apply_*.py
 
 # Audio recordings & personal voice captures
 cosmos_recorded_voice/
