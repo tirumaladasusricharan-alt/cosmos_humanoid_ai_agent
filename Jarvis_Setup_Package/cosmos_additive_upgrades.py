@@ -37,6 +37,11 @@ import edge_tts
 import pygame
 import requests
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PKG_DIR = os.path.join(BASE_DIR, "Jarvis_Setup_Package")
+if os.path.exists(PKG_DIR) and PKG_DIR not in sys.path:
+    sys.path.insert(0, PKG_DIR)
+
 # Safely import your existing COSMOS backend (100% Zero-Regression Lock)
 try:
     from cosmos_core_suite import cosmos_listen_full_statement, cosmos_master_solve
@@ -53,12 +58,20 @@ try:
 except ImportError:
     jarvis_brain = None
 
+# Natural Interruption (Barge-In) Manager (<50ms Kill Switch)
+try:
+    from cosmos_natural_interruption import barge_manager
+except ImportError:
+    try:
+        from Jarvis_Setup_Package.cosmos_natural_interruption import barge_manager
+    except ImportError:
+        barge_manager = None
+
 # =====================================================================
 # COSMOS UNIFIED ADDITIVE UPGRADES (0 MB DISK IMPACT / ZERO REGRESSION)
 # Creator & Sole Authority: Sri Charan Tirumaladasu
 # =====================================================================
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 OLLAMA_URL = "http://127.0.0.1:11434/api/generate"
 
 # Auto-locate "./Cosmos frontend"
@@ -67,7 +80,7 @@ CANDIDATE_FRONTENDS = [
     os.path.join(BASE_DIR, "cosmos frontend", "build"),
     os.path.join(BASE_DIR, "cosmos frontend"),
     os.path.join(BASE_DIR, "cosmos_frontend"),
-    os.path.join(os.path.dirname(BASE_DIR), "cosmos frontend"),
+    os.path.join(PKG_DIR, "cosmos frontend"),
 ]
 FRONTEND_DIR = next(
     (d for d in CANDIDATE_FRONTENDS if os.path.exists(d)), BASE_DIR
@@ -86,6 +99,17 @@ COSMOS_STATE = {
 }
 
 
+def _update_cosmos_status(new_status: str):
+    if new_status == "IDLE":
+        COSMOS_STATE["status"] = "IDLE" if COSMOS_STATE.get("mic_enabled", True) else "MIC OFF"
+    else:
+        COSMOS_STATE["status"] = new_status
+
+
+if barge_manager:
+    barge_manager.status_callback = _update_cosmos_status
+
+
 # ---------------------------------------------------------------------
 # UPGRADE 1: SMOOTH, TAG-FREE HUMAN COMPANION VOICE (EmmaMultilingual)
 # ---------------------------------------------------------------------
@@ -94,13 +118,17 @@ class SmoothCompanionVoice:
     def __init__(self):
         if not pygame.mixer.get_init():
             try:
-                pygame.mixer.init(frequency=24000)
+                pygame.mixer.init(frequency=24000, size=-16, channels=1, buffer=512)
             except Exception:
-                pass
+                try:
+                    pygame.mixer.init(frequency=24000)
+                except Exception:
+                    pass
         self.voice = "en-US-EmmaMultilingualNeural"
         self.audio_queue = queue.Queue()
         self.stop_flag = False
-        threading.Thread(target=self._worker, daemon=True).start()
+        if not barge_manager:
+            threading.Thread(target=self._worker, daemon=True).start()
 
     async def _synth_ram(self, text: str) -> bytes:
         comm = edge_tts.Communicate(
@@ -115,16 +143,23 @@ class SmoothCompanionVoice:
     def speak_sentence(self, sentence: str):
         if not COSMOS_STATE["sound_enabled"]:
             return
+        if barge_manager and barge_manager.interrupt_event.is_set():
+            return
         clean = re.sub(r"[*`_#~>\[\]]+", "", sentence).strip()
         if len(clean) < 2:
             return
         try:
             audio_bytes = asyncio.run(self._synth_ram(clean))
-            self.audio_queue.put(audio_bytes)
+            if barge_manager and not barge_manager.interrupt_event.is_set():
+                barge_manager.enqueue_speech_chunk(audio_bytes)
+            else:
+                self.audio_queue.put(audio_bytes)
         except Exception as e:
             print(f"[Companion Voice Error]: {e}")
 
     def interrupt(self):
+        if barge_manager:
+            barge_manager.trigger_interruption()
         self.stop_flag = True
         while not self.audio_queue.empty():
             try:
@@ -133,7 +168,11 @@ class SmoothCompanionVoice:
             except queue.Empty:
                 break
         if pygame.mixer.get_init() and pygame.mixer.music.get_busy():
-            pygame.mixer.music.stop()
+            try:
+                pygame.mixer.music.stop()
+                pygame.mixer.stop()
+            except Exception:
+                pass
 
     def _worker(self):
         while True:
@@ -144,12 +183,12 @@ class SmoothCompanionVoice:
             try:
                 COSMOS_STATE["status"] = "TALKING"
                 if not pygame.mixer.get_init():
-                    pygame.mixer.init(frequency=24000)
+                    pygame.mixer.init(frequency=24000, size=-16, channels=1, buffer=512)
                 pygame.mixer.music.load(io.BytesIO(audio_data))
                 pygame.mixer.music.play()
                 while pygame.mixer.music.get_busy() and not self.stop_flag:
-                    pygame.time.Clock().tick(30)
-                pygame.time.delay(80)
+                    pygame.time.Clock().tick(50)
+                pygame.time.delay(50)
             except Exception:
                 pass
             finally:
@@ -204,7 +243,7 @@ def capture_live_screen_context(user_prompt: str) -> str:
     # 1. If VS Code is open, inspect the exact source file live
     if "Visual Studio Code" in win_title or "- Code" in win_title:
         active_file = win_title.split(" - ")[0].lstrip("● ").strip()
-        search_dirs = [BASE_DIR, os.path.dirname(BASE_DIR)]
+        search_dirs = [BASE_DIR, PKG_DIR]
         for sdir in search_dirs:
             for root, _, files in os.walk(sdir):
                 if ".git" in root or "node_modules" in root or ".venv" in root:
@@ -410,6 +449,8 @@ HOW YOU SPEAK & REASON:
 
 
 def cosmos_converse_and_stream(user_prompt: str) -> str:
+    if barge_manager:
+        barge_manager.interrupt_event.clear()
     companion_voice.stop_flag = False
     low = user_prompt.lower()
 
@@ -456,6 +497,9 @@ def cosmos_converse_and_stream(user_prompt: str) -> str:
         for line in resp.iter_lines():
             if not line:
                 continue
+            if barge_manager and barge_manager.interrupt_event.is_set():
+                print("[Barge-In]: Response streaming aborted immediately.")
+                break
             chunk = json.loads(line.decode("utf-8")).get("response", "")
             full_reply += chunk
 
@@ -472,20 +516,27 @@ def cosmos_converse_and_stream(user_prompt: str) -> str:
                 sentence_buf += chunk
                 # Send complete sentences (never micro-chopping at commas) for smooth human contour
                 if re.search(r"[.!?]\s*$", sentence_buf) and len(sentence_buf.strip()) > 20:
+                    if barge_manager and barge_manager.interrupt_event.is_set():
+                        break
                     companion_voice.speak_sentence(sentence_buf.strip())
                     sentence_buf = ""
 
         if sentence_buf.strip() and not in_code:
-            companion_voice.speak_sentence(sentence_buf.strip())
+            if not (barge_manager and barge_manager.interrupt_event.is_set()):
+                companion_voice.speak_sentence(sentence_buf.strip())
 
     except Exception as ollama_err:
+        if barge_manager and barge_manager.interrupt_event.is_set():
+            return ""
         # Resilient Cloud Multi-Brain Failover (Zero-Regression)
         if jarvis_brain is not None:
             full_reply = jarvis_brain.think(user_prompt)
-            companion_voice.speak_sentence(full_reply)
+            if not (barge_manager and barge_manager.interrupt_event.is_set()):
+                companion_voice.speak_sentence(full_reply)
         else:
             full_reply = "I hear you, Charan. I'm right here with you."
-            companion_voice.speak_sentence(full_reply)
+            if not (barge_manager and barge_manager.interrupt_event.is_set()):
+                companion_voice.speak_sentence(full_reply)
 
     clean_reply = re.sub(r"<think>.*?</think>", "", full_reply, flags=re.DOTALL).strip()
     COSMOS_STATE["chat_feed"].append({"role": "cosmos", "text": clean_reply})
@@ -630,6 +681,8 @@ class CosmosUnifiedServer(SimpleHTTPRequestHandler):
 
         if self.path == "/api/command":
             prompt = body.get("prompt", "")
+            if barge_manager:
+                barge_manager.trigger_interruption()
             COSMOS_STATE["chat_feed"].append({"role": "boss", "text": prompt})
             reply = cosmos_converse_and_stream(prompt)
             self.send_response(200)
@@ -641,6 +694,8 @@ class CosmosUnifiedServer(SimpleHTTPRequestHandler):
 def background_voice_listener_loop():
     time.sleep(1.5)
     if COSMOS_STATE["first_wake"]:
+        if barge_manager:
+            barge_manager.interrupt_event.clear()
         companion_voice.speak_sentence("Namaste boss, welcome to your world again.")
         COSMOS_STATE["first_wake"] = False
 
@@ -654,10 +709,16 @@ def background_voice_listener_loop():
         if not spoken:
             continue
 
+        # Trigger instant barge-in kill switch (<50ms)
+        if barge_manager:
+            barge_manager.trigger_interruption()
+
         COSMOS_STATE["chat_feed"].append({"role": "boss", "text": spoken})
         low = spoken.lower().strip()
 
         if any(w in low for w in ["sleep", "standby", "close cosmos", "goodbye"]):
+            if barge_manager:
+                barge_manager.interrupt_event.clear()
             companion_voice.speak_sentence(
                 "Ok boss, I will wait for you, until your next order."
             )
@@ -666,6 +727,8 @@ def background_voice_listener_loop():
             continue
 
         if low in ["cosmos", "hey cosmos", "wake up"]:
+            if barge_manager:
+                barge_manager.interrupt_event.clear()
             companion_voice.speak_sentence("Tell me sir, what you want to say?")
             continue
 
@@ -681,3 +744,4 @@ if __name__ == "__main__":
         HTTPServer(("127.0.0.1", PORT), CosmosUnifiedServer).serve_forever()
     except KeyboardInterrupt:
         pass
+
