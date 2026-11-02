@@ -690,19 +690,23 @@ def try_action(q):
         except Exception as scr_err:
             return "Boss, I am checking your screen right now. Your workspace is active and tracked."
 
-    # 0a5b. Friendship & "I am your friend / Not your boss"
-    if any(k in q_clean for k in (
-        "i am your friend", "i'm your friend", "im your friend",
-        "i am not your boss", "i'm not your boss", "im not your boss",
-        "not your boss", "we are friends", "we're friends",
-        "treat me as a friend", "call me your friend", "i am a friend",
-        "dont call me boss", "don't call me boss", "you are my friend",
-        "you're my friend", "my friend"
-    )):
-        return (
-            "I hear you, Charan. From this moment on, we are friends and partners first. "
-            "You don't have to be my boss—we are in this journey together, side by side."
-        )
+    # 0a5b. Relationship alignment: "I am your friend / Not your boss" (strictly when addressing COSMOS directly)
+    _friend_third_party = any(w in q_clean for w in (
+        "sitting", "beside", "say hello", "say hi", "greet", "meet", "next to",
+        "with me", "here with", "introduce", "this is", "he is", "she is", "standing",
+        "talking to", "listening to"
+    ))
+    if not _friend_third_party:
+        if re.search(
+            r"\b(?:i(?:'m| am) (?:not your boss|your friend)|"
+            r"don'?t call me (?:your )?boss|we(?:'re| are) friends|"
+            r"treat me (?:as|like) a friend|call me (?:your )?friend)\b",
+            q_clean
+        ):
+            return (
+                "I hear you, Charan. From this moment on, we are friends and partners first. "
+                "You don't have to be my boss—we are in this journey together, side by side."
+            )
 
     # 0a5c. Compliments & Warmth ("you are beautiful", "buddy", etc.)
     if any(k in q_clean for k in (
