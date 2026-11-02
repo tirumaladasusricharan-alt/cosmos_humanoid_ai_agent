@@ -44,7 +44,8 @@ except Exception:
     pass
 
 # Safeguard stdout/stderr for background pythonw.exe execution
-log_path = os.path.join(BASE_DIR, "cosmos_server.log")
+import tempfile
+log_path = os.path.join(tempfile.gettempdir(), "cosmos_server.log")
 if sys.stdout is None:
     try:
         sys.stdout = open(log_path, "a", encoding="utf-8")
@@ -485,12 +486,13 @@ def extended_listener_worker():
             # Open microphone at native hardware sample rate (44.1kHz Realtek) for maximum acoustic clarity
             with sr.Microphone(device_index=best_mic_idx) as source:
                 recognizer.adjust_for_ambient_noise(source, duration=0.8)
-                # Safeguard threshold clamping to ensure COSMOS always hears normal human speaking volume
-                if recognizer.energy_threshold > 800:
-                    recognizer.energy_threshold = 450
-                elif recognizer.energy_threshold < 150:
-                    recognizer.energy_threshold = 300
-                print(f"[COSMOS MIC CALIBRATED]: Ambient noise floor clamped={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
+                # Low-voice sensitive threshold calibration: hears whisper & low speaking volume
+                if recognizer.energy_threshold > 400:
+                    recognizer.energy_threshold = 280
+                elif recognizer.energy_threshold < 60:
+                    recognizer.energy_threshold = 80
+                recognizer.dynamic_energy_ratio = 1.10
+                print(f"[COSMOS MIC CALIBRATED]: Low-voice sensitive floor clamped={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
 
                 while mic_enabled:
                     # Wait if speech playback is active
@@ -511,6 +513,18 @@ def extended_listener_worker():
 
                     # Keep mic capture 100% in RAM — clean uncorrupted audio stream directly to STT
                     wav_path = ""
+
+                    # Clean low-voice digital AGC pre-gain before STT (boosts quiet voice without clipping)
+                    try:
+                        import audioop
+                        raw_pcm = audio.get_raw_data()
+                        rms = audioop.rms(raw_pcm, 2)
+                        if 10 < rms < 1200:
+                            gain = min(2.5, 1800.0 / max(rms, 80))
+                            boosted_pcm = audioop.mul(raw_pcm, 2, gain)
+                            audio = sr.AudioData(boosted_pcm, audio.sample_rate, audio.sample_width)
+                    except Exception:
+                        pass
 
                     # Transcribe via Google STT (direct en-IN with fallback to en-US for maximum speed and accuracy)
                     query = ""

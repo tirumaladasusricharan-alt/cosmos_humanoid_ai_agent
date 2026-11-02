@@ -251,10 +251,10 @@ def listen_for_input(stop_event, enabled_event, ready_event, on_transcript, on_e
                 _voice_logger.info(f"Microphone opened (index={source.device_index}, rate={source.SAMPLE_RATE})")
                 recognizer.adjust_for_ambient_noise(source, duration=1.0)
                 _voice_logger.info(f"Ambient noise calibrated, energy_threshold={recognizer.energy_threshold:.1f}")
-                if recognizer.energy_threshold > 800:
-                    recognizer.energy_threshold = 500
-                elif recognizer.energy_threshold < 200:
-                    recognizer.energy_threshold = 300
+                if recognizer.energy_threshold > 400:
+                    recognizer.energy_threshold = 280
+                elif recognizer.energy_threshold < 60:
+                    recognizer.energy_threshold = 80
                 _voice_logger.info(f"Clamped energy_threshold={recognizer.energy_threshold:.1f}")
 
                 listen_cycle = 0

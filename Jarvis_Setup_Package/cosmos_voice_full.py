@@ -147,21 +147,20 @@ except Exception:
     pass
 
 
+_in_memory_score = []
+
 def log_everything_to_score(user_text: str, cosmos_reply: str, audio_path: str = ""):
-    """Records every spoken command, audio file path, and AI response into a master score file."""
+    """Records every spoken command in memory with 0 disk writes (prevents OneDrive syncing)."""
+    global _in_memory_score
     try:
-        history = []
-        if os.path.exists(SESSION_SCORE_FILE):
-            with open(SESSION_SCORE_FILE, "r", encoding="utf-8") as f:
-                history = json.load(f)
-        history.append({
+        _in_memory_score.append({
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "boss_voice_text": user_text,
             "recorded_wav_file": audio_path,
             "cosmos_response": cosmos_reply[:1500]
         })
-        with open(SESSION_SCORE_FILE, "w", encoding="utf-8") as f:
-            json.dump(history, f, indent=2)
+        if len(_in_memory_score) > 100:
+            _in_memory_score = _in_memory_score[-100:]
     except Exception:
         pass
 

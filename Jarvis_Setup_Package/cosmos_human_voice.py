@@ -11,8 +11,8 @@ import time
 import edge_tts
 import pygame
 
-VOICE = "en-US-EmmaMultilingualNeural"
-RATE = "+20%"
+VOICE = "en-US-AriaNeural"
+RATE = "+10%"
 PITCH = "+0Hz"
 WINDOWS_VOLUME_BOOST = 1.2
 MAX_WINDOWS_VOLUME = round(0xFFFF * 0.7)
