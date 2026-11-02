@@ -52,8 +52,8 @@ import speech_recognition as sr
 # 1. VOICE OUTPUT ENGINE (EDGE-TTS + PYGAME IN-MEMORY STREAMING)
 # =====================================================================
 
-VOICE_NAME = "en-US-AriaNeural"
-VOICE_RATE = "+12%"
+VOICE_NAME = "en-US-AvaNeural"
+VOICE_RATE = "+0%"
 _pygame_initialized = False
 _speech_lock = threading.Lock()
 
@@ -97,7 +97,7 @@ def split_into_natural_sentences(text: str) -> list[str]:
 
 async def _stream_tts_to_memory(text: str) -> bytes:
     # Soft, warm conversational neural contour at human reaction speed (+18%)
-    communicate = edge_tts.Communicate(text, VOICE_NAME, rate=VOICE_RATE, pitch="+0Hz", volume="+100%")
+    communicate = edge_tts.Communicate(text, VOICE_NAME, rate=VOICE_RATE, pitch="+0Hz", volume="+0%")
     audio_stream = io.BytesIO()
     async for chunk in communicate.stream():
         if chunk["type"] == "audio":
@@ -108,7 +108,7 @@ async def _stream_tts_to_memory(text: str) -> bytes:
 def _synthesize_sentence_to_file(sent: str, idx: int) -> str:
     temp_path = os.path.join(tempfile.gettempdir(), f"cosmos_v_{idx}_{int(time.time()*1000)}.mp3")
     async def _save():
-        c = edge_tts.Communicate(sent, VOICE_NAME, rate=VOICE_RATE, pitch="+0Hz", volume="+100%")
+        c = edge_tts.Communicate(sent, VOICE_NAME, rate=VOICE_RATE, pitch="+0Hz", volume="+0%")
         await c.save(temp_path)
     asyncio.run(_save())
     return temp_path

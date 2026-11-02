@@ -11,10 +11,10 @@ import time
 import edge_tts
 import pygame
 
-VOICE = "en-US-AriaNeural"
-RATE = "+10%"
+VOICE = "en-US-AvaNeural"
+RATE = "+0%"
 PITCH = "+0Hz"
-WINDOWS_VOLUME_BOOST = 1.2
+WINDOWS_VOLUME_BOOST = 1.0
 MAX_WINDOWS_VOLUME = round(0xFFFF * 0.7)
 
 _playback_lock = threading.Lock()
