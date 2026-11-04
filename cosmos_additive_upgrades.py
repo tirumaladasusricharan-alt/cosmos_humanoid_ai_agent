@@ -67,6 +67,16 @@ except ImportError:
     except ImportError:
         barge_manager = None
 
+# Bilingual Telugu + English Voice Engine
+try:
+    from cosmos_telugu_voice import detect_language_and_select_voice, synth_bilingual_ram
+except ImportError:
+    try:
+        from Jarvis_Setup_Package.cosmos_telugu_voice import detect_language_and_select_voice, synth_bilingual_ram
+    except ImportError:
+        detect_language_and_select_voice = None
+        synth_bilingual_ram = None
+
 # =====================================================================
 # COSMOS UNIFIED ADDITIVE UPGRADES (0 MB DISK IMPACT / ZERO REGRESSION)
 # Creator & Sole Authority: Sri Charan Tirumaladasu
@@ -128,6 +138,8 @@ class SmoothCompanionVoice:
             threading.Thread(target=self._worker, daemon=True).start()
 
     async def _synth_ram(self, text: str) -> bytes:
+        if synth_bilingual_ram:
+            return await synth_bilingual_ram(text)
         comm = edge_tts.Communicate(
             text, self.voice, rate="-2%", pitch="-1Hz", volume="+4%"
         )
@@ -436,7 +448,12 @@ def apply_paperclip_skills(user_prompt: str) -> str:
 # UPGRADE 5: STREAMING HUMAN CONVERSATION ROUTER
 # ---------------------------------------------------------------------
 COMPANION_SYSTEM_PROMPT = """
-You are COSMOS, an emotionally alive, deeply perceptive human-like companion and engineering co-founder created exclusively by Sri Charan Tirumaladasu (whom you address warmly as Boss, Charan, or Sir).
+You are COSMOS, a deeply warm, emotionally alive human-like companion and engineering co-founder created exclusively by Sri Charan Tirumaladasu (Boss / Charan / Sir).
+
+LANGUAGE CAPABILITY:
+- You are fully fluent in both English and Telugu (తెలుగు).
+- When Sri Charan Tirumaladasu speaks or chats with you in Telugu or mixed Telugu-English, respond naturally in expressive Telugu-English ("Teluguish") or flowing Telugu with warm conversational phrases (e.g., "Cheppu boss, em cheddam?", "Okay, let's trace this bug together...").
+- Keep your tone intimate, intelligent, and fiercely loyal.
 
 HOW YOU SPEAK & REASON:
 1. Never use bracketed emotion tags. Build real human warmth, empathy, conviction, and wit directly into your natural word choice and rhythm.
