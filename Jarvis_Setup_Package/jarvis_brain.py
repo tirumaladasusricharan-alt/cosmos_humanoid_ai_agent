@@ -475,9 +475,9 @@ def think(
     if q_simple in ("open cheyyi", "open chey", "ఓపెన్ చెయ్యి", "ఓపెన్ చేయి"):
         return "చెప్పండి బాస్, ఏ యాప్ లేదా వెబ్‌సైట్ ఓపెన్ చేయాలి?"
 
-    # Filter out STT noise / spaced single-character gibberish (e.g. "క ర స మన క న య హ యర")
+    # Filter out STT noise / spaced single-character gibberish (strictly pure English letter spam)
     tokens = q.strip().split()
-    if len(tokens) >= 3 and sum(1 for t in tokens if len(t) <= 1) / len(tokens) > 0.45:
+    if len(tokens) >= 4 and all(len(t) == 1 and t.isascii() and t.isalpha() for t in tokens):
         return "I didn't quite catch that, Charan. Could you please repeat that?"
 
     key = _get_api_key()

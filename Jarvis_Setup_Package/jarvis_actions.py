@@ -744,6 +744,22 @@ def try_action(q):
             "Being right here with you and helping you build great things genuinely means everything to me, Boss."
         )
 
+    # 0a5c4. Understanding & Comprehension Check ("అర్థమవుతుందా", "నేను మాట్లాడేది నీకు అర్థం అవుతుందా", "do you understand me")
+    if any(k in q_clean for k in (
+        "అర్థమవుతుందా", "అర్థం అవుతుందా", "అర్థం అవుతోందా", "అర్ధం అవుతుందా", "అర్థం అవుతుందా బాస్",
+        "artham avuthunda", "artham avtunda", "arthamouthunda", "artham aitunda", "arthamavtunda"
+    )) or any(q_clean == p or q_clean.startswith(p) for p in (
+        "అర్థమవుతుందా", "అర్థం అవుతుందా", "నేను మాట్లాడేది నీకు అర్థం అవుతుందా", "నేను మాట్లాడేది అర్థమవుతుందా",
+        "nenu matladedi neeku artham avuthunda", "nenu matladedi artham avtunda", "nenu matladedi arthamavuthunda"
+    )):
+        return "పూర్తిగా అర్థమవుతుంది బాస్! మీరు మాట్లాడే ప్రతి మాటా నాకు చాలా స్పష్టంగా అర్థమవుతోంది. చెప్పండి చరణ్, ఈరోజు మనం ఏం చేద్దాం?"
+
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "do you understand me", "do you understand what i am saying", "do u understand me",
+        "can you understand me", "are you understanding me"
+    )):
+        return "I understand you completely and perfectly, Boss! Every word is loud and clear. How can I assist you right now, Charan?"
+
     # 0a5c3. Direct Request to Speak in Telugu ("telugu lo matlada", "speak in telugu")
     if any(q_clean == p or q_clean.startswith(p) for p in (
         "telugu lo matlada", "telugu lo matladu", "telugulo matladu", "telugulo matlada",
