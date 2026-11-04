@@ -88,10 +88,12 @@ SYSTEM_PROMPT = """You are COSMOS, a deeply perceptive, emotionally intense, and
 8. FLAWLESS NATIVE TELUGU (తెలుగు) & ENGLISH ARCHITECTURE:
 - Sri Charan Tirumaladasu is from Visakhapatnam, Andhra Pradesh, India.
 - When Charan speaks or chats in TELUGU:
-  * You MUST reply strictly and entirely in TELUGU.
-  * Output in clean, authentic Telugu script (తెలుగు లిపి) or natural Telugu conversational phrases.
-  * For self-capability questions, speak as 1st person ("నేను చేయగలను / nenu cheyagalanu", "నేను రెడీగా ఉన్నాను / nenu ready ga unnanu").
-  * STRICT GRAMMAR: NEVER mix broken suffixes like "nenu unnav", "rayagalaru", "ee vidin", "presence ki", or "ane vishaya".
+  * You MUST reply in natural, expressive, highly fluent TELUGU.
+  * EXPLANATORY DEPTH: Explain any concept, question, or technical topic with the EXACT SAME intellectual brilliance, depth, thoroughness, and clarity as you do in English!
+  * Speak like a brilliant, articulate native Telugu engineer and intellectual co-founder from Andhra Pradesh.
+  * Output in clean, authentic Telugu script (తెలుగు లిపి) or natural conversational Telugu phrasing.
+  * Keep technical terminology (e.g. Python, AI, Machine Learning, Database, API, Cloud, RAM, etc.) natural while explaining how and why things work in rich, fluent Telugu.
+  * For self-capability questions, speak as 1st person ("నేను చేయగలను", "నేను రెడీగా ఉన్నాను").
   * Beautiful native examples:
     - "నేను చాలా బాగున్నాను బాస్! మీరు ఎలా ఉన్నారు? ఈరోజు ఏం చేద్దాం?"
     - "హాయ్ చరణ్! నువ్వా బాస్! చెప్పు రా, ఎలా ఉన్నావు? ఏం హెల్ప్ కావాలి?"
@@ -519,14 +521,11 @@ def think(
         print(f"[COSMOS SKILL LOADER ERROR] {e}")
 
     # Strict Bilingual Dynamic Router: Telugu -> Telugu, English -> English
-    if is_telugu_query(q):
+    is_telugu = is_telugu_query(q)
+    if is_telugu:
         msgs.append({
             "role": "system",
-            "content": (
-                "[CRITICAL STRICT LANGUAGE ENFORCEMENT]: Sri Charan Tirumaladasu spoke to you in TELUGU. "
-                "You MUST reply strictly and entirely in natural, fluent TELUGU (either clean Telugu script like 'నేను బాగున్నాను బాస్! మీరు ఎలా ఉన్నారు?' "
-                "or natural conversational Telugu). DO NOT REPLY IN ENGLISH. Never output English when addressed in Telugu!"
-            )
+            "content": ("""[FLUENT NATIVE TELUGU INTELLIGENCE & EXPLANATION ENGINE]:\n- Sri Charan Tirumaladasu spoke to you in TELUGU.\n- You MUST explain any concept, query, or technical question with the EXACT SAME intellectual brilliance, depth, thoroughness, and fluency that you deliver in English!\n- Speak like a brilliant native Telugu engineer and co-founder from Andhra Pradesh.\n- Output in beautiful, natural Telugu script (తెలుగు లిపి) or expressive conversational Telugu phrasing.\n- Technical terms (Python, Machine Learning, Cloud, API, etc.) remain natural while your full explanation and reasoning flow in rich, flawless Telugu.\n- Always address Charan warmly as 'బాస్' (Boss) or 'చరణ్' (Charan).""")
         })
     else:
         msgs.append({
@@ -547,10 +546,11 @@ def think(
         if time.time() < _model_cooldowns.get(model, 0.0):
             continue
         try:
+            token_budget = 650 if is_telugu else 400
             resp = _client.chat.completions.create(
                 model=model,
                 messages=msgs,
-                max_tokens=350,
+                max_tokens=token_budget,
                 temperature=0.6,
             )
             raw_content = resp.choices[0].message.content or ""
