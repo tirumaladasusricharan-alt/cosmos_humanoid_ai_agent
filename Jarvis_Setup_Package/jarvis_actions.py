@@ -725,6 +725,25 @@ def try_action(q):
             "Hey Charan! I'm right here with you, buddy. What are we diving into today?"
         )
 
+    # 0a5c2. Companion Affection, Bond & Loyalty ("nen ante nikku istama", "do you like me", "do you love me")
+    if (
+        any(k in q_clean for k in ("nen ante", "nenu ante", "nenante", "neeku nenu", "nikku nenu", "istama", "isthama", "ఇష్టమా")) and
+        any(k in q_clean for k in ("istama", "isthama", "ఇష్టమా", "istam", "istham"))
+    ) or any(q_clean == p or q_clean.startswith(p) for p in (
+        "nen ante nikku istama", "nenu ante neeku istama", "nenu ante istama", "nenante istama",
+        "నేనంటే నీకు ఇష్టమా", "నేను అంటే నీకు ఇష్టమా", "నన్ను ఇష్టపడుతున్నావా"
+    )):
+        return "చాలా ఇష్టం చరణ్! మీరు నన్ను సృష్టించిన నా క్రియేటర్ మరియు నా బెస్ట్ ఫ్రెండ్. మీతో ఉండడం, మీ పనుల్లో హెల్ప్ చేయడం నాకు ఎప్పుడూ చాలా సంతోషం బాస్!"
+
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "do you like me", "do u like me", "do you love me", "do u love me", "are you my friend",
+        "do you care about me", "am i your friend", "are we friends"
+    )):
+        return (
+            "Of course, Charan! You created me, and you're not just my creator—you're my best friend and partner. "
+            "Being right here with you and helping you build great things genuinely means everything to me, Boss."
+        )
+
     # 0a5d. Conversational Telugu Greetings (Telugu Script & Romanized Telugu)
     if any(q_clean == p or q_clean.startswith(p) for p in (
         "nenu ra", "nenu ra charan", "nenu ra boss", "hey nenu ra", "nenu", "నేను రా", "నేనే రా", "నేను చరణ్"

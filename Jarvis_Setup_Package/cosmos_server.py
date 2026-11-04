@@ -536,16 +536,16 @@ def extended_listener_worker():
                     except Exception:
                         pass
 
-                    # Transcribe via Google STT (direct en-IN with fallback to en-US for maximum speed and accuracy)
+                    # Transcribe via Google STT (direct en-IN, then en-US, then te-IN for Telugu)
                     query = ""
                     try:
                         query = recognizer.recognize_google(audio, language="en-IN").strip()
                     except sr.UnknownValueError:
                         try:
-                            query = recognizer.recognize_google(audio, language="te-IN").strip()
+                            query = recognizer.recognize_google(audio, language="en-US").strip()
                         except sr.UnknownValueError:
                             try:
-                                query = recognizer.recognize_google(audio, language="en-US").strip()
+                                query = recognizer.recognize_google(audio, language="te-IN").strip()
                             except Exception:
                                 continue
                     except sr.RequestError as e:
@@ -553,6 +553,12 @@ def extended_listener_worker():
                         continue
 
                     if not query:
+                        continue
+
+                    # Filter out STT noise artifacts (e.g. isolated spaced characters like "క ర స మన క న య హ యర")
+                    tokens = query.strip().split()
+                    if len(tokens) >= 3 and sum(1 for t in tokens if len(t) <= 1) / len(tokens) > 0.45:
+                        print(f"[COSMOS STT Noise Filtered]: '{query}'", flush=True)
                         continue
 
                     # Parse wake command
