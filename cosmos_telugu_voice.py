@@ -42,3 +42,4 @@ async def synth_bilingual_ram(text: str) -> bytes:
         if chunk["type"] == "audio":
             buf.write(chunk["data"])
     return buf.getvalue()
+

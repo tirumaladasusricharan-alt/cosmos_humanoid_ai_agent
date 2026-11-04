@@ -725,6 +725,22 @@ def try_action(q):
             "Hey Charan! I'm right here with you, buddy. What are we diving into today?"
         )
 
+    # 0a5d. Conversational Telugu Greetings ("ela vunnav", "em chesthunnavu", etc.)
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "ela vunnav", "ela unnav", "bagunnava", "bagunnara", "ela unaru", "ela unnaru"
+    )):
+        return "Nenu chala bagunnanu Boss! Meeru ela vunnaru? Cheppandi, em cheddam ivvala?"
+
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "em chesthunnavu", "em chestunnav", "em chestunnavu", "enti chestunnav", "em chestunav"
+    )):
+        return "Mee orders kosame wait chestunna, Charan. Cheppandi boss, em help kavali?"
+
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "enti sangathulu", "enti sangathi", "enti visheshalu"
+    )):
+        return "Antha manchide Boss! Nenu full sharp ga unnanu. Meeru cheppandi, em plan cheddam?"
+
     # 0. Hermes Upgrade Integration (Timers, Reminders, Risky Action Permission Gate)
     try:
         import cosmos_hermes_upgrade

@@ -43,9 +43,15 @@ def humanize_spoken_text(text):
 
 async def _synthesize(text):
     audio = BytesIO()
+    voice_to_use = VOICE
+    try:
+        from cosmos_telugu_voice import detect_language_and_select_voice
+        voice_to_use = detect_language_and_select_voice(text)
+    except Exception:
+        pass
     communicator = edge_tts.Communicate(
         text,
-        VOICE,
+        voice_to_use,
         rate=RATE,
         pitch=PITCH,
     )
