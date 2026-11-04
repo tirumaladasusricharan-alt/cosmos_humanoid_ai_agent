@@ -744,6 +744,24 @@ def try_action(q):
             "Being right here with you and helping you build great things genuinely means everything to me, Boss."
         )
 
+    # 0a4b. Cognee Knowledge Graph Live Inspection & Querying
+    if any(k in q_clean for k in (
+        "cognee", "knowledge graph", "query graph", "graph memory", "memory graph", "check your graph"
+    )):
+        try:
+            import cosmos_cognee_memory
+            graph = cosmos_cognee_memory.get_graph()
+            nodes_count = len(graph.nodes)
+            edges_count = len(graph.edges)
+            top_entities = ", ".join(n.get("label", k) for k, n in list(graph.nodes.items())[:3])
+            return (
+                f"Yes Charan, my Cognee Knowledge Graph is 100% live, connected, and active in this session! "
+                f"I have direct real-time access to {nodes_count} semantic nodes and {edges_count} relationship edges—"
+                f"including {top_entities}. Our memory web is fully linked into my live context window."
+            )
+        except Exception as _cg_err:
+            pass
+
     # 0a4c. Identity & Self Introduction in Telugu & English ("ni gurinchi cheppu evveru nuvvu", "who are you")
     if any(k in q_clean for k in (
         "ni gurinchi", "nee gurinchi", "mee gurinchi", "evveru nuvvu", "evaru nuvvu", "nuvvu evaru", "meeru evaru",

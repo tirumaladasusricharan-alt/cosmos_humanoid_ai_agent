@@ -540,6 +540,18 @@ def think(
     except Exception as e:
         print(f"[COSMOS SKILL LOADER ERROR] {e}")
 
+    # Persistent Cognee Knowledge Graph Semantic Layer (cosmos_cognee_memory)
+    try:
+        import cosmos_cognee_memory
+        cognee_ctx = cosmos_cognee_memory.query_graph_sync(q, top_k=3)
+        if cognee_ctx:
+            msgs.append({
+                "role": "system",
+                "content": f"{cognee_ctx}\n- You have live, real-time access to this persistent Cognee knowledge graph. Seamlessly integrate these relationships into your reasoning for Charan."
+            })
+    except Exception as e:
+        print(f"[COSMOS COGNEE HOOK NOTE] {e}")
+
     # Strict 1-to-1 Language Symmetry: English -> English, Telugu -> Telugu
     is_telugu = is_telugu_query(q)
     if is_telugu:
@@ -598,6 +610,11 @@ def think(
             if answer:
                 if remember and len(answer.split()) >= 4:
                     _history += [{"role": "user", "content": q}, {"role": "assistant", "content": answer}]
+                    try:
+                        import cosmos_cognee_memory
+                        cosmos_cognee_memory.record_interaction(q, answer)
+                    except Exception:
+                        pass
                 return answer
             print(f"[Model {model} returned empty response, trying next model...]")
         except Exception as e:
