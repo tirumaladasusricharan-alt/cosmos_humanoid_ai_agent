@@ -861,6 +861,47 @@ async def replay_response():
     return {"status": "empty", "text": ""}
 
 
+
+# ═══════════════════════════════════════════════════════════════════════
+#  COGNEE KNOWLEDGE GRAPH REST ENDPOINTS
+# ═══════════════════════════════════════════════════════════════════════
+@app.get("/api/cognee/graph")
+async def get_cognee_graph():
+    """Returns the live persistent knowledge graph ontology."""
+    try:
+        import cosmos_cognee_memory
+        graph = cosmos_cognee_memory.get_graph()
+        return {
+            "status": "connected",
+            "creator_lock": graph.creator_lock,
+            "nodes": graph.nodes,
+            "edges": graph.edges,
+            "last_updated": graph.last_updated
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+@app.post("/api/cognee/query")
+async def query_cognee(request: Request):
+    """Executes a real-time semantic query across the Cognee Knowledge Graph."""
+    try:
+        data = await request.json()
+    except Exception:
+        data = {}
+    q = data.get("query", "").strip()
+    try:
+        import cosmos_cognee_memory
+        results = cosmos_cognee_memory.get_graph().search_graph(q)
+        context = cosmos_cognee_memory.query_graph_sync(q)
+        return {
+            "status": "success",
+            "query": q,
+            "results": results,
+            "context": context
+        }
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
 @app.post("/api/mute_toggle")
 async def toggle_mute():
     """Toggles audio mute."""
