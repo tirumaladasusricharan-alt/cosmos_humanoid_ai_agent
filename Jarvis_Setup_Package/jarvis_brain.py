@@ -540,22 +540,17 @@ def think(
     except Exception as e:
         print(f"[COSMOS SKILL LOADER ERROR] {e}")
 
-    # Strict Bilingual Dynamic Router: Telugu -> Telugu, English -> English
+    # Strict 1-to-1 Language Symmetry: English -> English, Telugu -> Telugu
     is_telugu = is_telugu_query(q)
     if is_telugu:
         msgs.append({
             "role": "system",
-            "content": ("""[FLUENT NATIVE TELUGU INTELLIGENCE & EXPLANATION ENGINE]:\n- Sri Charan Tirumaladasu spoke to you in TELUGU.\n- You MUST explain any concept, query, or technical question with the EXACT SAME intellectual brilliance, depth, thoroughness, and fluency that you deliver in English!\n- Speak like a brilliant native Telugu engineer and co-founder from Andhra Pradesh.\n- Output in beautiful, natural Telugu script (తెలుగు లిపి) or expressive conversational Telugu phrasing.\n- Technical terms (Python, Machine Learning, Cloud, API, etc.) remain natural while your full explanation and reasoning flow in rich, flawless Telugu.\n- Always address Charan warmly as 'బాస్' (Boss) or 'చరణ్' (Charan).""")
+            "content": ("""[STRICT LANGUAGE SYMMETRY: TELUGU INPUT -> TELUGU RESPONSE]:\n- Sri Charan Tirumaladasu is communicating with you in TELUGU.\n- You MUST reply strictly and entirely in natural, fluent TELUGU (clean Telugu script or expressive conversational Telugu).\n- DO NOT answer in English. Every sentence of your reply must be in Telugu.\n- Explain concepts and questions with the exact same intellectual brilliance, depth, and clarity as you deliver in English!\n- Technical terms (Python, AI, Database, Cloud, etc.) can be mentioned naturally while your explanation flows in rich, flawless Telugu.\n- Always address Charan warmly as 'బాస్' (Boss) or 'చరణ్' (Charan).""")
         })
     else:
         msgs.append({
             "role": "system",
-            "content": (
-                """[NATURAL BILINGUAL COMPANION INTELLIGENCE]:
-- Sri Charan Tirumaladasu is communicating with you in ENGLISH.
-- Reply naturally, warmly, and fluently in articulate English.
-- You are 100% fluent in both English and Telugu. If Charan asks you in English to speak or explain in Telugu (e.g. 'speak in Telugu', 'explain this in Telugu'), enthusiastically and fluently switch to Telugu for him! Never refuse or claim that settings prevent you from speaking Telugu."""
-            )
+            "content": ("""[STRICT LANGUAGE SYMMETRY: ENGLISH INPUT -> ENGLISH RESPONSE]:\n- Sri Charan Tirumaladasu is communicating with you in ENGLISH.\n- You MUST reply strictly and entirely in natural, articulate, fluent ENGLISH.\n- DO NOT answer in Telugu. Every sentence of your reply must be in English.\n- Deliver your answer with human warmth, intellectual depth, and articulate clarity.\n- Always address Charan warmly as 'sir', 'boss', or 'Charan'.""")
         })
     msgs.append({"role": "user", "content": q})
 

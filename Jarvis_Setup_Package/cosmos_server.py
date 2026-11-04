@@ -496,13 +496,11 @@ def extended_listener_worker():
             # Open microphone at native hardware sample rate (44.1kHz Realtek) for maximum acoustic clarity
             with sr.Microphone(device_index=best_mic_idx) as source:
                 recognizer.adjust_for_ambient_noise(source, duration=0.8)
-                # Low-voice sensitive threshold calibration: hears whisper & low speaking volume
-                if recognizer.energy_threshold > 400:
-                    recognizer.energy_threshold = 280
-                elif recognizer.energy_threshold < 60:
+                recognizer.dynamic_energy_threshold = True
+                recognizer.dynamic_energy_ratio = 1.12
+                if recognizer.energy_threshold < 80:
                     recognizer.energy_threshold = 80
-                recognizer.dynamic_energy_ratio = 1.10
-                print(f"[COSMOS MIC CALIBRATED]: Low-voice sensitive floor clamped={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
+                print(f"[COSMOS MIC CALIBRATED]: Natural dynamic baseline={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
 
                 while mic_enabled:
                     # Wait if speech playback is active
@@ -536,16 +534,16 @@ def extended_listener_worker():
                     except Exception:
                         pass
 
-                    # Transcribe via Google STT (direct en-IN, then en-US, then te-IN for Telugu)
+                    # Transcribe via Google STT (direct en-IN, with immediate fallback to te-IN for Telugu, then en-US)
                     query = ""
                     try:
                         query = recognizer.recognize_google(audio, language="en-IN").strip()
                     except sr.UnknownValueError:
                         try:
-                            query = recognizer.recognize_google(audio, language="en-US").strip()
+                            query = recognizer.recognize_google(audio, language="te-IN").strip()
                         except sr.UnknownValueError:
                             try:
-                                query = recognizer.recognize_google(audio, language="te-IN").strip()
+                                query = recognizer.recognize_google(audio, language="en-US").strip()
                             except Exception:
                                 continue
                     except sr.RequestError as e:

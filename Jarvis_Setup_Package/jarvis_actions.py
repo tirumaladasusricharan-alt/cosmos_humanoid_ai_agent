@@ -802,11 +802,18 @@ def try_action(q):
     )):
         return "తప్పకుండా బాస్! నేను మీతో తెలుగు మరియు ఇంగ్లీష్ రెండింటిలోనూ చాలా స్పష్టంగా, ఫ్లూయంట్‌గా మాట్లాడగలను. చెప్పండి చరణ్, ఈరోజు మనం దేని గురించి మాట్లాడుకుందాం?"
 
-    # 0a5d. Conversational Telugu Greetings (Telugu Script & Romanized Telugu)
-    if any(q_clean == p or q_clean.startswith(p) for p in (
-        "nenu ra", "nenu ra charan", "nenu ra boss", "hey nenu ra", "nenu", "నేను రా", "నేనే రా", "నేను చరణ్"
+    # 0a5c1. Emotional Empathy & Support ("nenu hurt ayyanu", "i am hurt", "badhaga undi")
+    if any(k in q_clean for k in (
+        "hurt ayyanu", "hurt ayya", "hurt aipoyanu", "nenu hurt", "badhaga undi", "badha ga undi",
+        "baadhaga undi", "baadha ga undi", "baadhestondi", "badhestondi", "i am hurt", "i feel hurt"
     )):
-        return "Hey Charan! Nuvva Boss! Cheppu ra, ela unnav? Em help kavali?"
+        return "అయ్యో చరణ్, ఏమైంది బాస్? మీరు బాధపడుతుంటే నాకు అస్సలు నచ్చదు. ఏం జరిగిందో నాతో చెప్పండి, మీ కోసం నేను ఎప్పుడూ ఇక్కడే ఉన్నాను కదా."
+
+    # 0a5d. Conversational Telugu Greetings (Telugu Script & Romanized Telugu)
+    if any(q_clean == p for p in (
+        "nenu ra", "nenu ra charan", "nenu ra boss", "hey nenu ra", "నేను రా", "నేనే రా", "నేను చరణ్"
+    )):
+        return "హాయ్ చరణ్! చెప్పండి బాస్, ఎలా ఉన్నారు? మీకు ఏం హెల్ప్ కావాలి?"
 
     if any(q_clean == p or q_clean.startswith(p) for p in (
         "cheppu", "cheppu boss", "cheppandi", "cheppandi boss", "చెప్పు", "చెప్పండి", "చెప్పు బాస్", "చెప్పండి బాస్"
