@@ -483,8 +483,27 @@ def cosmos_converse_and_stream(user_prompt: str) -> str:
     screen_ctx = capture_live_screen_context(user_prompt)
     paperclip_ctx = apply_paperclip_skills(user_prompt)
 
+    # Dynamic Language Enforcement (Telugu -> Telugu only, English -> English only)
+    try:
+        from cosmos_telugu_voice import is_telugu_query
+    except Exception:
+        is_telugu_query = lambda t: False
+
+    if is_telugu_query(user_prompt):
+        lang_rule = (
+            "[CRITICAL STRICT LANGUAGE ENFORCEMENT]: Sri Charan Tirumaladasu spoke to you in TELUGU. "
+            "You MUST reply strictly and entirely in natural, fluent TELUGU (clean Telugu script or conversational Telugu). "
+            "DO NOT REPLY IN ENGLISH. Never output English when addressed in Telugu!"
+        )
+    else:
+        lang_rule = (
+            "[CRITICAL STRICT LANGUAGE ENFORCEMENT]: Sri Charan Tirumaladasu spoke to you in ENGLISH. "
+            "Reply strictly and entirely in natural, fluent English!"
+        )
+
     enriched_prompt = (
         f"{COMPANION_SYSTEM_PROMPT}\n\n"
+        f"{lang_rule}\n\n"
         f"{paperclip_ctx}\n\n"
         f"{screen_ctx}\n\n"
         f"Sri Charan Tirumaladasu: {user_prompt}\nCOSMOS:"

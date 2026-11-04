@@ -533,9 +533,12 @@ def extended_listener_worker():
                         query = recognizer.recognize_google(audio, language="en-IN").strip()
                     except sr.UnknownValueError:
                         try:
-                            query = recognizer.recognize_google(audio, language="en-US").strip()
-                        except Exception:
-                            continue
+                            query = recognizer.recognize_google(audio, language="te-IN").strip()
+                        except sr.UnknownValueError:
+                            try:
+                                query = recognizer.recognize_google(audio, language="en-US").strip()
+                            except Exception:
+                                continue
                     except sr.RequestError as e:
                         print(f"[STT API Error]: {e}", flush=True)
                         continue

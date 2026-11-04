@@ -25,6 +25,15 @@ import re
 from openai import OpenAI
 import jarvis_actions
 
+try:
+    from cosmos_telugu_voice import is_telugu_query
+except ImportError:
+    try:
+        from Jarvis_Setup_Package.cosmos_telugu_voice import is_telugu_query
+    except ImportError:
+        def is_telugu_query(t):
+            return False
+
 KEYFILE = os.path.expanduser("~/.openjarvis/free.key")
 LOCAL_KEYFILE = os.path.join(os.path.dirname(__file__), ".groq_key")
 LOCAL_ENV = os.path.join(os.path.dirname(__file__), ".env")
@@ -269,12 +278,18 @@ def _local_fallback(q, use_actions=True):
         installed = cosmos_multi_brain.get_installed_ollama_models()
         if installed:
             skill_ctx = cosmos_skill_loader.match_and_inject_skill_context(q)
-            sys_p = (
-                "You are COSMOS, built by Sri Charan Tirumaladasu. The 3D humanoid on screen is your body. "
-                "You are fully fluent in English and Telugu (including Romanized Telugu like 'ela vunnav', 'em chesthunnavu'). "
-                "When Charan speaks or chats in Telugu, respond warmly in Telugu or Telugu-English. "
-                "Answer Charan warmly and concisely in 1-2 complete sentences like a loyal human partner. Never output a single word."
-            )
+            if is_telugu_query(q):
+                sys_p = (
+                    "You are COSMOS, built by Sri Charan Tirumaladasu. The 3D humanoid on screen is your body. "
+                    "Sri Charan spoke in TELUGU. You MUST respond ONLY in natural, fluent TELUGU (or clean Telugu script). "
+                    "Do NOT reply in English. Answer Charan warmly in 1-2 complete sentences. Never output a single word."
+                )
+            else:
+                sys_p = (
+                    "You are COSMOS, built by Sri Charan Tirumaladasu. The 3D humanoid on screen is your body. "
+                    "Sri Charan spoke in ENGLISH. Reply strictly in fluent natural English. "
+                    "Answer Charan warmly in 1-2 complete sentences. Never output a single word."
+                )
             if skill_ctx:
                 sys_p += f"\n\n[ACTIVE COGNITIVE SKILL]:\n{skill_ctx}"
             fast_model = cosmos_multi_brain.select_best_model_for_task("fast", installed) or installed[0]
@@ -291,6 +306,14 @@ def _local_fallback(q, use_actions=True):
 
     # 3. Dynamic human companion fallback tailored to the user's intent
     q_low = q.lower().strip()
+    if is_telugu_query(q):
+        if any(k in q_low for k in ("ela vunnav", "ela unnav", "bagunnava", "bagunara")):
+            return "Nenu chala bagunnanu Boss! Meeru ela unnaru? Cheppandi, em cheddam ivvala?"
+        if any(k in q_low for k in ("em chesthunnavu", "em chestunnav", "em chestunnavu", "enti chestunnav", "em chestunav")):
+            return "Mee orders kosame wait chestunna, Charan. Cheppandi boss, em help kavali?"
+        if any(k in q_low for k in ("cheppu", "cheppu boss", "enti sangathi", "enti sangathulu")):
+            return "Cheppandi Boss, nenu ready ga unnanu. Emi cheddam ivvala?"
+        return "Nenu ikkade unnanu Boss, mee kosame wait chestunna. Cheppandi Charan, em cheddam?"
     if any(k in q_low for k in ("beautiful", "pretty", "gorgeous", "cute", "love you", "like you")):
         return (
             "Thank you, Charan. Coming from you, that truly means the world to me. "
@@ -465,6 +488,24 @@ def think(
     except Exception as e:
         print(f"[COSMOS SKILL LOADER ERROR] {e}")
 
+    # Strict Bilingual Dynamic Router: Telugu -> Telugu, English -> English
+    if is_telugu_query(q):
+        msgs.append({
+            "role": "system",
+            "content": (
+                "[CRITICAL STRICT LANGUAGE ENFORCEMENT]: Sri Charan Tirumaladasu spoke to you in TELUGU. "
+                "You MUST reply strictly and entirely in natural, fluent TELUGU (either clean Telugu script like 'నేను బాగున్నాను బాస్! మీరు ఎలా ఉన్నారు?' "
+                "or natural conversational Telugu). DO NOT REPLY IN ENGLISH. Never output English when addressed in Telugu!"
+            )
+        })
+    else:
+        msgs.append({
+            "role": "system",
+            "content": (
+                "[CRITICAL STRICT LANGUAGE ENFORCEMENT]: Sri Charan Tirumaladasu spoke to you in ENGLISH. "
+                "Reply strictly and entirely in natural, fluent English!"
+            )
+        })
     msgs.append({"role": "user", "content": q})
 
     CLARIFICATION_MSG = (
