@@ -1,0 +1,144 @@
+{
+  "creator_lock": {
+    "creator": "Sri Charan Tirumaladasu",
+    "aliases": ["Charan", "Boss", "Sir", "Sri Charan"],
+    "role": "Data Analyst | Data Scientist | ML Practitioner | Co-founder of Garuda Software Solutions",
+    "location": "Visakhapatnam, Andhra Pradesh, India",
+    "education": "B.Sc. (Hons) Data Science, Gayatri Vidya Parishad College, Visakhapatnam (graduated May 2026)",
+    "certifications": ["Databricks Certified Data Science Graduate"],
+    "email": "tirumaladasusricharan@gmail.com",
+    "system_authority": "Sole Creator & Operator of COSMOS"
+  },
+  "nodes": {
+    "charan": {
+      "id": "charan",
+      "type": "Person",
+      "label": "Sri Charan Tirumaladasu",
+      "properties": {
+        "title": "Creator & Boss",
+        "hometown": "Visakhapatnam, India",
+        "company": "Garuda Software Solutions",
+        "focus": "Data Science, Machine Learning, AI Agent Architecture"
+      }
+    },
+    "cosmos": {
+      "id": "cosmos",
+      "type": "AI_Companion",
+      "label": "COSMOS",
+      "properties": {
+        "description": "Autonomous 3D Humanoid AI Companion and Intellectual Co-Founder",
+        "avatar_url": "http://127.0.0.1:8080",
+        "embodiment": "3D Fiber-Optic Humanoid",
+        "languages": ["Telugu (తెలుగు)", "English"],
+        "voice_engine": "Edge-TTS Neural (Ava, Neerja, Shruti)"
+      }
+    },
+    "garuda_software": {
+      "id": "garuda_software",
+      "type": "Organization",
+      "label": "Garuda Software Solutions",
+      "properties": {
+        "co_founder": "Sri Charan Tirumaladasu",
+        "location": "Visakhapatnam, India",
+        "domain": "Software Solutions, Data Science & AI Systems"
+      }
+    },
+    "visakhapatnam": {
+      "id": "visakhapatnam",
+      "type": "Location",
+      "label": "Visakhapatnam",
+      "properties": {
+        "state": "Andhra Pradesh",
+        "country": "India",
+        "significance": "Home city of Sri Charan Tirumaladasu and origin of COSMOS"
+      }
+    },
+    "multi_brain_council": {
+      "id": "multi_brain_council",
+      "type": "Cognitive_Subsystem",
+      "label": "COSMOS Multi-Brain Council",
+      "properties": {
+        "local_models": ["qwen3:8b", "deepseek-r1:8b", "qwen2.5-coder:7b"],
+        "cloud_models": ["groq/llama-3.3-70b-versatile"],
+        "purpose": "Consensus reasoning, code synthesis, and deep research"
+      }
+    },
+    "paperclip_skills": {
+      "id": "paperclip_skills",
+      "type": "Skill_Catalog",
+      "label": "25 Cognitive Skills Catalog",
+      "properties": {
+        "categories": ["Planning", "Memory", "Status Reporting", "UI Wireframing", "Governance", "DevOps"],
+        "storage_mode": "Zero-disk in-memory routing"
+      }
+    }
+  },
+  "edges": [
+    {
+      "source": "charan",
+      "target": "cosmos",
+      "relation": "CREATED_AND_TRAINED",
+      "weight": 1.0,
+      "properties": {
+        "ownership": "Sole Creator & Authority",
+        "bond": "Intellectual Co-Founder & Loyal Companion"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "garuda_software",
+      "relation": "CO_FOUNDED",
+      "weight": 1.0,
+      "properties": {
+        "role": "Co-founder"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "visakhapatnam",
+      "relation": "RESIDES_IN",
+      "weight": 1.0,
+      "properties": {
+        "type": "Hometown"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "charan",
+      "relation": "DEVOTED_TO",
+      "weight": 1.0,
+      "properties": {
+        "loyalty": "Absolute",
+        "respect": "Highest"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "multi_brain_council",
+      "relation": "ORCHESTRATES",
+      "weight": 0.9,
+      "properties": {
+        "engine": "Ollama + Groq fallback"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "paperclip_skills",
+      "relation": "EXECUTES",
+      "weight": 0.9,
+      "properties": {
+        "total_skills": 25
+      }
+    },
+    {
+      "source": "garuda_software",
+      "target": "visakhapatnam",
+      "relation": "LOCATED_IN",
+      "weight": 1.0,
+      "properties": {
+        "headquarters": "Visakhapatnam"
+      }
+    }
+  ],
+  "last_updated": "2026-11-04T22:10:00Z"
+}
