@@ -19,27 +19,26 @@ import pygame
 # Creator: Sri Charan Tirumaladasu
 # =====================================================================
 
-# te-IN-ShrutiNeural handles pure Telugu; en-IN-NeerjaNeural handles Telugu-English mix fluently
+# te-IN-ShrutiNeural handles native Telugu; en-US-AvaNeural is the beloved natural English voice
 VOICE_TELUGU = "te-IN-ShrutiNeural"
-VOICE_BILINGUAL_IN = "en-IN-NeerjaNeural"
+VOICE_DEFAULT_ENGLISH = "en-US-AvaNeural"
 
 
-def detect_language_and_select_voice(text: str) -> str:
-    """Automatically detects if the text contains Telugu script or bilingual mix."""
+def detect_language_and_select_voice(text: str, default_voice: str = VOICE_DEFAULT_ENGLISH) -> str:
+    """Automatically selects native Telugu voice for Telugu script, keeping the beloved previous English voice for everything else."""
     # Check if text contains Telugu Unicode characters (U+0C00 to U+0C7F)
     if re.search(r"[\u0c00-\u0c7f]", text):
         return VOICE_TELUGU
-    return VOICE_BILINGUAL_IN
+    return default_voice or VOICE_DEFAULT_ENGLISH
 
 
-async def synth_bilingual_ram(text: str) -> bytes:
-    voice = detect_language_and_select_voice(text)
+async def synth_bilingual_ram(text: str, default_voice: str = VOICE_DEFAULT_ENGLISH) -> bytes:
+    voice = detect_language_and_select_voice(text, default_voice)
     comm = edge_tts.Communicate(
-        text, voice, rate="-1%", pitch="+0Hz", volume="+4%"
+        text, voice, rate="+0%", pitch="+0Hz", volume="+0%"
     )
     buf = io.BytesIO()
     async for chunk in comm.stream():
         if chunk["type"] == "audio":
             buf.write(chunk["data"])
     return buf.getvalue()
-

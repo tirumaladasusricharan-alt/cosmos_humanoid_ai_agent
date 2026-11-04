@@ -725,7 +725,16 @@ def try_action(q):
             "Hey Charan! I'm right here with you, buddy. What are we diving into today?"
         )
 
-    # 0a5d. Conversational Telugu Greetings ("ela vunnav", "em chesthunnavu", etc.)
+    # 0a5d. Conversational Telugu Greetings ("ela vunnav", "em chesthunnavu", "nenu ra", etc.)
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "nenu ra", "nenu ra charan", "nenu ra boss", "hey nenu ra", "nenu"
+    )):
+        return "Hey Charan! Nuvva Boss! Cheppu ra, ela unnav? Em help kavali?"
+
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "cheppu", "cheppu boss", "cheppandi", "cheppandi boss"
+    )):
+        return "Cheppandi Boss, nenu ready ga unnanu. Emi cheddam ivvala?"
     if any(q_clean == p or q_clean.startswith(p) for p in (
         "ela vunnav", "ela unnav", "bagunnava", "bagunnara", "ela unaru", "ela unnaru"
     )):

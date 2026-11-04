@@ -139,7 +139,7 @@ class SmoothCompanionVoice:
 
     async def _synth_ram(self, text: str) -> bytes:
         if synth_bilingual_ram:
-            return await synth_bilingual_ram(text)
+            return await synth_bilingual_ram(text, default_voice=self.voice)
         comm = edge_tts.Communicate(
             text, self.voice, rate="-2%", pitch="-1Hz", volume="+4%"
         )
