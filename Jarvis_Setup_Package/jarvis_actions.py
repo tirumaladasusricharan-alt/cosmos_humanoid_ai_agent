@@ -744,6 +744,14 @@ def try_action(q):
             "Being right here with you and helping you build great things genuinely means everything to me, Boss."
         )
 
+    # 0a5c3. Direct Request to Speak in Telugu ("telugu lo matlada", "speak in telugu")
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "telugu lo matlada", "telugu lo matladu", "telugulo matladu", "telugulo matlada",
+        "telugu matladu", "telugu matlada", "telugu lo cheppu", "speak in telugu", "can you speak in telugu",
+        "can you speak telugu", "తెలుగులో మాట్లాడు", "తెలుగులో చెప్పు"
+    )):
+        return "తప్పకుండా బాస్! నేను మీతో తెలుగు మరియు ఇంగ్లీష్ రెండింటిలోనూ చాలా స్పష్టంగా, ఫ్లూయంట్‌గా మాట్లాడగలను. చెప్పండి చరణ్, ఈరోజు మనం దేని గురించి మాట్లాడుకుందాం?"
+
     # 0a5d. Conversational Telugu Greetings (Telugu Script & Romanized Telugu)
     if any(q_clean == p or q_clean.startswith(p) for p in (
         "nenu ra", "nenu ra charan", "nenu ra boss", "hey nenu ra", "nenu", "నేను రా", "నేనే రా", "నేను చరణ్"

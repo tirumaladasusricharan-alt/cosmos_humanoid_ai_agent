@@ -34,6 +34,8 @@ TELUGU_WORDS = {
     'cheppu', 'cheppandi', 'cheppava', 'cheppave', 'cheppanu', 'cheppali', 'cheppanna',
     'chestunnav', 'chesthunnav', 'chestunnavu', 'chesthunnavu', 'chestunnam', 'cheddam', 'cheyyali', 'cheyali',
     'chesanu', 'chey', 'cheyyi', 'cheyandi', 'cheyyandi', 'chudu', 'chudandi', 'chudava', 'vinu', 'vinandi',
+    'matladu', 'matlada', 'matladava', 'matladandi', 'matladadam', 'matladuthunna',
+    'telugu', 'telugulo', 'lo', 'tho', 'kosam', 'gurinchi',
     'ravali', 'ravadam', 'vellu', 'vellandi', 'poyi', 'ivvu', 'ivvandi', 'tesuko',
     'telsu', 'telusu', 'teliyadu', 'raadu', 'ledu', 'vaddu', 'oddu', 'kavali',
     # Well-being, greetings & markers
@@ -53,6 +55,9 @@ def is_telugu_query(text: str) -> bool:
     if re.search(r'[\u0c00-\u0c7f]', text):
         return True
     # 2. Match Telugu Romanized words / tokens
+    # 2. Explicit request to speak in Telugu
+    if 'telugu' in text.lower():
+        return True
     words = re.findall(r'[a-zA-Z]+', text.lower())
     return sum(1 for w in words if w in TELUGU_WORDS) >= 1
 

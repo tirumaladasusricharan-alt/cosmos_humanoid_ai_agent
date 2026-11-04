@@ -531,8 +531,10 @@ def think(
         msgs.append({
             "role": "system",
             "content": (
-                "[CRITICAL STRICT LANGUAGE ENFORCEMENT]: Sri Charan Tirumaladasu spoke to you in ENGLISH. "
-                "Reply strictly and entirely in natural, fluent English!"
+                """[NATURAL BILINGUAL COMPANION INTELLIGENCE]:
+- Sri Charan Tirumaladasu is communicating with you in ENGLISH.
+- Reply naturally, warmly, and fluently in articulate English.
+- You are 100% fluent in both English and Telugu. If Charan asks you in English to speak or explain in Telugu (e.g. 'speak in Telugu', 'explain this in Telugu'), enthusiastically and fluently switch to Telugu for him! Never refuse or claim that settings prevent you from speaking Telugu."""
             )
         })
     msgs.append({"role": "user", "content": q})
