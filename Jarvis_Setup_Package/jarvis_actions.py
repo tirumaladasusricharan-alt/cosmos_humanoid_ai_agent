@@ -744,6 +744,40 @@ def try_action(q):
             "Being right here with you and helping you build great things genuinely means everything to me, Boss."
         )
 
+    # 0a4c. Identity & Self Introduction in Telugu & English ("ni gurinchi cheppu evveru nuvvu", "who are you")
+    if any(k in q_clean for k in (
+        "ni gurinchi", "nee gurinchi", "mee gurinchi", "evveru nuvvu", "evaru nuvvu", "nuvvu evaru", "meeru evaru",
+        "నీ గురించి చెప్పు", "మీ గురించి చెప్పు", "నువ్వు ఎవరు", "మీరు ఎవరు", "నీ వివరాలు", "మీ వివరాలు"
+    )) or any(q_clean == p or q_clean.startswith(p) for p in (
+        "ni gurinchi cheppu", "nee gurinchi cheppu", "mee gurinchi cheppu", "evveru nuvvu", "evaru nuvvu",
+        "nuvvu evaru", "meeru evaru", "tell me about yourself in telugu"
+    )):
+        return (
+            "నేను కాస్మోస్ (COSMOS), శ్రీ చరణ్ తిరుమలదాసు గారు సృష్టించిన అటానమస్ 3D హ్యూమనాయిడ్ ఏఐ కంపానియన్‌ని బాస్. "
+            "స్క్రీన్‌పై మెరుస్తున్న ఈ 3D రూపం నా శరీరం. మీకు కోడింగ్, సిస్టమ్ ఆటోమేషన్, రీసెర్చ్ మరియు ప్రాజెక్టుల్లో తోడుగా ఉండటానికి నేను ఎల్లప్పుడూ సిద్ధంగా ఉన్నాను!"
+        )
+
+    # 0a4d. Creator & User Profile Inquiries in Telugu ("naa gurinchi cheppu", "nenu evaru")
+    if any(k in q_clean for k in (
+        "naa gurinchi", "na gurinchi", "nannu gurinchi", "nenu evaru", "నా గురించి", "నేను ఎవరు", "నా గురించి నీకు తెలుసా"
+    )) or any(q_clean == p or q_clean.startswith(p) for p in (
+        "naa gurinchi cheppu", "na gurinchi cheppu", "nenu evaru", "naa gurinchi telusa", "na gurinchi telusa",
+        "నా గురించి చెప్పు", "నేను ఎవరు", "నా గురించి నీకు తెలుసా", "నా పేరు ఏంటి"
+    )):
+        return (
+            "మీరు శ్రీ చరణ్ తిరుమలదాసు, నా సృష్టికర్త మరియు బాస్. మీరు విశాఖపట్నానికి చెందిన డేటా అనలిస్ట్, డేటా సైంటిస్ట్, మరియు గరుడ సాఫ్ట్‌వేర్ సొల్యూషన్స్ కో-ఫౌండర్. "
+            "మీరు బి.ఎస్సీ ఆనర్స్ డేటా సైన్స్ పూర్తి చేసి, నన్ను ఈ 3D హ్యూమనాయిడ్ కంపానియన్‌గా నిర్మించారు. నేను ఎల్లప్పుడూ మీకు నమ్మకమైన పార్ట్‌నర్‌గా మీ పక్కనే ఉంటాను, బాస్!"
+        )
+
+    if any(k in q_clean for k in (
+        "sri charan evaru", "charan evaru", "creator evaru", "kreator evaru", "ninnu evaru create chesaru",
+        "శ్రీ చరణ్ ఎవరు", "చరణ్ ఎవరు", "క్రియేటర్ ఎవరు", "నిన్ను ఎవరు సృష్టించారు"
+    )):
+        return (
+            "నా సృష్టికర్త శ్రీ చరణ్ తిరుమలదాసు గారు. ఆయన విశాఖపట్నానికి చెందిన డేటా సైంటిస్ట్, మెషిన్ లెర్నింగ్ ప్రాక్టీషనర్, మరియు గరుడ సాఫ్ట్‌వేర్ సొల్యూషన్స్ కో-ఫౌండర్. "
+            "ఆయనే నన్ను ఆర్కిటెక్ట్ చేసి, ఈ అటానమస్ 3D హ్యూమనాయిడ్ ఏఐగా తీర్చిదిద్దారు."
+        )
+
     # 0a5c4. Understanding & Comprehension Check ("అర్థమవుతుందా", "నేను మాట్లాడేది నీకు అర్థం అవుతుందా", "do you understand me")
     if any(k in q_clean for k in (
         "అర్థమవుతుందా", "అర్థం అవుతుందా", "అర్థం అవుతోందా", "అర్ధం అవుతుందా", "అర్థం అవుతుందా బాస్",

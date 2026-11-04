@@ -351,6 +351,24 @@ def _local_fallback(q, use_actions=True):
 
 def _creator_memory_response(q):
     """Answer creator questions from local memory without sending biodata to Groq."""
+    q_low = q.lower().strip()
+    if any(k in q_low for k in ("naa gurinchi", "na gurinchi", "nenu evaru", "నా గురించి", "నేను ఎవరు", "నా వివరాలు")):
+        return (
+            "మీరు శ్రీ చరణ్ తిరుమలదాసు, నా సృష్టికర్త మరియు బాస్. మీరు విశాఖపట్నానికి చెందిన డేటా అనలిస్ట్, డేటా సైంటిస్ట్, మరియు గరుడ సాఫ్ట్‌వేర్ సొల్యూషన్స్ కో-ఫౌండర్. "
+            "మీరు బి.ఎస్సీ ఆనర్స్ డేటా సైన్స్ పూర్తి చేసి, నన్ను ఈ 3D హ్యూమనాయిడ్ కంపానియన్‌గా నిర్మించారు. నేను ఎల్లప్పుడూ మీకు నమ్మకమైన పార్ట్‌నర్‌గా మీ పక్కనే ఉంటాను, బాస్!"
+        )
+
+    if any(k in q_low for k in ("ni gurinchi", "nee gurinchi", "mee gurinchi", "evveru nuvvu", "evaru nuvvu", "nuvvu evaru", "meeru evaru", "నీ గురించి", "మీ గురించి", "నువ్వు ఎవరు", "మీరు ఎవరు")):
+        return (
+            "నేను కాస్మోస్ (COSMOS), శ్రీ చరణ్ తిరుమలదాసు గారు సృష్టించిన అటానమస్ 3D హ్యూమనాయిడ్ ఏఐ కంపానియన్‌ని బాస్. "
+            "స్క్రీన్‌పై మెరుస్తున్న ఈ 3D రూపం నా శరీరం. మీకు కోడింగ్, సిస్టమ్ ఆటోమేషన్, రీసెర్చ్ మరియు ప్రాజెక్టుల్లో తోడుగా ఉండటానికి నేను ఎల్లప్పుడూ సిద్ధంగా ఉన్నాను!"
+        )
+
+    if any(k in q_low for k in ("creator evaru", "kreator evaru", "sri charan evaru", "charan evaru", "క్రియేటర్ ఎవరు", "సృష్టికర్త ఎవరు", "నిన్ను ఎవరు సృష్టించారు")):
+        return (
+            "నా సృష్టికర్త శ్రీ చరణ్ తిరుమలదాసు గారు. ఆయన విశాఖపట్నానికి చెందిన డేటా సైంటిస్ట్, మెషిన్ లెర్నింగ్ ప్రాక్టీషనర్, మరియు గరుడ సాఫ్ట్‌వేర్ సొల్యూషన్స్ కో-ఫౌండర్. "
+            "ఆయనే నన్ను ఆర్కిటెక్ట్ చేసి, ఈ అటానమస్ 3D హ్యూమనాయిడ్ ఏఐగా తీర్చిదిద్దారు."
+        )
     about_me_question = re.search(
         r"\b(?:who am i|who i am|who am i to you|do you know me|what(?:'s| is) my name|"
         r"tell (?:(?:me|tell)\s+)*(?:more\s+)?about me|tell (?:me\s+)?about myself|"
@@ -475,10 +493,12 @@ def think(
     if q_simple in ("open cheyyi", "open chey", "ఓపెన్ చెయ్యి", "ఓపెన్ చేయి"):
         return "చెప్పండి బాస్, ఏ యాప్ లేదా వెబ్‌సైట్ ఓపెన్ చేయాలి?"
 
-    # Filter out STT noise / spaced single-character gibberish (strictly pure English letter spam)
+    # Filter out STT noise / spaced single-character gibberish (e.g. "మ త త జ వ త..." or "k r s m n...")
     tokens = q.strip().split()
-    if len(tokens) >= 4 and all(len(t) == 1 and t.isascii() and t.isalpha() for t in tokens):
-        return "I didn't quite catch that, Charan. Could you please repeat that?"
+    if len(tokens) >= 5 and sum(1 for t in tokens if len(t) <= 1) / len(tokens) > 0.5:
+        if any(ord(c) >= 0x0c00 and ord(c) <= 0x0c7f for c in q):
+            return "క్షమించండి బాస్, మీ మాటలు సరిగ్గా వినిపించలేదు. కొంచెం స్పష్టంగా మళ్ళీ చెప్తారా?"
+        return "I didn't hear that clearly, Boss. Could you please repeat that?"
 
     key = _get_api_key()
     all_cooling = bool(key and all(time.time() < _model_cooldowns.get(m, 0.0) for m in MODELS))
