@@ -222,8 +222,11 @@ def _normalize_text(text):
         r"\bEe vidin\b": "Meeku",
         r"\bee vidin\b": "meeku",
         r"\bela vunnaru aadu\b": "meeru ela unnaru",
+        r"\bela unnaru aadu\b": "meeru ela unnaru",
+        r"\baadu\b": "",
         r"\bpresence ki\b": "kosam",
-        r"\bane vishaya\b": "",
+        r"\bane vishaya\??": "",
+        r"\bane vishayam\??": "",
         r"\bcheyagalaru\b": "cheyagalanu",
         r"\brayagalaru\b": "rayagalanu",
     }
@@ -462,6 +465,13 @@ def think(
     creator_response = _creator_memory_response(q)
     if creator_response:
         return creator_response
+
+    # Incomplete command fragment protection (prevents unsolicited LLM monologue hallucinations)
+    q_simple = " ".join(q.strip().lower().split()).strip(" .,!?")
+    if q_simple in ("open", "launch", "start", "please open"):
+        return "What app or website would you like me to open, Boss?"
+    if q_simple in ("open cheyyi", "open chey", "ఓపెన్ చెయ్యి", "ఓపెన్ చేయి"):
+        return "చెప్పండి బాస్, ఏ యాప్ లేదా వెబ్‌సైట్ ఓపెన్ చేయాలి?"
 
     key = _get_api_key()
     all_cooling = bool(key and all(time.time() < _model_cooldowns.get(m, 0.0) for m in MODELS))

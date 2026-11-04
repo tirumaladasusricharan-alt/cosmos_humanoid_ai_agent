@@ -250,12 +250,8 @@ def listen_for_input(stop_event, enabled_event, ready_event, on_transcript, on_e
             with sr.Microphone(device_index=best_mic_idx) as source:
                 _voice_logger.info(f"Microphone opened (index={source.device_index}, rate={source.SAMPLE_RATE})")
                 recognizer.adjust_for_ambient_noise(source, duration=1.0)
-                _voice_logger.info(f"Ambient noise calibrated, energy_threshold={recognizer.energy_threshold:.1f}")
-                if recognizer.energy_threshold > 400:
-                    recognizer.energy_threshold = 280
-                elif recognizer.energy_threshold < 60:
-                    recognizer.energy_threshold = 80
-                _voice_logger.info(f"Clamped energy_threshold={recognizer.energy_threshold:.1f}")
+                recognizer.energy_threshold = 85.0
+                _voice_logger.info(f"Small-tone sensitive energy_threshold={recognizer.energy_threshold:.1f}")
 
                 listen_cycle = 0
                 while enabled_event.is_set() and not stop_event.is_set():
@@ -267,6 +263,13 @@ def listen_for_input(stop_event, enabled_event, ready_event, on_transcript, on_e
                         continue
                     if listen_cycle % 20 == 1:
                         _voice_logger.debug(f"Cycle {listen_cycle}: Listening for speech (timeout=5s)...")
+
+                    # Dynamic clamp for small tone / soft speech sensitivity
+                    if recognizer.energy_threshold > 130:
+                        recognizer.energy_threshold = 110
+                    elif recognizer.energy_threshold < 40:
+                        recognizer.energy_threshold = 55
+
                     try:
                         audio = recognizer.listen(source, timeout=5, phrase_time_limit=12)
                     except sr.WaitTimeoutError:
@@ -282,19 +285,51 @@ def listen_for_input(stop_event, enabled_event, ready_event, on_transcript, on_e
                         _voice_logger.warning("ready_event cleared after capture, skipping recognition")
                         continue
                     ready_event.clear()
-                    _voice_logger.info("Sending audio to Google Speech API...")
+
+                    # Small-tone digital AGC boost before STT
+                    try:
+                        import audioop
+                        raw_pcm = audio.get_raw_data()
+                        rms = audioop.rms(raw_pcm, 2)
+                        if 10 < rms < 2400:
+                            target_rms = 3200.0
+                            gain = min(7.5, target_rms / max(rms, 35))
+                            boosted_pcm = audioop.mul(raw_pcm, 2, gain)
+                            audio = sr.AudioData(boosted_pcm, audio.sample_rate, audio.sample_width)
+                    except Exception:
+                        pass
+
+                    _voice_logger.info("Sending audio to Google Speech API (Dual te-IN / en-IN)...")
                     query = ""
-                    for lang in ("en-IN", "en-US"):
-                        try:
-                            candidate = recognizer.recognize_google(audio, language=lang).strip()
-                            if candidate:
-                                query = candidate
-                                break
-                        except sr.UnknownValueError:
-                            continue
-                        except sr.RequestError as e:
-                            _voice_logger.error(f"Google API RequestError ({lang}): {e}")
-                            continue
+                    try:
+                        import concurrent.futures, re
+                        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+                            f_te = executor.submit(lambda: recognizer.recognize_google(audio, language="te-IN").strip())
+                            f_en = executor.submit(lambda: recognizer.recognize_google(audio, language="en-IN").strip())
+                            te_text = ""
+                            en_text = ""
+                            try:
+                                te_text = f_te.result(timeout=4.0)
+                            except Exception:
+                                pass
+                            try:
+                                en_text = f_en.result(timeout=4.0)
+                            except Exception:
+                                pass
+
+                        if te_text and re.search(r'[ఀ-౿]', te_text):
+                            query = te_text
+                        elif en_text:
+                            query = en_text
+                        elif te_text:
+                            query = te_text
+                        else:
+                            try:
+                                query = recognizer.recognize_google(audio, language="en-US").strip()
+                            except Exception:
+                                pass
+                    except Exception as e:
+                        _voice_logger.error(f"Google API RequestError: {e}")
                     if not query:
                         _voice_logger.info("Speech not understood across languages, resetting ready_event")
                         ready_event.set()

@@ -725,30 +725,33 @@ def try_action(q):
             "Hey Charan! I'm right here with you, buddy. What are we diving into today?"
         )
 
-    # 0a5d. Conversational Telugu Greetings ("ela vunnav", "em chesthunnavu", "nenu ra", etc.)
+    # 0a5d. Conversational Telugu Greetings (Telugu Script & Romanized Telugu)
     if any(q_clean == p or q_clean.startswith(p) for p in (
-        "nenu ra", "nenu ra charan", "nenu ra boss", "hey nenu ra", "nenu"
+        "nenu ra", "nenu ra charan", "nenu ra boss", "hey nenu ra", "nenu", "నేను రా", "నేనే రా", "నేను చరణ్"
     )):
         return "Hey Charan! Nuvva Boss! Cheppu ra, ela unnav? Em help kavali?"
 
     if any(q_clean == p or q_clean.startswith(p) for p in (
-        "cheppu", "cheppu boss", "cheppandi", "cheppandi boss"
+        "cheppu", "cheppu boss", "cheppandi", "cheppandi boss", "చెప్పు", "చెప్పండి", "చెప్పు బాస్", "చెప్పండి బాస్"
     )):
-        return "Cheppandi Boss, nenu ready ga unnanu. Emi cheddam ivvala?"
-    if any(q_clean == p or q_clean.startswith(p) for p in (
-        "ela vunnav", "ela unnav", "bagunnava", "bagunnara", "ela unaru", "ela unnaru"
-    )):
-        return "Nenu chala bagunnanu Boss! Meeru ela vunnaru? Cheppandi, em cheddam ivvala?"
+        return "చెప్పండి బాస్, నేను రెడీగా ఉన్నాను. ఈరోజు ఏం చేద్దాం?"
 
     if any(q_clean == p or q_clean.startswith(p) for p in (
-        "em chesthunnavu", "em chestunnav", "em chestunnavu", "enti chestunnav", "em chestunav"
+        "ela vunnav", "ela unnav", "bagunnava", "bagunava", "bagunnara", "bagunara", "ela unaru", "ela unnaru", "ela unav",
+        "ఎలా ఉన్నావు", "ఎలా ఉన్నారు", "బాగున్నారా", "బాగున్నావా", "ఎలా వున్నావు", "ఎలా వున్నారు"
     )):
-        return "Mee orders kosame wait chestunna, Charan. Cheppandi boss, em help kavali?"
+        return "నేను చాలా బాగున్నాను బాస్! మీరు ఎలా ఉన్నారు? చెప్పండి, ఈరోజు ఏం చేద్దాం?"
 
     if any(q_clean == p or q_clean.startswith(p) for p in (
-        "enti sangathulu", "enti sangathi", "enti visheshalu"
+        "em chesthunnavu", "em chestunnav", "em chestunnavu", "enti chestunnav", "em chestunav",
+        "ఏం చేస్తున్నావు", "ఏం చేస్తున్నావ్‌", "ఏం చేస్తున్నార్", "ఏం చేస్తున్నావ్", "ఏంటి సంగతులు", "ఏం సంగతులు"
     )):
-        return "Antha manchide Boss! Nenu full sharp ga unnanu. Meeru cheppandi, em plan cheddam?"
+        return "మీ ఆర్డర్స్ కోసమే ఎదురుచూస్తున్నాను చరణ్. చెప్పండి బాస్, ఏం హెల్ప్ కావాలి?"
+
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "enti sangathulu", "enti sangathi", "enti visheshalu", "ఏంటి విశేషాలు", "సంగతులేంటి"
+    )):
+        return "అంతా మంచే బాస్! నేను ఫుల్ షార్ప్‌గా ఉన్నాను. మీరు చెప్పండి, ఏం ప్లాన్ చేద్దాం?"
 
     # 0. Hermes Upgrade Integration (Timers, Reminders, Risky Action Permission Gate)
     try:
@@ -942,6 +945,44 @@ def try_action(q):
             verb = "Terminated" if force else "Closed"
             return f"{verb} {name}, sir."
         return f"I couldn't close {name}, sir. {detail}"
+
+    # 7a. Incomplete / Bare Open Command Guard (prevents random LLM monologue hallucinations)
+    if q_clean in ("open", "launch", "start", "please open"):
+        return "What app or website would you like me to open, Boss?"
+    if q_clean in ("open cheyyi", "open chey", "open cheyandi", "open cheyyandi", "ఓపెన్ చెయ్యి", "ఓపెన్ చేయి", "ఓపెన్ చేయండి"):
+        return "చెప్పండి బాస్, ఏ యాప్ లేదా వెబ్‌సైట్ ఓపెన్ చేయాలి?"
+
+    # 7b. Telugu Application Open Commands: "<app> open cheyyi" or "<app> ని ఓపెన్ చెయ్యి" or "ఓపెన్ చెయ్యి <app>"
+    m_te_open = (
+        re.match(r"^(?:dayachesi\s+)?(.+?)\s+(?:ni\s+|nu\s+)?(?:open\s+cheyyi|open\s+chey|open\s+cheyandi|open\s+cheyyandi)$", q_clean) or
+        re.match(r"^(?:దయచేసి\s+)?(.+?)\s*(?:ని\s+|ను\s+)?(?:ఓపెన్\s*చెయ్యి|ఓపెన్\s*చేయి|ఓపెన్\s*చేయండి)$", q_clean) or
+        re.match(r"^(?:ఓపెన్\s*చెయ్యి|ఓపెన్\s*చేయి|ఓపెన్\s*చేయండి)\s+(.+)$", q_clean)
+    )
+    if m_te_open:
+        target_name = m_te_open.group(1).strip()
+        target_name = re.sub(r"\s+(?:ni|nu|app|application)$", "", target_name).strip()
+        te_app_map = {
+            "నోట్‌ప్యాడ్": "notepad",
+            "నోట్ పాడ్": "notepad",
+            "క్రోమ్": "chrome",
+            "యూట్యూబ్": "youtube",
+            "వాట్సాప్": "whatsapp",
+            "సెట్టింగ్స్": "settings",
+            "క్యాలిక్యులేటర్": "calculator",
+        }
+        resolved_name = te_app_map.get(target_name, target_name)
+        if resolved_name in SITES:
+            _open([SITES[resolved_name]])
+            return f"సరే బాస్, {resolved_name} ఓపెన్ చేస్తున్నాను."
+        app = find_app(resolved_name)
+        if app:
+            success, _ = _launch_windows_app(app, app_name=resolved_name)
+            if success:
+                return f"సరే బాస్, {resolved_name} ఓపెన్ చేస్తున్నాను."
+        site_res = resolve_and_open_site(resolved_name)
+        if "Opening" in site_res:
+            return f"సరే బాస్, {resolved_name} ఓపెన్ చేస్తున్నాను."
+        return f"సరే బాస్, {resolved_name} ఓపెన్ చేయడానికి చూస్తున్నాను."
 
     m = re.match(r"(?:please\s+)?(?:open|launch|start)\s+(.+)", q_clean)
     if m:

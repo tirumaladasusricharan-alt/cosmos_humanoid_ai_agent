@@ -496,13 +496,10 @@ def extended_listener_worker():
             # Open microphone at native hardware sample rate (44.1kHz Realtek) for maximum acoustic clarity
             with sr.Microphone(device_index=best_mic_idx) as source:
                 recognizer.adjust_for_ambient_noise(source, duration=0.8)
-                # Low-voice sensitive threshold calibration: hears whisper & low speaking volume
-                if recognizer.energy_threshold > 400:
-                    recognizer.energy_threshold = 280
-                elif recognizer.energy_threshold < 60:
-                    recognizer.energy_threshold = 80
+                # Sensitive baseline floor for small tones and soft speech
+                recognizer.energy_threshold = 85.0
                 recognizer.dynamic_energy_ratio = 1.10
-                print(f"[COSMOS MIC CALIBRATED]: Low-voice sensitive floor clamped={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
+                print(f"[COSMOS MIC CALIBRATED]: Small-tone sensitive floor clamped={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
 
                 while mic_enabled:
                     # Wait if speech playback is active
@@ -512,6 +509,12 @@ def extended_listener_worker():
                     with state_lock:
                         if current_state != "talking":
                             current_state = "listening"
+
+                    # Dynamically clamp energy threshold to prevent upward drift so small tones & whispers are always caught
+                    if recognizer.energy_threshold > 130:
+                        recognizer.energy_threshold = 110
+                    elif recognizer.energy_threshold < 40:
+                        recognizer.energy_threshold = 55
 
                     try:
                         audio = recognizer.listen(source, timeout=5, phrase_time_limit=15)
@@ -524,31 +527,51 @@ def extended_listener_worker():
                     # Keep mic capture 100% in RAM — clean uncorrupted audio stream directly to STT
                     wav_path = ""
 
-                    # Clean low-voice digital AGC pre-gain before STT (boosts quiet voice without clipping)
+                    # Small-tone digital AGC boost: amplify quiet/soft voice up to conversational level
                     try:
                         import audioop
                         raw_pcm = audio.get_raw_data()
                         rms = audioop.rms(raw_pcm, 2)
-                        if 10 < rms < 1200:
-                            gain = min(2.5, 1800.0 / max(rms, 80))
+                        if 10 < rms < 2400:
+                            target_rms = 3200.0
+                            gain = min(7.5, target_rms / max(rms, 35))
                             boosted_pcm = audioop.mul(raw_pcm, 2, gain)
                             audio = sr.AudioData(boosted_pcm, audio.sample_rate, audio.sample_width)
                     except Exception:
                         pass
 
-                    # Transcribe via Google STT (direct en-IN with fallback to en-US for maximum speed and accuracy)
+                    # High-accuracy dual-language STT: recognize Telugu (te-IN) and English (en-IN) concurrently
                     query = ""
                     try:
-                        query = recognizer.recognize_google(audio, language="en-IN").strip()
-                    except sr.UnknownValueError:
-                        try:
-                            query = recognizer.recognize_google(audio, language="te-IN").strip()
-                        except sr.UnknownValueError:
+                        import concurrent.futures
+                        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+                            f_te = executor.submit(lambda: recognizer.recognize_google(audio, language="te-IN").strip())
+                            f_en = executor.submit(lambda: recognizer.recognize_google(audio, language="en-IN").strip())
+
+                            te_text = ""
+                            en_text = ""
+                            try:
+                                te_text = f_te.result(timeout=4.0)
+                            except Exception:
+                                pass
+                            try:
+                                en_text = f_en.result(timeout=4.0)
+                            except Exception:
+                                pass
+
+                        # 1. If te-IN returned native Telugu script (U+0C00 - U+0C7F), Sri Charan definitely spoke in Telugu!
+                        if te_text and re.search(r'[ఀ-౿]', te_text):
+                            query = te_text
+                        elif en_text:
+                            query = en_text
+                        elif te_text:
+                            query = te_text
+                        else:
                             try:
                                 query = recognizer.recognize_google(audio, language="en-US").strip()
                             except Exception:
                                 continue
-                    except sr.RequestError as e:
+                    except Exception as e:
                         print(f"[STT API Error]: {e}", flush=True)
                         continue
 
