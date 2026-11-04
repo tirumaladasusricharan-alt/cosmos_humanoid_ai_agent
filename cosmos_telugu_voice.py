@@ -28,16 +28,16 @@ TELUGU_WORDS = {
     'nenu', 'nuvvu', 'nuvva', 'meeru', 'manam', 'atanu', 'aame', 'vaaru', 'vaallu', 'aadu',
     'idi', 'adi', 'evi', 'avi', 'evaru', 'emiti', 'enti', 'endi', 'emi', 'em',
     # Question words
-    'ela', 'elaa', 'ekkada', 'eppudu', 'enduku', 'enni', 'enta', 'edhi',
+    'ela', 'elaa', 'elaagu', 'ekkada', 'ekkadiki', 'eppudu', 'eppatiki', 'enduku', 'endukani', 'enni', 'enta', 'edhi',
     # Common verbs & states
-    'unnav', 'vunnav', 'unnaru', 'vunnaru', 'unna', 'unnanu', 'undhi', 'undi', 'unnayi',
-    'cheppu', 'cheppandi', 'cheppava', 'cheppave', 'cheppanu', 'cheppali',
-    'chestunnav', 'chesthunnav', 'chestunnavu', 'chestunnam', 'cheddam', 'cheyyali', 'cheyali',
-    'chesanu', 'chey', 'cheyyi', 'chudu', 'chudandi', 'vinu', 'vinandi',
+    'unnav', 'vunnav', 'unnavu', 'vunnavu', 'unnaru', 'vunnaru', 'unna', 'unnanu', 'vunnanu', 'undhi', 'undi', 'unnayi',
+    'cheppu', 'cheppandi', 'cheppava', 'cheppave', 'cheppanu', 'cheppali', 'cheppanna',
+    'chestunnav', 'chesthunnav', 'chestunnavu', 'chesthunnavu', 'chestunnam', 'cheddam', 'cheyyali', 'cheyali',
+    'chesanu', 'chey', 'cheyyi', 'cheyandi', 'cheyyandi', 'chudu', 'chudandi', 'chudava', 'vinu', 'vinandi',
     'ravali', 'ravadam', 'vellu', 'vellandi', 'poyi', 'ivvu', 'ivvandi', 'tesuko',
-    'telsu', 'telusu', 'teliyadu', 'raadu', 'ledu', 'vaddu', 'kavali',
+    'telsu', 'telusu', 'teliyadu', 'raadu', 'ledu', 'vaddu', 'oddu', 'kavali',
     # Well-being, greetings & markers
-    'bagunnava', 'bagunara', 'bagunnanu', 'baagundi', 'bagundi', 'manchidi', 'manchide',
+    'bagunnava', 'bagunava', 'bagunara', 'bagunnara', 'bagunnanu', 'baagundi', 'bagundi', 'manchidi', 'manchide',
     'sare', 'avunu', 'kaadu', 'kadu', 'ayithe', 'avuna', 'visheshalu', 'sangathi', 'sangathulu',
     'namaste', 'namaskaram', 'ivvala', 'repu', 'ninna', 'ippudu', 'eppudu', 'chala', 'koncham',
     'malli', 'inka', 'kuda', 'gurinchi', 'ante', 'ani', 'kikiki', 'ra', 'andi', 'garu',
@@ -58,10 +58,9 @@ def is_telugu_query(text: str) -> bool:
 
 
 def detect_language_and_select_voice(text: str, default_voice: str = VOICE_DEFAULT_ENGLISH) -> str:
-    """If text is in Telugu (script or words), select te-IN-ShrutiNeural so she pronounces Telugu fluently!
-    Otherwise, use the beloved previous English voice.
-    """
-    if is_telugu_query(text):
+    """Automatically selects native Telugu voice for Telugu script, keeping the beloved previous English voice for everything else."""
+    # Check if text contains Telugu Unicode characters (U+0C00 to U+0C7F)
+    if re.search(r"[\u0c00-\u0c7f]", text):
         return VOICE_TELUGU
     return default_voice or VOICE_DEFAULT_ENGLISH
 

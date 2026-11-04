@@ -58,10 +58,9 @@ def is_telugu_query(text: str) -> bool:
 
 
 def detect_language_and_select_voice(text: str, default_voice: str = VOICE_DEFAULT_ENGLISH) -> str:
-    """If text is in Telugu (script or words), select te-IN-ShrutiNeural so she pronounces Telugu fluently!
-    Otherwise, use the beloved previous English voice.
-    """
-    if is_telugu_query(text):
+    """Automatically selects native Telugu voice for Telugu script, keeping the beloved previous English voice for everything else."""
+    # Check if text contains Telugu Unicode characters (U+0C00 to U+0C7F)
+    if re.search(r"[\u0c00-\u0c7f]", text):
         return VOICE_TELUGU
     return default_voice or VOICE_DEFAULT_ENGLISH
 
