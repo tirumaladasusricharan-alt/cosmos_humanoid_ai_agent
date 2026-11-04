@@ -1,6 +1,6 @@
 # 🌌 COSMOS - Autonomous 3D Humanoid AI Agent
 
-> **Architected & Built by Sri Charan Tirumaladasu**  
+>  
 > *An OS-level, voice-first autonomous executive AI assistant featuring a real-time WebGL 3D Humanoid avatar, multi-brain dual reasoning (Council Mode with DeepSeek-R1 + Qwen2.5-Coder), ultra-fast cloud failover, and hardware-level automation.*
 
 ---
@@ -72,6 +72,6 @@ COSMOS will initialize on `http://127.0.0.1:8080` and open the 3D Humanoid HUD!
 ---
 
 ## 🛡️ License & Authorship
-Created by **Sri Charan Tirumaladasu** (Co-founder, Garuda Software Solutions).  
+Created by **Sri Charan Tirumaladasu** .
 Protected under the MIT License.
 
