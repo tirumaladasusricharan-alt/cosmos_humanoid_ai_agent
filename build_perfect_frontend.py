@@ -235,7 +235,7 @@ full_html = f"""<!doctype html>
   align-items: center;
   padding: 10px 12px;
   background: rgba(12, 15, 22, 0.92);
-  border-top: 1px solid rgba(196, 168, 255, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
   gap: 8px;
 }}
 #cosmos-query-field {{

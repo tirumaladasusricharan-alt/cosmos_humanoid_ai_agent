@@ -311,7 +311,7 @@ _browser_pids = set()
 def launch_humanoid_window():
     """Launches the 3D Humanoid in dedicated standalone app window mode."""
     global _browser_pids
-    url = "http://127.0.0.1:8080"
+    url = f"http://127.0.0.1:8080/?t={int(time.time())}"
     chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
     edge_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
     launched = False
@@ -993,7 +993,14 @@ async def execute_query(request: Request):
 async def serve_index():
     index_file = os.path.join(FRONTEND_DIR, "index.html")
     if os.path.exists(index_file):
-        return FileResponse(index_file)
+        return FileResponse(
+            index_file,
+            headers={
+                "Cache-Control": "no-cache, no-store, must-revalidate",
+                "Pragma": "no-cache",
+                "Expires": "0"
+            }
+        )
     return JSONResponse({"status": "Frontend index.html not found", "dir": FRONTEND_DIR})
 
 if os.path.exists(FRONTEND_DIR):
