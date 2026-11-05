@@ -500,6 +500,15 @@ def think(
         return "చెప్పండి బాస్, ఏ యాప్ లేదా వెబ్‌సైట్ ఓపెన్ చేయాలి?"
 
     # Filter out STT noise / spaced single-character gibberish (e.g. "మ త త జ వ త..." or "k r s m n...")
+    # Ruflo AI-Defence Prompt Injection Firewall
+    try:
+        import cosmos_ruflo_harness
+        is_safe, sanitized_q, flag = cosmos_ruflo_harness.scan_aidefence(q)
+        if not is_safe:
+            return f"Security Alert, Boss: {flag}. Request filtered by Ruflo AI-Defence."
+    except Exception:
+        pass
+
     tokens = q.strip().split()
     if len(tokens) >= 5 and sum(1 for t in tokens if len(t) <= 1) / len(tokens) > 0.5:
         if any(ord(c) >= 0x0c00 and ord(c) <= 0x0c7f for c in q):

@@ -796,6 +796,41 @@ def try_action(q):
         except Exception as _ob_err:
             pass
 
+    # 0a4b3. Ruflo Multi-Agent Swarm, SPARC & Cost Telemetry Actions
+    if any(k in q_clean for k in ("token burn", "token usage", "cost tracker", "token telemetry", "check tokens")):
+        try:
+            import cosmos_ruflo_harness
+            summary = cosmos_ruflo_harness.cost_tracker.get_summary()
+            return (
+                f"Live Token Burn Telemetry, Boss: Total Tokens: {summary['total_tokens']:,} across {summary['total_calls']} calls. "
+                f"Groq: {summary['providers'].get('groq', {}).get('prompt_tokens', 0) + summary['providers'].get('groq', {}).get('completion_tokens', 0):,} tokens. "
+                f"Ollama: {summary['providers'].get('ollama', {}).get('prompt_tokens', 0) + summary['providers'].get('ollama', {}).get('completion_tokens', 0):,} tokens. "
+                f"APInex: {summary['providers'].get('apinex', {}).get('prompt_tokens', 0) + summary['providers'].get('apinex', {}).get('completion_tokens', 0):,} tokens."
+            )
+        except Exception as _c_err:
+            pass
+
+    if q_clean.startswith("sparc ") or q_clean == "sparc":
+        task = q_clean[6:].strip() if len(q_clean) > 6 else "General Engineering Verification"
+        try:
+            import cosmos_ruflo_harness
+            res = cosmos_ruflo_harness.sparc_engine.execute_sparc(task)
+            status = "AST Valid (100% Syntax Pass)" if res["ast_valid"] else f"AST Error: {res['ast_error']}"
+            return f"SPARC 5-Phase Gate Completed for '{task}', Boss! Status: {status}.\n```python\n{res['code']}\n```"
+        except Exception as _sparc_err:
+            return f"SPARC Execution Note: {_sparc_err}"
+
+    if any(k in q_clean for k in ("trajectories", "trajectory memory", "learned trajectories")):
+        try:
+            import cosmos_ruflo_harness
+            count = len(cosmos_ruflo_harness.trajectory_learner.trajectories)
+            return f"Ruflo Trajectory Self-Learning Memory: {count} verified workflows cached in ./cosmos_agent_company/ruflo_trajectories.json, ready for zero-latency reuse."
+        except Exception:
+            pass
+
+    if any(k in q_clean for k in ("check adr", "view adr", "architecture decisions", "adr status")):
+        return "Architecture Decision Records (ADR) are actively maintained at ./cosmos_agent_company/ADR.md. Current records: ADR-001 (Multi-Brain), ADR-002 (Cognee Graph), ADR-003 (OpenBot Governance), ADR-004 (Ruflo SPARC & Arena)."
+
     # 0a4c. Identity & Self Introduction in Telugu & English ("ni gurinchi cheppu evveru nuvvu", "who are you")
     if any(k in q_clean for k in (
         "ni gurinchi", "nee gurinchi", "mee gurinchi", "evveru nuvvu", "evaru nuvvu", "nuvvu evaru", "meeru evaru",
