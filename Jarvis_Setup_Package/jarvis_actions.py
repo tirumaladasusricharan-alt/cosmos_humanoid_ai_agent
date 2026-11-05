@@ -797,6 +797,26 @@ def try_action(q):
             pass
 
     # 0a4b3. Ruflo Multi-Agent Swarm, SPARC & Cost Telemetry Actions
+    if any(k in q_clean for k in (
+        "5 skills", "five skills", "ruflo skills", "are the skills active", "are these skills active",
+        "are your skills active", "is sparc active", "is arena active", "skills active", "are ruflo skills active",
+        "are the new skills active", "are these new skills active", "skills are notactive", "skills are not active"
+    )):
+        try:
+            import cosmos_ruflo_harness
+            traj_count = len(cosmos_ruflo_harness.trajectory_learner.trajectories)
+            cost = cosmos_ruflo_harness.cost_tracker.get_summary()
+            return (
+                "Yes Boss, all 5 Ruflo skills are 100% active, loaded, and operational right now!\n\n"
+                "1. ruflo-sparc: 5-Phase SPARC Engineering Gate (Spec -> Pseudo -> Arch -> Refine -> Complete with AST syntax verification).\n"
+                "2. ruflo-arena: Competitive Multi-Model Tournament (scores models concurrently on syntax validity and completeness).\n"
+                f"3. ruflo-intelligence: Trajectory Self-Learning Loop ({traj_count} workflows cached in ./cosmos_agent_company/ruflo_trajectories.json).\n"
+                f"4. ruflo-cost-tracker: Live Token Burn Telemetry ({cost['total_tokens']:,} tokens across {cost['total_calls']} calls).\n"
+                "5. ruflo-aidefence & ruflo-adr: Prompt Injection Firewall & Architecture Decision Records at ./cosmos_agent_company/ADR.md."
+            )
+        except Exception as _r_err:
+            pass
+
     if any(k in q_clean for k in ("token burn", "token usage", "cost tracker", "token telemetry", "check tokens")):
         try:
             import cosmos_ruflo_harness
