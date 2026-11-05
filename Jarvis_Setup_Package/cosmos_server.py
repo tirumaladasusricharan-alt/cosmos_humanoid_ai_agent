@@ -501,13 +501,20 @@ def extended_listener_worker():
             # Open microphone at native hardware sample rate (44.1kHz Realtek) for maximum acoustic clarity
             with sr.Microphone(device_index=best_mic_idx) as source:
                 recognizer.adjust_for_ambient_noise(source, duration=0.8)
+                # Restrain ambient baseline to stay sensitive to natural human speaking & whisper
+                if recognizer.energy_threshold > 350:
+                    recognizer.energy_threshold = 280
+                elif recognizer.energy_threshold < 70:
+                    recognizer.energy_threshold = 70
                 recognizer.dynamic_energy_threshold = True
-                recognizer.dynamic_energy_ratio = 1.12
-                if recognizer.energy_threshold < 80:
-                    recognizer.energy_threshold = 80
-                print(f"[COSMOS MIC CALIBRATED]: Natural dynamic baseline={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
+                recognizer.dynamic_energy_ratio = 1.15
+                print(f"[COSMOS MIC CALIBRATED]: Sensitive baseline clamped={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
 
                 while mic_enabled:
+                    # Prevent unbounded runaway threshold in background noise
+                    if recognizer.energy_threshold > 450:
+                        recognizer.energy_threshold = 300
+
                     # Wait if speech playback is active
                     if not voice_ready_event.wait(timeout=0.2):
                         continue
@@ -841,16 +848,17 @@ async def get_state():
 @app.post("/api/mic_toggle")
 async def toggle_mic():
     """Toggles Python microphone listener on or off."""
-    global mic_enabled, current_state
+    global mic_enabled, current_state, is_sleeping
     with state_lock:
         mic_enabled = not mic_enabled
         if mic_enabled:
             current_state = "listening"
+            is_sleeping = False
         else:
             current_state = "idle"
         new_state = mic_enabled
         ui_state = current_state
-    print(f"[API] Microphone toggled: mic_enabled={new_state}, state={ui_state}", flush=True)
+    print(f"[API] Microphone toggled: mic_enabled={new_state}, state={ui_state}, is_sleeping={is_sleeping}", flush=True)
     return {"mic_enabled": new_state, "state": ui_state}
 
 
@@ -991,6 +999,8 @@ async def execute_query(request: Request):
 # ═══════════════════════════════════════════════════════════════════════
 @app.get("/")
 async def serve_index():
+    global is_sleeping
+    is_sleeping = False
     index_file = os.path.join(FRONTEND_DIR, "index.html")
     if os.path.exists(index_file):
         return FileResponse(

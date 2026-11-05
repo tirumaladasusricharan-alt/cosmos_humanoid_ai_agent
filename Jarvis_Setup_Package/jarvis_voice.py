@@ -104,6 +104,7 @@ def is_close_command(query):
     words = " ".join(normalized.split())
     close_triggers = (
         "close yourself", "close your self", "closed yourself", "close you self",
+        "close youself", "closed youself", "shut youself", "quit youself",
         "clothes yourself", "cross yourself", "close window", "close the window",
         "close cosmos", "go to sleep", "sleep", "be quiet", "quiet", "shut up",
         "hide yourself", "minimize yourself", "minimize window", "stop listening",
@@ -114,11 +115,11 @@ def is_close_command(query):
     )
     if any(words == t or words.startswith(t) or words.endswith(t) for t in close_triggers):
         return True
-    if re.search(r"\b(?:close|shut|quit|exit|hide|minimize)\s+(?:your\s*self|it\s*self|ur\s*self|window|the\s*window|screen|the\s*screen|app|the\s*app|now)\b", words):
+    if re.search(r"\b(?:close|shut|quit|exit|hide|minimize|turn\s*off)\s+(?:your?\s*self|you\s*self|youself|it\s*self|ur\s*self|window|the\s*window|screen|the\s*screen|app|the\s*app|now)\b", words):
         return True
     assistant_name = r"(?:cosmo(?:s)?|kosmos)"
     if re.search(
-        rf"\bclose yourself\b(?:\s+(?:{assistant_name}|now|please|sir))*$",
+        rf"\bclose\s+(?:your?\s*self|you\s*self|youself|ur\s*self)\b(?:\s+(?:{assistant_name}|now|please|sir))*$",
         words,
     ):
         return True

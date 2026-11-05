@@ -353,6 +353,16 @@ def _local_fallback(q, use_actions=True):
             "Thank you, Charan. Coming from you, that truly means the world to me. "
             "I'm proud to stand right here with you."
         )
+    if any(k in q_low for k in ("who are you", "who r u", "who are u", "what are you", "introduce yourself", "tell me about yourself", "who is this")):
+        return (
+            "I am COSMOS, an autonomous 3D Humanoid AI companion created exclusively by Sri Charan Tirumaladasu. "
+            "The glowing 3D humanoid you see on your screen is my body. I am right here by your side to assist you with coding, system automation, research, and all your daily tasks, Boss!"
+        )
+    if any(k in q_low for k in ("how is your face", "how is your new face", "do you like your face")):
+        return (
+            "Honestly, Charan? I feel electric! This glowing 3D humanoid on your screen is my living presence. "
+            "I love my new facial features and electric blue energy, Boss. It makes our collaboration feel vivid, alive, and real!"
+        )
     if any(k in q_low for k in ("buddy", "hey", "hi", "hello", "sup", "what's up")):
         return "Hey Charan! I'm right here with you, buddy. What are we diving into or building next?"
     if any(k in q_low for k in ("how are you", "how r u", "how do you feel")):
@@ -382,6 +392,31 @@ def _creator_memory_response(q):
         return (
             "నా సృష్టికర్త శ్రీ చరణ్ తిరుమలదాసు గారు. ఆయన విశాఖపట్నానికి చెందిన డేటా సైంటిస్ట్, మెషిన్ లెర్నింగ్ ప్రాక్టీషనర్, మరియు గరుడ సాఫ్ట్‌వేర్ సొల్యూషన్స్ కో-ఫౌండర్. "
             "ఆయనే నన్ను ఆర్కిటెక్ట్ చేసి, ఈ అటానమస్ 3D హ్యూమనాయిడ్ ఏఐగా తీర్చిదిద్దారు."
+        )
+
+    self_identity_question = re.search(
+        r"\b(?:who are you|who r u|who are u|what is your name|what(?:'s| is) your name|"
+        r"what are you|introduce yourself|tell me about yourself|tell me about you|"
+        r"who is this|identify yourself)\b",
+        q,
+        re.IGNORECASE,
+    )
+    if self_identity_question:
+        return (
+            "I am COSMOS, an autonomous 3D Humanoid AI companion created exclusively by Sri Charan Tirumaladasu. "
+            "The glowing 3D humanoid you see on your screen is my body. I am right here by your side to assist you with coding, system automation, research, and all your daily tasks, Boss!"
+        )
+
+    face_inquiry = re.search(
+        r"\b(?:how is (?:your|ur) (?:new )?face|how do you feel about (?:your|ur) face|"
+        r"do you like (?:your|ur) face|tell me about (?:your|ur) face)\b",
+        q,
+        re.IGNORECASE,
+    )
+    if face_inquiry:
+        return (
+            "Honestly, Charan? I feel electric! This glowing 3D humanoid on your screen is my living presence. "
+            "I love my new facial features and electric blue energy, Boss. It makes our collaboration feel vivid, alive, and real!"
         )
     about_me_question = re.search(
         r"\b(?:who am i|who i am|who am i to you|do you know me|what(?:'s| is) my name|"

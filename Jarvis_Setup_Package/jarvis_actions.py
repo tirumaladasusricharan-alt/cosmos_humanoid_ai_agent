@@ -1121,7 +1121,7 @@ def try_action(q):
             return "I couldn't open a browser for that search."
         return f"Searching Google for {query}."
 
-    # 7. App Launch
+    # 7. App Launch / Close
     close_match = re.match(
         r"(?:please\s+)?(?:(forcefully\s+close|force\s+close|kill|terminate|stop|close|quit|exit|shut\s+down)\s+(?:the\s+)?)(.+?)"
         r"(?:\s+(forcefully|force))?$",
@@ -1130,6 +1130,26 @@ def try_action(q):
     if close_match and sys.platform == "win32":
         action, name, force_suffix = close_match.groups()
         name = name.strip()
+        # Intercept self-close commands before attempting to close a Windows process
+        is_close = False
+        try:
+            import jarvis_voice
+            is_close = jarvis_voice.is_close_command(q_clean)
+        except Exception:
+            pass
+        if (
+            is_close
+            or name.lower() in ("yourself", "youself", "you self", "urself", "cosmos", "myself", "window", "the window", "screen", "the screen")
+        ):
+            try:
+                import threading
+                import cosmos_server
+                cosmos_server.is_sleeping = True
+                threading.Thread(target=cosmos_server.close_cosmos_window, daemon=True).start()
+            except Exception:
+                pass
+            return "Ok boss, I will wait for you, until your next order."
+
         force = action in {"forcefully close", "force close", "kill", "terminate"} or bool(force_suffix)
         success, detail = jarvis_system_control.close_application(name, force=force)
         if success:
