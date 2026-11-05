@@ -36,7 +36,7 @@ js = js.replace(xf_target, xf_repl)
 
 # 3. Shader: Radiant Face Spindle & Head Glowing Light (matching media_1793386683938_0feaf08e.jpg)
 shader_target = 'if (vKind < 0.5) c += faceColor(tile) * faceGlow(tile) * 0.8;'
-shader_repl = 'if (vKind < 0.5) c += faceColor(tile) * faceGlow(tile) * 2.2 + vec3(0.92, 0.78, 1.0) * pow(faceGlow(tile), 1.4) * 2.0;'
+shader_repl = 'if (vKind < 0.5) c += 0.0;'
 assert shader_target in js, "shader_target not found"
 js = js.replace(shader_target, shader_repl)
 
@@ -92,21 +92,21 @@ full_html = f"""<!doctype html>
   display: flex !important;
 }}
 .mira-page-row button {{
-  background: rgba(18, 8, 36, 0.78) !important;
-  border: 1px solid rgba(196, 168, 255, 0.45) !important;
-  color: #c4a8ff !important;
+  background: rgba(10, 12, 18, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  color: #ffffff !important;
   border-radius: 9px !important;
   padding: 10px 22px !important;
   font-size: 13px !important;
   font-family: 'Share Tech Mono', monospace !important;
   letter-spacing: 0.16em !important;
-  box-shadow: 0 0 18px rgba(196, 168, 255, 0.22) !important;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.22) !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
 }}
 .mira-page-row button:hover {{
-  background: rgba(45, 20, 80, 0.9) !important;
-  box-shadow: 0 0 25px rgba(196, 168, 255, 0.45) !important;
+  background: rgba(25, 30, 44, 0.92) !important;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.45) !important;
 }}
 
 /* 2. Sleek Glassmorphism Chat Card (Right-Side, matching User Mockup) */
@@ -117,15 +117,15 @@ full_html = f"""<!doctype html>
   bottom: 50px;
   width: 360px;
   max-width: calc(100vw - 48px);
-  background: rgba(20, 10, 36, 0.65);
-  border: 1px solid rgba(196, 168, 255, 0.32);
+  background: rgba(12, 15, 22, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: 18px;
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 28px rgba(196, 168, 255, 0.18);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 28px rgba(255, 255, 255, 0.18);
   z-index: 9999;
   font-family: 'Segoe UI', 'Share Tech Mono', sans-serif;
-  color: #f2eaff;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -134,8 +134,8 @@ full_html = f"""<!doctype html>
 
 #cosmos-chat-header {{
   padding: 14px 18px;
-  background: rgba(28, 14, 50, 0.82);
-  border-bottom: 1px solid rgba(196, 168, 255, 0.22);
+  background: rgba(16, 20, 30, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -173,8 +173,8 @@ full_html = f"""<!doctype html>
   box-shadow: 0 0 10px #57f0c2;
 }}
 .cosmos-status-dot.talking {{
-  background: #c4a8ff;
-  box-shadow: 0 0 15px #c4a8ff;
+  background: #ffffff;
+  box-shadow: 0 0 15px #ffffff;
   animation: cosmosPulse 1.1s infinite alternate;
 }}
 .cosmos-status-dot.listening {{
@@ -201,7 +201,7 @@ full_html = f"""<!doctype html>
   background: transparent;
 }}
 #cosmos-messages-scroll::-webkit-scrollbar-thumb {{
-  background: rgba(196, 168, 255, 0.25);
+  background: rgba(255, 255, 255, 0.25);
   border-radius: 4px;
 }}
 
@@ -213,17 +213,17 @@ full_html = f"""<!doctype html>
 }}
 .cosmos-bubble.cosmos-bot {{
   align-self: flex-start;
-  background: rgba(48, 22, 78, 0.72);
-  border: 1px solid rgba(196, 168, 255, 0.35);
-  color: #f7f2ff;
+  background: rgba(20, 24, 36, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
   border-radius: 14px 14px 14px 3px;
   padding: 10px 14px;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }}
 .cosmos-bubble.cosmos-user {{
   align-self: flex-end;
-  background: rgba(85, 42, 138, 0.85);
-  border: 1px solid rgba(220, 190, 255, 0.5);
+  background: rgba(35, 45, 65, 0.90);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   color: #ffffff;
   border-radius: 14px 14px 3px 14px;
   padding: 10px 14px;
@@ -234,14 +234,14 @@ full_html = f"""<!doctype html>
   display: flex;
   align-items: center;
   padding: 10px 12px;
-  background: rgba(20, 10, 36, 0.9);
+  background: rgba(12, 15, 22, 0.92);
   border-top: 1px solid rgba(196, 168, 255, 0.2);
   gap: 8px;
 }}
 #cosmos-query-field {{
   flex: 1;
   background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(196, 168, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 10px;
   padding: 10px 14px;
   color: #ffffff;
@@ -251,13 +251,13 @@ full_html = f"""<!doctype html>
   transition: border-color 0.2s, background 0.2s;
 }}
 #cosmos-query-field:focus {{
-  border-color: #c4a8ff;
+  border-color: #ffffff;
   background: rgba(255, 255, 255, 0.1);
 }}
 #cosmos-send-button {{
-  background: rgba(196, 168, 255, 0.22);
-  border: 1px solid rgba(196, 168, 255, 0.45);
-  color: #c4a8ff;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  color: #ffffff;
   border-radius: 10px;
   width: 40px;
   height: 40px;
@@ -269,9 +269,9 @@ full_html = f"""<!doctype html>
   transition: all 0.2s;
 }}
 #cosmos-send-button:hover {{
-  background: rgba(196, 168, 255, 0.4);
+  background: rgba(255, 255, 255, 0.4);
   color: #ffffff;
-  box-shadow: 0 0 12px rgba(196, 168, 255, 0.35);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.35);
 }}
 </style>
 
@@ -353,9 +353,9 @@ full_html = f"""<!doctype html>
         if (d.state === 'talking') {{
           dot.className = 'cosmos-status-dot talking';
           text.textContent = 'SPEAKING';
-          badge.style.color = '#c4a8ff';
-          badge.style.borderColor = 'rgba(196,168,255,0.45)';
-          badge.style.background = 'rgba(196,168,255,0.18)';
+          badge.style.color = '#ffffff';
+          badge.style.borderColor = 'rgba(255,255,255,0.45)';
+          badge.style.background = 'rgba(255,255,255,0.18)';
         }} else if (d.state === 'listening') {{
           dot.className = 'cosmos-status-dot listening';
           text.textContent = 'LISTENING';

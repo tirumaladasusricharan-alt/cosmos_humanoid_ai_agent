@@ -4250,7 +4250,7 @@ return orthographicDepthToViewZ(depth,cameraNear,cameraFar);
     float nearAlpha = (nearBody * 0.30 + nearRidgeA * 1.00 + nearRidgeB * 0.95) * iMatter * quiet * audioBoost * iNear;
 
     // ── ground: near-black navy with an atmospheric violet that is NOT centered on the orb ──
-    vec3 ground = mix(vec3(0.012, 0.011, 0.030), vec3(0.005, 0.004, 0.013), smoothstep(0.35, 1.25, length((uv - 0.5) * asp)));
+    vec3 ground = mix(vec3(0.008, 0.010, 0.014), vec3(0.004, 0.005, 0.007), smoothstep(0.35, 1.25, length((uv - 0.5) * asp)));
     float atmo = smoothstep(0.40, 0.9, fbm(p * 0.28 + vec2(slowT * 0.25, slowT * 0.15) + 30.0)) * 0.09 * iField;
 
     // ── DEBUG VIEWS (lib/miraDebug): each system alone, obvious, in the real stack ──
@@ -4420,7 +4420,7 @@ return orthographicDepthToViewZ(depth,cameraNear,cameraFar);
     float t = hairT(q), age = uBT - t;
     float on = smoothstep(-0.05, 0.3, age);
     float edge = age > -0.05 ? exp(-max(0.0, age) * 5.0) : 0.0;          // the bright leading edge behind the wave
-    return c * on + (c * 1.4 + vec3(0.32, 0.22, 0.5) * max(c.r, max(c.g, c.b))) * edge * on;
+    return c * on + (c * 1.4 + vec3(0.16, 0.19, 0.24) * max(c.r, max(c.g, c.b))) * edge * on;
   }
   float colouredAt(vec2 q) { return smoothstep(-0.05, 0.3, uBT - hairT(q)); }
 `,C_=Mp+`
@@ -4479,7 +4479,7 @@ return orthographicDepthToViewZ(depth,cameraNear,cameraFar);
     float pulse = (d > 0.0 && d < 110.0) ? 1.0 - d / 110.0 : 0.0;
     pulse *= pulse * step(0.55, fract(vSeed * 23.0)) * uPulse * colouredAt(vRest);
     c = built(c, vRest);
-    c += (c + vec3(0.25, 0.12, 0.35)) * pulse * 2.2;
+    c += (c + vec3(0.12, 0.14, 0.18)) * pulse * 2.2;
     gl_FragColor = vec4(c * uGain * uOn, 1.0);
   }
 `,lk=C_+`
@@ -4669,18 +4669,18 @@ self.onmessage = async (e) => {
     // of white lines look bad")
     float coloured = smoothstep(vF, vF + 0.4, uTime);
     vec3 own = mix(mix(vCol, vec3(1.0), 0.45), vCol, coloured);
-    vec3 c = mix(own * uGain, mix(vCol, vec3(1.0, 0.96, 1.0), 0.55) * uHot, heat);
+    vec3 c = mix(own * uGain, mix(vCol, vec3(1.0, 1.0, 1.0), 0.55) * uHot, heat);
     // the ignition's wave lights the line as it crosses it
     float sh = shockAt(vPos);
-    c += vec3(0.95, 0.8, 1.0) * sh * 1.6;
+    c += vec3(1.0, 1.0, 1.0) * sh * 1.6;
     c *= mix(1.0, mix(uSketchBright * press, 1.0, uSettle), vSketch);
-    c += vec3(1.0, 0.95, 1.0) * tip * uSketchBright;
+    c += vec3(1.0, 1.0, 1.0) * tip * uSketchBright;
     // at rest: light travelling along the line, each line on its own speed and phase
     float head = mod(uLiveT * (120.0 + vId * 160.0) * uPulseSpeed + vId * 3000.0, vLen + 900.0);   // (her pace clock)
     float d = head - vS;
     float pulse = (d > 0.0 && d < 150.0) ? 1.0 - d / 150.0 : 0.0;
     pulse *= pulse * uIdle * uPulse;
-    c += vec3(1.0, 0.94, 1.0) * pulse * 2.0;
+    c += vec3(1.0, 1.0, 1.0) * pulse * 2.0;
     // (under her hair her line gives way - lib/miraHairPic HAIR_ZONE_GLSL)
     // (the line settles to its resting brightness once its colour has come)
     float rest = 1.0 - (1.0 - uRest) * smoothstep(vF, vF + 0.6, uTime);
@@ -4751,11 +4751,11 @@ self.onmessage = async (e) => {
     vA *= uTrail;
     gl_PointSize = uPx * (waiting ? 1.1 : (1.2 + 1.0 * vMove)) * (0.7 + aSeed * 0.6) * (uLag > 0.0 ? 0.8 : 1.0);
     // hot violet-white the instant it leaves the core, its own colour on the way, brighter in flight
-    vec3 hot = vec3(0.92, 0.82, 1.0);
-    vCol = waiting ? mix(hot, aCol, 0.4) : mix(hot, aCol, smoothstep(0.0, 0.2, u)) * (1.1 + 0.9 * flight * uMatter) + vec3(1.0, 0.95, 1.0) * land * 1.5;
+    vec3 hot = vec3(1.0, 1.0, 1.0);
+    vCol = waiting ? mix(hot, aCol, 0.4) : mix(hot, aCol, smoothstep(0.0, 0.2, u)) * (1.1 + 0.9 * flight * uMatter) + vec3(1.0, 1.0, 1.0) * land * 1.5;
     // the dust on her face catches the glow in its front while she speaks (lib/miraFace)
     vCol += faceColor(local) * faceGlow(local) * 1.4 * on;
-    vCol += vec3(0.9, 0.75, 1.0) * sh * 1.6;
+    vCol += vec3(1.0, 1.0, 1.0) * sh * 1.6;
     vCol *= mix(1.0, uBright, on);                  // brighter while she talks or listens (lib/miraPace)
   }
 `,$k=`
@@ -4773,8 +4773,8 @@ self.onmessage = async (e) => {
     float front = shockAt(vP);
     float glow = exp(-d * d / (w * w * 16.0)) * 0.22 * uShock.w;     // a soft violet glow round the thin front
     float wake = d < 0.0 ? exp(d / (w * 12.0)) * 0.07 * uShock.w : 0.0;
-    vec3 c = mix(vec3(0.62, 0.36, 1.0), vec3(1.0, 0.92, 1.0), clamp(front / max(1e-4, uShock.w), 0.0, 1.0));
-    gl_FragColor = vec4(c * front * 0.9 + vec3(0.55, 0.3, 1.0) * (glow + wake), 1.0);
+    vec3 c = mix(vec3(1.0, 1.0, 1.0), vec3(1.0, 1.0, 1.0), clamp(front / max(1e-4, uShock.w), 0.0, 1.0));
+    gl_FragColor = vec4(c * front * 0.9 + vec3(1.0, 1.0, 1.0) * (glow + wake), 1.0);
   }
 `,iF=`
   attribute vec3 aDir; attribute float aS;
@@ -4803,7 +4803,7 @@ self.onmessage = async (e) => {
     float px = abs(vUv.y) * uHalfPx;
     float wire = exp(-pow(px / uCorePx, 2.0));
     float halo = exp(-pow(px / max(0.5, uSoft), 2.0)) * 0.30;
-    vec3 c = mix(uCol, vec3(1.0, 0.94, 1.0), 0.5) * 2.0;
+    vec3 c = mix(uCol, vec3(1.0, 1.0, 1.0), 0.5) * 2.0;
     gl_FragColor = vec4(c * (wire + halo) * pulse * ends * uOn, 1.0);
   }
 `,jw="varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }",sF=`
@@ -4861,7 +4861,7 @@ self.onmessage = async (e) => {
     if (dot(pc, pc) > 0.25) discard;
     vec3 c;
     if (vKind > 4.5) {
-      c = vec3(0.30, 0.16, 0.55) * 0.3;                         // the dim matter inside her head (seen only at a turn)
+      c = vec3(0.15, 0.18, 0.22) * 0.3;                         // the dim matter inside her head (seen only at a turn)
     } else {
       vec2 tile = vRest + pc * vPatch;                          // THE TILE: her picture at this fragment's own rest place
       vec4 t = texture2D(uMap, vec2(tile.x / uSize.x, 1.0 - tile.y / uSize.y));
