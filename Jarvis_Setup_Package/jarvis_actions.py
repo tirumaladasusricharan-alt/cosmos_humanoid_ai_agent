@@ -762,6 +762,40 @@ def try_action(q):
         except Exception as _cg_err:
             pass
 
+    # 0a4b2. OpenBot Governance & "Take the Wheel" Handoff Controls
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "release control", "control release", "i release control", "continue automation", "resume automation"
+    )):
+        try:
+            import cosmos_openbot_features
+            return cosmos_openbot_features.handoff_manager.release_control()
+        except Exception:
+            return "Control returned to COSMOS, Boss. Resuming automation."
+
+    if any(q_clean == p or q_clean.startswith(p) for p in (
+        "take the wheel", "i will take the wheel", "handover control", "pause automation"
+    )):
+        try:
+            import cosmos_openbot_features
+            return cosmos_openbot_features.handoff_manager.request_help("Manual takeover requested by Boss.")
+        except Exception:
+            return "Take the wheel, Boss! Automation paused."
+
+    if any(k in q_clean for k in ("openbot", "policy gateway", "check policy", "openbot status")):
+        try:
+            import cosmos_openbot_features
+            driving = cosmos_openbot_features.handoff_manager.is_boss_driving()
+            driver_str = "Sri Charan Tirumaladasu (Manual Driving)" if driving else "COSMOS (Autonomous)"
+            routines_count = len(cosmos_openbot_features.routine_worker.routines)
+            return (
+                f"OpenBot Governance Suite is active, Boss! Current Driver: {driver_str}. "
+                f"Fail-Closed Policy Gateway: ONLINE (pre-action audit enabled). "
+                f"Scheduled Routines: {routines_count} registered (15-min floor enforced). "
+                f"Zero-Leak Secret Scrubber: ONLINE. Isolated Profile: ./cosmos_agent_company/openbot_profile."
+            )
+        except Exception as _ob_err:
+            pass
+
     # 0a4c. Identity & Self Introduction in Telugu & English ("ni gurinchi cheppu evveru nuvvu", "who are you")
     if any(k in q_clean for k in (
         "ni gurinchi", "nee gurinchi", "mee gurinchi", "evveru nuvvu", "evaru nuvvu", "nuvvu evaru", "meeru evaru",

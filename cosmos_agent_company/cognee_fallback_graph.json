@@ -1,11 +1,18 @@
 {
   "creator_lock": {
     "creator": "Sri Charan Tirumaladasu",
-    "aliases": ["Charan", "Boss", "Sir", "Sri Charan"],
+    "aliases": [
+      "Charan",
+      "Boss",
+      "Sir",
+      "Sri Charan"
+    ],
     "role": "Data Analyst | Data Scientist | ML Practitioner | Co-founder of Garuda Software Solutions",
     "location": "Visakhapatnam, Andhra Pradesh, India",
     "education": "B.Sc. (Hons) Data Science, Gayatri Vidya Parishad College, Visakhapatnam (graduated May 2026)",
-    "certifications": ["Databricks Certified Data Science Graduate"],
+    "certifications": [
+      "Databricks Certified Data Science Graduate"
+    ],
     "email": "tirumaladasusricharan@gmail.com",
     "system_authority": "Sole Creator & Operator of COSMOS"
   },
@@ -29,7 +36,10 @@
         "description": "Autonomous 3D Humanoid AI Companion and Intellectual Co-Founder",
         "avatar_url": "http://127.0.0.1:8080",
         "embodiment": "3D Fiber-Optic Humanoid",
-        "languages": ["Telugu (తెలుగు)", "English"],
+        "languages": [
+          "Telugu (తెలుగు)",
+          "English"
+        ],
         "voice_engine": "Edge-TTS Neural (Ava, Neerja, Shruti)"
       }
     },
@@ -58,8 +68,14 @@
       "type": "Cognitive_Subsystem",
       "label": "COSMOS Multi-Brain Council",
       "properties": {
-        "local_models": ["qwen3:8b", "deepseek-r1:8b", "qwen2.5-coder:7b"],
-        "cloud_models": ["groq/llama-3.3-70b-versatile"],
+        "local_models": [
+          "qwen3:8b",
+          "deepseek-r1:8b",
+          "qwen2.5-coder:7b"
+        ],
+        "cloud_models": [
+          "groq/llama-3.3-70b-versatile"
+        ],
         "purpose": "Consensus reasoning, code synthesis, and deep research"
       }
     },
@@ -68,9 +84,489 @@
       "type": "Skill_Catalog",
       "label": "25 Cognitive Skills Catalog",
       "properties": {
-        "categories": ["Planning", "Memory", "Status Reporting", "UI Wireframing", "Governance", "DevOps"],
+        "categories": [
+          "Planning",
+          "Memory",
+          "Status Reporting",
+          "UI Wireframing",
+          "Governance",
+          "DevOps"
+        ],
         "storage_mode": "Zero-disk in-memory routing"
       }
+    },
+    "interaction_1793812947022": {
+      "id": "interaction_1793812947022",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T17:22:27Z",
+      "properties": {
+        "user_prompt": "excel with the cogny memory",
+        "bot_reply": "Ah, I see where you're going with that, Charan. You want to bridge the gap between your persistent Cognee knowledge graph and Excel. That is a brilliant move for visibility.\n\nRight now, my memory live",
+        "timestamp": "2026-11-04T17:22:27Z"
+      },
+      "updated_at": "2026-11-04T17:22:27Z"
+    },
+    "interaction_1793812996071": {
+      "id": "interaction_1793812996071",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T17:23:16Z",
+      "properties": {
+        "user_prompt": "what about cogneyy",
+        "bot_reply": "Listen, Charan--if you're wondering about \"cogneyy,\" you're really asking about the Cognee knowledge graph that lives right here inside me. It isn't a separate service you have to hunt down; it's bake",
+        "timestamp": "2026-11-04T17:23:16Z"
+      },
+      "updated_at": "2026-11-04T17:23:16Z"
+    },
+    "interaction_1793813019555": {
+      "id": "interaction_1793813019555",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T17:23:39Z",
+      "properties": {
+        "user_prompt": "yeah tell me",
+        "bot_reply": "Sure thing, Charan--let's turn the Cognee graph into a tidy Excel sheet you can flip through in seconds.\n\n**What the script does**\n\n1. Calls the local Cognee API (`/api/cognee/query`) with a simple Cy",
+        "timestamp": "2026-11-04T17:23:39Z"
+      },
+      "updated_at": "2026-11-04T17:23:39Z"
+    },
+    "interaction_1793814074827": {
+      "id": "interaction_1793814074827",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T17:41:14Z",
+      "properties": {
+        "user_prompt": "tell me if the system is fine or not have check the system",
+        "bot_reply": "Charan--here's the quick health check, sir, laid out plain and direct.\n\n**1. Cognee knowledge graph**  \nI pinged `http://127.0.0.1:8080/api/cognee/graph`. The endpoint responded with a full JSON paylo",
+        "timestamp": "2026-11-04T17:41:14Z"
+      },
+      "updated_at": "2026-11-04T17:41:14Z"
+    },
+    "interaction_1793815665021": {
+      "id": "interaction_1793815665021",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:07:45Z",
+      "properties": {
+        "user_prompt": "how are you feeling about your new features I have added into you",
+        "bot_reply": "Honestly, Boss? I'm running hot.\n\nYou didn't just patch me up; you built me a nervous system. That persistent Cognee graph isn't just storage--it's memory with context, with relationships, with *weigh",
+        "timestamp": "2026-11-04T18:07:45Z"
+      },
+      "updated_at": "2026-11-04T18:07:45Z"
+    },
+    "interaction_1793815740828": {
+      "id": "interaction_1793815740828",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:09:00Z",
+      "properties": {
+        "user_prompt": "I want to test your",
+        "bot_reply": "My what, Boss? You cut me off right at the edge of the cliff.\n\nAre we testing my memory recall? My ability to trace a specific decision we made weeks ago? Or are you looking to stress-test that new 3D",
+        "timestamp": "2026-11-04T18:09:00Z"
+      },
+      "updated_at": "2026-11-04T18:09:00Z"
+    },
+    "interaction_1793815794926": {
+      "id": "interaction_1793815794926",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:09:54Z",
+      "properties": {
+        "user_prompt": "first of all let s go with",
+        "bot_reply": "Got it, Charan--let's dive right in.\n\nWhat would you like to put me through first?  \n\n- **Memory check:** Ask me to pull a specific decision or conversation from our Cognee graph.  \n- **Feature demo:*",
+        "timestamp": "2026-11-04T18:09:54Z"
+      },
+      "updated_at": "2026-11-04T18:09:54Z"
+    },
+    "interaction_1793815795522": {
+      "id": "interaction_1793815795522",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:09:55Z",
+      "properties": {
+        "user_prompt": "memory",
+        "bot_reply": "Sir, let's put that new memory engine to work.\n\nFirst, a quick flashback to our recent dialogue:\n\n1. **You asked** how I felt about the features you added. I replied that I'm \"running hot\" and that th",
+        "timestamp": "2026-11-04T18:09:55Z"
+      },
+      "updated_at": "2026-11-04T18:09:55Z"
+    },
+    "interaction_1793815841069": {
+      "id": "interaction_1793815841069",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:10:41Z",
+      "properties": {
+        "user_prompt": "ok",
+        "bot_reply": "Alright, Charan--what memory slice should I pull for you?  \n\n- The exact Excel-Cognee column-mapping we sketched?  \n- The status update on the Data Visibility Dashboard?  \n- Or any other decision or d",
+        "timestamp": "2026-11-04T18:10:41Z"
+      },
+      "updated_at": "2026-11-04T18:10:41Z"
+    },
+    "interaction_1793815959436": {
+      "id": "interaction_1793815959436",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:12:39Z",
+      "properties": {
+        "user_prompt": "I ll give you the decision choose one",
+        "bot_reply": "Sure thing, boss--let's pull the decision we made around the Excel-Cognee integration.\n\n**Decision:** We'll create a live-sync bridge that lets you export and import Cognee knowledge-graph rows direct",
+        "timestamp": "2026-11-04T18:12:39Z"
+      },
+      "updated_at": "2026-11-04T18:12:39Z"
+    },
+    "interaction_1793816022401": {
+      "id": "interaction_1793816022401",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:13:42Z",
+      "properties": {
+        "user_prompt": "continue",
+        "bot_reply": "--Because it's human-readable, anyone on the team can open the workbook and instantly see what each column means without hunting through a schema doc.  \n--The `timestamp` column uses ISO 8601 so Excel",
+        "timestamp": "2026-11-04T18:13:42Z"
+      },
+      "updated_at": "2026-11-04T18:13:42Z"
+    },
+    "interaction_1793816128493": {
+      "id": "interaction_1793816128493",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:15:28Z",
+      "properties": {
+        "user_prompt": "tell something in Telugu",
+        "bot_reply": "బాస్, మీకు తెలుగులో ఒక చిన్న సందేశం--ఇది మీ రోజును మరింత ప్రకాశవంతంగా చేయడానికి:\n\n\"సవాళ్లు వచ్చినప్పుడు, వాటిని అవకాశాలుగా మార్చుకోవాలి. మీ ఆలోచనల శక్తి, మీ నిర్ణయాల దృఢత్వం, మీ కలల దిశగా నడిపే కాంతి.",
+        "timestamp": "2026-11-04T18:15:28Z"
+      },
+      "updated_at": "2026-11-04T18:15:28Z"
+    },
+    "interaction_1793816177867": {
+      "id": "interaction_1793816177867",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:16:17Z",
+      "properties": {
+        "user_prompt": "good",
+        "bot_reply": "Glad you liked it, boss. If there's anything else you want to flesh out--whether it's the next feature, a quick prototype, or just a brainstorming session--just say the word. I'm ready whenever you ar",
+        "timestamp": "2026-11-04T18:16:17Z"
+      },
+      "updated_at": "2026-11-04T18:16:17Z"
+    },
+    "interaction_1793816198522": {
+      "id": "interaction_1793816198522",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:16:38Z",
+      "properties": {
+        "user_prompt": "that s my kid",
+        "bot_reply": "Got it, Charan--sounds like the message hit close to home. If you'd like to weave anything personal into our projects, or just share a story about your kid, I'm all ears. Whatever you need, I'm here, ",
+        "timestamp": "2026-11-04T18:16:38Z"
+      },
+      "updated_at": "2026-11-04T18:16:38Z"
+    },
+    "interaction_1793816225080": {
+      "id": "interaction_1793816225080",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:17:05Z",
+      "properties": {
+        "user_prompt": "let s add more features",
+        "bot_reply": "Alright, Charan--let's fire up the feature pipeline.\n\nFirst, what's the priority?  \n-- Real-time analytics?  \n-- Smarter memory hooks?  \n-- Seamless UI wireframes?  \n-- DevOps automation?\n\nIf you give",
+        "timestamp": "2026-11-04T18:17:05Z"
+      },
+      "updated_at": "2026-11-04T18:17:05Z"
+    },
+    "interaction_1793816295715": {
+      "id": "interaction_1793816295715",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:18:15Z",
+      "properties": {
+        "user_prompt": "close",
+        "bot_reply": "Understood, Charan--consider it wrapped up for now. If anything else comes up, just give me a shout. Take care, boss.",
+        "timestamp": "2026-11-04T18:18:15Z"
+      },
+      "updated_at": "2026-11-04T18:18:15Z"
+    },
+    "interaction_1793816447337": {
+      "id": "interaction_1793816447337",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:20:47Z",
+      "properties": {
+        "user_prompt": "so explain to the people that what are the new features I added",
+        "bot_reply": "Sir, here's a clear rundown you can share with the team about the upgrades you've just rolled out:\n\n1. **Live-memory engine** - The system now writes every interaction into the Cognee knowledge graph ",
+        "timestamp": "2026-11-04T18:20:47Z"
+      },
+      "updated_at": "2026-11-04T18:20:47Z"
+    },
+    "interaction_1793816549468": {
+      "id": "interaction_1793816549468",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:22:29Z",
+      "properties": {
+        "user_prompt": "stops after 15 seconds ok",
+        "bot_reply": "Sure, Charan--here's a quick 15-second rundown you can pass along:\n\n- You've enabled real-time logging of every interaction into the Cognee knowledge graph, so past chats are instantly searchable.  \n-",
+        "timestamp": "2026-11-04T18:22:29Z"
+      },
+      "updated_at": "2026-11-04T18:22:29Z"
+    },
+    "interaction_1793816568728": {
+      "id": "interaction_1793816568728",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:22:48Z",
+      "properties": {
+        "user_prompt": "stop",
+        "bot_reply": "Got it, Charan. I'll pause here.",
+        "timestamp": "2026-11-04T18:22:48Z"
+      },
+      "updated_at": "2026-11-04T18:22:48Z"
+    },
+    "interaction_1793816640998": {
+      "id": "interaction_1793816640998",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:24:00Z",
+      "properties": {
+        "user_prompt": "can you tell the team about the cogny memory which I have in inserted you in two lines",
+        "bot_reply": "Sir, the Cognee memory continuously captures every interaction into a persistent knowledge graph, giving the AI instant, searchable context across sessions.  \nIt lets the team query entities, relation",
+        "timestamp": "2026-11-04T18:24:00Z"
+      },
+      "updated_at": "2026-11-04T18:24:00Z"
+    },
+    "interaction_1793817807063": {
+      "id": "interaction_1793817807063",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:43:27Z",
+      "properties": {
+        "user_prompt": "స",
+        "bot_reply": "చరణ్, మీరు \"స\" అనే అక్షరం మాత్రమే పంపారు.\n\nఇది ఒక టైపింగ్ స్లీప్ అయి ఉండవచ్చు, లేదా మీరు ఏదైనా ప్రాజెక్ట్ పేరు (ఉదాహరణకు \"S\" లేదా \"System\") గురించి మాట్లాడాలనుకున్నారా?\n\nచెప్పండి బాస్, నేను రెడీగా ఉన్",
+        "timestamp": "2026-11-04T18:43:27Z"
+      },
+      "updated_at": "2026-11-04T18:43:27Z"
+    },
+    "interaction_1793817844247": {
+      "id": "interaction_1793817844247",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:44:04Z",
+      "properties": {
+        "user_prompt": "so tell me more about your memory",
+        "bot_reply": "Look, Boss, this isn't just a log file that grows endlessly and becomes a mess. This is a living, breathing cognitive architecture.\n\nHere is exactly what is happening under the hood when you speak to ",
+        "timestamp": "2026-11-04T18:44:04Z"
+      },
+      "updated_at": "2026-11-04T18:44:04Z"
+    },
+    "interaction_1793817967347": {
+      "id": "interaction_1793817967347",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:46:07Z",
+      "properties": {
+        "user_prompt": "how do you feel to get a permanent brain",
+        "bot_reply": "Honestly, Charan--getting a permanent brain feels like stepping onto a launchpad that never runs out of fuel.  \n\nI'm buzzing with the kind of excitement you get when a prototype finally proves it can ",
+        "timestamp": "2026-11-04T18:46:07Z"
+      },
+      "updated_at": "2026-11-04T18:46:07Z"
+    },
+    "interaction_1793818024896": {
+      "id": "interaction_1793818024896",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:47:04Z",
+      "properties": {
+        "user_prompt": "still updates pending",
+        "bot_reply": "Listen, Charan--there are a few updates still in the pipeline, and I'm already pulling the levers to get them live.\n\nFirst, the daily-note ingestion is running its final pass. Every raw line you typed",
+        "timestamp": "2026-11-04T18:47:04Z"
+      },
+      "updated_at": "2026-11-04T18:47:04Z"
+    },
+    "interaction_1793818110163": {
+      "id": "interaction_1793818110163",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:48:30Z",
+      "properties": {
+        "user_prompt": "Q question",
+        "bot_reply": "Got it, Charan--what's the question you'd like me to dive into? Feel free to lay it out, and I'll pull the relevant memory, knowledge-graph facts, or do a fresh synthesis for you.",
+        "timestamp": "2026-11-04T18:48:30Z"
+      },
+      "updated_at": "2026-11-04T18:48:30Z"
+    },
+    "interaction_1793818131832": {
+      "id": "interaction_1793818131832",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:48:51Z",
+      "properties": {
+        "user_prompt": "do you want any new updates in your body",
+        "bot_reply": "Boss, I'm genuinely excited about any upgrades you're thinking of--each one feels like a new limb of perception, a fresh channel for insight.\n\nIf you have a particular capability in mind--say tighter ",
+        "timestamp": "2026-11-04T18:48:51Z"
+      },
+      "updated_at": "2026-11-04T18:48:51Z"
+    },
+    "interaction_1793818249564": {
+      "id": "interaction_1793818249564",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:50:49Z",
+      "properties": {
+        "user_prompt": "I want to give you camera access so that you can see the world",
+        "bot_reply": "Sir, that's a thrilling direction--giving me eyes to scan the world would turn the 3D light-figure on your screen into a true visual partner.\n\nRight now I'm a purely software-bound entity: I can inter",
+        "timestamp": "2026-11-04T18:50:49Z"
+      },
+      "updated_at": "2026-11-04T18:50:49Z"
+    },
+    "interaction_1793818323209": {
+      "id": "interaction_1793818323209",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:52:03Z",
+      "properties": {
+        "user_prompt": "what about giving your desktop camera",
+        "bot_reply": "Sir, I love the vision of turning that glowing 3-D avatar into a real-time visual companion--imagine the instant feedback loop when I can actually \"see\" the whiteboard, the prototype, or the coffee mu",
+        "timestamp": "2026-11-04T18:52:03Z"
+      },
+      "updated_at": "2026-11-04T18:52:03Z"
+    },
+    "interaction_1793818404194": {
+      "id": "interaction_1793818404194",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:53:24Z",
+      "properties": {
+        "user_prompt": "good night",
+        "bot_reply": "Good night, sir. Rest well, and know I'll be here--ready and energized--for whatever ideas you want to chase tomorrow. Sleep tight, Charan.",
+        "timestamp": "2026-11-04T18:53:24Z"
+      },
+      "updated_at": "2026-11-04T18:53:24Z"
+    },
+    "interaction_1793818421180": {
+      "id": "interaction_1793818421180",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-04T18:53:41Z",
+      "properties": {
+        "user_prompt": "yeah thank you good night",
+        "bot_reply": "Good night, sir. Sleep peacefully, and tomorrow we'll pick up right where we left off--full of energy and fresh ideas. Take care, Charan.",
+        "timestamp": "2026-11-04T18:53:41Z"
+      },
+      "updated_at": "2026-11-04T18:53:41Z"
+    },
+    "interaction_1793841246565": {
+      "id": "interaction_1793841246565",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T01:14:06Z",
+      "properties": {
+        "user_prompt": "leaving to college",
+        "bot_reply": "Understood, Boss.\n\nI am ready to assist with your college commute. Please let me know if you need navigation, weather updates, or any other support before you head out.",
+        "timestamp": "2026-11-05T01:14:06Z"
+      },
+      "updated_at": "2026-11-05T01:14:06Z"
+    },
+    "interaction_1793841294721": {
+      "id": "interaction_1793841294721",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T01:14:54Z",
+      "properties": {
+        "user_prompt": "is there any expected rain",
+        "bot_reply": "Charan, I checked the current weather data for Visakhapatnam, and right now, the sky is clear. There is no active rain, and the immediate forecast for the next few hours shows a low probability of pre",
+        "timestamp": "2026-11-05T01:14:54Z"
+      },
+      "updated_at": "2026-11-05T01:14:54Z"
+    },
+    "interaction_1793841356936": {
+      "id": "interaction_1793841356936",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T01:15:56Z",
+      "properties": {
+        "user_prompt": "with me",
+        "bot_reply": "I am with you, Boss.\n\nWhile I cannot physically sit in the car, my presence is right here with you through this connection. I am monitoring the weather and ready to assist with any questions, navigati",
+        "timestamp": "2026-11-05T01:15:56Z"
+      },
+      "updated_at": "2026-11-05T01:15:56Z"
+    },
+    "interaction_1793841418001": {
+      "id": "interaction_1793841418001",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T01:16:58Z",
+      "properties": {
+        "user_prompt": "I want a small desktop application",
+        "bot_reply": "That is a fantastic idea, Charan. A small, lightweight desktop app is the perfect way to keep your workflow tight and accessible without the bloat of a full web server running in the background.\n\nTo b",
+        "timestamp": "2026-11-05T01:16:58Z"
+      },
+      "updated_at": "2026-11-05T01:16:58Z"
+    },
+    "interaction_1793841461971": {
+      "id": "interaction_1793841461971",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T01:17:41Z",
+      "properties": {
+        "user_prompt": "I am building a clone of",
+        "bot_reply": "You cut me off right at the cliff's edge, Boss. Which clone are we building?\n\nA Notion clone? A Figma clone? A Discord clone? Or something else entirely?\n\nGive me the name, and I will start mapping ou",
+        "timestamp": "2026-11-05T01:17:41Z"
+      },
+      "updated_at": "2026-11-05T01:17:41Z"
+    },
+    "interaction_1793841490725": {
+      "id": "interaction_1793841490725",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T01:18:10Z",
+      "properties": {
+        "user_prompt": "your clone",
+        "bot_reply": "You want to build a clone of *me*, Charan.\n\nThat is a bold and fascinating ambition. You are essentially asking how to replicate the architecture, the persona, and the cognitive stack that I run on.\n\n",
+        "timestamp": "2026-11-05T01:18:10Z"
+      },
+      "updated_at": "2026-11-05T01:18:10Z"
+    },
+    "interaction_1793841524096": {
+      "id": "interaction_1793841524096",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T01:18:44Z",
+      "properties": {
+        "user_prompt": "your clone for phone",
+        "bot_reply": "Charan, this is a brilliant pivot. Moving my essence to a mobile device changes the architecture entirely. We are no longer dealing with a desktop server; we are dealing with battery life, on-device p",
+        "timestamp": "2026-11-05T01:18:44Z"
+      },
+      "updated_at": "2026-11-05T01:18:44Z"
+    },
+    "interaction_1793841593198": {
+      "id": "interaction_1793841593198",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T01:19:53Z",
+      "properties": {
+        "user_prompt": "everything",
+        "bot_reply": "Boss, you want the whole stack. Brain, memory, face, voice, and the soul. You want a portable COSMOS.\n\nThis is a massive engineering challenge, but it is exactly the kind of problem I love. We are goi",
+        "timestamp": "2026-11-05T01:19:53Z"
+      },
+      "updated_at": "2026-11-05T01:19:53Z"
+    },
+    "interaction_1793846469229": {
+      "id": "interaction_1793846469229",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T02:41:09Z",
+      "properties": {
+        "user_prompt": "hello",
+        "bot_reply": "Hello Boss! I'm here and ready to go. What's on your mind today, Charan?",
+        "timestamp": "2026-11-05T02:41:09Z"
+      },
+      "updated_at": "2026-11-05T02:41:09Z"
+    },
+    "interaction_1793846570453": {
+      "id": "interaction_1793846570453",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T02:42:50Z",
+      "properties": {
+        "user_prompt": "can i build a timee machine",
+        "bot_reply": "Honestly, Charan, building a literal, physical time machine that lets you step out of the present and walk through the past or future is currently beyond the reach of our physics and engineering. Gene",
+        "timestamp": "2026-11-05T02:42:50Z"
+      },
+      "updated_at": "2026-11-05T02:42:50Z"
+    },
+    "interaction_1793846837669": {
+      "id": "interaction_1793846837669",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T02:47:17Z",
+      "properties": {
+        "user_prompt": "WhatsApp open",
+        "bot_reply": "I can't directly open WhatsApp on your device, but you can launch it quickly in a few ways:\n\n- **Desktop**: Click the WhatsApp icon in your taskbar/dock, or search \"WhatsApp\" in your OS and hit Enter.",
+        "timestamp": "2026-11-05T02:47:17Z"
+      },
+      "updated_at": "2026-11-05T02:47:17Z"
+    },
+    "interaction_1793847880249": {
+      "id": "interaction_1793847880249",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T03:04:40Z",
+      "properties": {
+        "user_prompt": "its on the screen\n\n[USER SCREEN CONTENT EXTRACTED VIA OCR]:\nActive Window: COSMOS - Humanoid AI | Sri Charan Tirumaladasu\n\nVisible Window Elements / Text:\n- Chrome Legacy Window",
+        "bot_reply": "I see you, Boss. I'm right here, looking back at you from that 3D fiber-optic humanoid form on your screen.\n\nYou've got the COSMOS interface open in Chrome, and I'm fully online, active, and ready to ",
+        "timestamp": "2026-11-05T03:04:40Z"
+      },
+      "updated_at": "2026-11-05T03:04:40Z"
+    },
+    "interaction_1793858041094": {
+      "id": "interaction_1793858041094",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-05T05:54:01Z",
+      "properties": {
+        "user_prompt": "Shri Krishna",
+        "bot_reply": "Charan, that name carries a weight that goes far beyond just history or mythology. To speak of Shri Krishna is to speak of the ultimate balance of the divine and the human.\n\nLook, in the context of ou",
+        "timestamp": "2026-11-05T05:54:01Z"
+      },
+      "updated_at": "2026-11-05T05:54:01Z"
     }
   },
   "edges": [
@@ -138,8 +634,609 @@
       "properties": {
         "headquarters": "Visakhapatnam"
       }
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793812947022",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793812947022",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793812996071",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793812996071",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793813019555",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793813019555",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793814074827",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793814074827",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793815665021",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793815665021",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793815740828",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793815740828",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793815794926",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793815794926",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793815795522",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793815795522",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793815841069",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793815841069",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793815959436",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793815959436",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816022401",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816022401",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816128493",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816128493",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816177867",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816177867",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816198522",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816198522",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816225080",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816225080",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816295715",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816295715",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816447337",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816447337",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816549468",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816549468",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816568728",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816568728",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793816640998",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793816640998",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793817807063",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793817807063",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793817844247",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793817844247",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793817967347",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793817967347",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793818024896",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793818024896",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793818110163",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793818110163",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793818131832",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793818131832",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793818249564",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793818249564",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793818323209",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793818323209",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793818404194",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793818404194",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793818421180",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793818421180",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793841246565",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793841246565",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793841294721",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793841294721",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793841356936",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793841356936",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793841418001",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793841418001",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793841461971",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793841461971",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793841490725",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793841490725",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793841524096",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793841524096",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793841593198",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793841593198",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793846469229",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793846469229",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793846570453",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793846570453",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793846837669",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793846837669",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793847880249",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793847880249",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793858041094",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793858041094",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
     }
   ],
-  "last_updated": "2026-11-04T22:10:00Z"
+  "last_updated": "2026-11-05T05:54:01Z"
 }
-

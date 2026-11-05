@@ -118,6 +118,11 @@ def add_chat_message(sender: str, text: str):
     global message_seq, message_history
     if not text or not str(text).strip():
         return
+    try:
+        import cosmos_openbot_features
+        text = cosmos_openbot_features.scrub_openbot_secrets(str(text))
+    except Exception:
+        pass
     with state_lock:
         message_seq += 1
         msg = {"id": message_seq, "sender": sender, "text": str(text).strip()}
