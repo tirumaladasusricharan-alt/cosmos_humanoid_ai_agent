@@ -4887,7 +4887,7 @@ self.onmessage = async (e) => {
       // (weighted by its see-through value, exactly as the flat picture was: her half-clear edge pixels never shine at
       // full strength)
       c = t.rgb * t.a * uGain * (1.0 - underHair(tile) * bright) * (1.0 + faceLift(tile)) * vTint;
-      if (vKind < 0.5) c += 0.0;   // the light in the front of her face
+      if (vKind < 0.5) c += faceColor(tile) * faceGlow(tile) * 0.8;   // the light in the front of her face
     }
     gl_FragColor = vec4(c, 1.0);
   }

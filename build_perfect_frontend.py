@@ -34,11 +34,8 @@ xf_repl = '[m,g]=Te.useState(3),v=Te.useRef({start:performance.now(),speed:3,pin
 assert xf_target in js, "xf_target not found"
 js = js.replace(xf_target, xf_repl)
 
-# 3. Shader: Radiant Face Spindle & Head Glowing Light (matching media_1793386683938_0feaf08e.jpg)
-shader_target = 'if (vKind < 0.5) c += faceColor(tile) * faceGlow(tile) * 0.8;'
-shader_repl = 'if (vKind < 0.5) c += 0.0;'
-assert shader_target in js, "shader_target not found"
-js = js.replace(shader_target, shader_repl)
+# 3. Shader: faceGlow already returns 0.0, keeping valid GLSL vec3 type
+# No float-to-vec3 syntax error
 
 # 4. qk: Face Glow flaring intensely when talking
 qk_target = 'function qk(i,e,t,n){const r=Math.max(0,Math.min(1,i.talk||0)),o=Math.max(0,Math.min(1,i.voice||0)),a=Math.max(0,Math.min(.1,t)),c=e+(r-e)*Math.min(1,a*(r>e?.9:1.6)),h=c<.002?0:c;return{warm:h,glow:n.glow*h*(.55+.65*o),move:n.move*9*(.25*r+.75*o)}}'
