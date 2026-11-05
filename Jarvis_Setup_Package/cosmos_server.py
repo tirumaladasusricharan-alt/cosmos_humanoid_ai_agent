@@ -311,7 +311,7 @@ _browser_pids = set()
 def launch_humanoid_window():
     """Launches the 3D Humanoid in dedicated standalone app window mode."""
     global _browser_pids
-    url = f"http://127.0.0.1:8080/?t={int(time.time())}"
+    url = f"http://127.0.0.1:8080/?v={int(time.time())}"
     chrome_path = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
     edge_path = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
     launched = False
