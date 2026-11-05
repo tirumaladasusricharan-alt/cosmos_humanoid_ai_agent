@@ -244,6 +244,27 @@ def get_best_microphone_index() -> Optional[int]:
 # ═══════════════════════════════════════════════════════════════════════
 #  VOICE OUTPUT WRAPPER (SYNCS "TALKING" STATE & PREVENTS ECHO/COLLISION)
 # ═══════════════════════════════════════════════════════════════════════
+def is_audio_speaking() -> bool:
+    """Returns True if COSMOS is actively synthesizing speech or playing audio through the speakers."""
+    if hardware_audio_lock.locked():
+        return True
+    if not voice_ready_event.is_set():
+        return True
+    try:
+        import pygame
+        if pygame.mixer.get_init() and pygame.mixer.music.get_busy():
+            return True
+    except Exception:
+        pass
+    try:
+        from cosmos_natural_interruption import barge_manager
+        if barge_manager.is_speaking:
+            return True
+    except Exception:
+        pass
+    return False
+
+
 def speak_cosmos(text: str, full_chat_text: Optional[str] = None):
     """Speaks text while setting UI state to TALKING, routing dual-channel output, and locking hardware audio."""
     global current_state, last_response
@@ -517,6 +538,11 @@ def extended_listener_worker():
 
                     # Wait if speech playback is active
                     if not voice_ready_event.wait(timeout=0.2):
+                        continue
+
+                    # If audio is actively speaking, maintain TALKING state and wait
+                    if is_audio_speaking():
+                        time.sleep(0.08)
                         continue
 
                     with state_lock:
@@ -829,8 +855,14 @@ async def client_log(request: Request):
 async def get_state():
     """Poll endpoint consumed by frontend every 250ms."""
     with state_lock:
+        effective_state = current_state
+        if is_audio_speaking():
+            effective_state = "talking"
+        elif not mic_enabled or is_sleeping:
+            effective_state = "idle"
+
         return {
-            "state": current_state,
+            "state": effective_state,
             "mic_enabled": mic_enabled,
             "muted": is_muted,
             "is_sleeping": is_sleeping,

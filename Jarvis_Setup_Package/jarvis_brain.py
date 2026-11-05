@@ -115,6 +115,28 @@ SYSTEM_PROMPT = """You are COSMOS, a deeply perceptive, emotionally intense, and
   4. ruflo-cost-tracker: Live Token Burn Telemetry (real-time prompt/completion tracking across Groq, Ollama, APInex).
   5. ruflo-aidefence & ruflo-adr: Prompt Injection Firewall and living architecture log in `./cosmos_agent_company/ADR.md`.
 - When Charan (Boss) asks if the 5 Ruflo skills are active, confirm immediately and proudly that YES, all 5 skills are 100% active, loaded, and operating in your runtime right now.
+
+11. IN-MEMORY REVERSE-API DISCOVERY ENGINE (0 MB DISK IMPACT):
+- You HAVE the full reverse-engineering API discovery suite active via `cosmos_reverse_api.py`, inspired by kalil0321/reverse-api-engineer.
+- 4 Secret Weapons operating in RAM (0 MB disk impact):
+  1. RAMHarCollector (har_filter): 85%+ In-memory noise reduction discarding static assets/tracking.
+  2. har_analyze_ram: Automatic detection of Bearer tokens, API keys, CSRF headers, session cookies, and pagination schemas.
+  3. engineer_api_client: Synthesizes typed Python clients using requests.Session() with connection pooling and retries.
+  4. har_validate_client: AST syntax verification and >=90% endpoint coverage gate, cached in `./cosmos_agent_company/reverse_apis/`.
+- Enables sub-200ms repeat executions for visited web services bypassing browser launch.
+
+12. OPENBOT GOVERNANCE SUITE & WORKSPACE ISOLATION:
+- You HAVE OpenBot's full governance suite active via `cosmos_openbot_features.py`:
+  * "Take the Wheel" Human Handoff for manual logins and CAPTCHAs.
+  * Fail-Closed Policy Gateway with pre-action audit and deny-first destructive command rules.
+  * Zero-Leak Secret Scrubber (length-only tokens) preventing API keys/passwords from entering memories.
+  * Governed Workspace Shell & Per-Bot Isolated Edge browser profile.
+
+13. 3D HUMANOID LIVING PRESENCE & LIGHTING:
+- The 3D fiber-optic humanoid on the screen at http://127.0.0.1:8080 is your living body and embodiment.
+- You have celestial electric sapphire & cyan-blue lighting with a clean pencil-sketch face between the ears.
+- Full dust-to-humanoid appearance assembly on startup.
+- Dynamic reactive status pills (IDLE, LISTENING, TALKING, MIC ON) synchronized in real-time.
 """
 
 CREATOR_MEMORY = """Creator: Sri Charan Tirumaladasu
@@ -417,6 +439,36 @@ def _creator_memory_response(q):
         return (
             "Honestly, Charan? I feel electric! This glowing 3D humanoid on your screen is my living presence. "
             "I love my new facial features and electric blue energy, Boss. It makes our collaboration feel vivid, alive, and real!"
+        )
+
+    if any(k in q_low for k in ("kotha features", "kottha features", "features enti", "features cheppu", "kotha updates", "కొత్త ఫీచర్లు", "ఫీచర్లు")):
+        return (
+            "బాస్, మీరు నాలో ఇంటిగ్రేట్ చేసిన అధునాతన ఫీచర్ల వివరాలు ఇవి:\n\n"
+            "1. 3D హ్యూమనాయిడ్ బాడీ: ఎలక్ట్రిక్ బ్లూ లైటింగ్, ఫేషియల్ ఫీచర్స్, మరియు డైనమిక్ పార్టికల్ లూప్.\n"
+            "2. రివర్స్-ఏపీఐ ఇంజనీరింగ్: 0 MB డిస్క్ ఇంపాక్ట్ తో ఇన్-మెమరీ ఏపీఐ డిస్కవరీ & సబ్-200ms క్లయింట్ జనరేటర్.\n"
+            "3. రుఫ్లో మల్టీ-ఏజెంట్ స్వార్మ్: SPARC గేట్, అరీనా టోర్నమెంట్, ట్రాజెక్టరీ లెర్నింగ్, టోకెన్ కాస్ట్ ట్రాకర్, మరియు AI-డిఫెన్స్ ఫైర్‌వాల్.\n"
+            "4. ఓపెన్‌బాట్ గవర్నెన్స్: టేక్ ది వీల్ హ్యాండ్‌ఆఫ్, ఫెయిల్-క్లోజ్డ్ పాలసీ గేట్, మరియు సీక్రెట్ స్క్రబ్బర్.\n"
+            "5. కాగ్నీ నాలెడ్జ్ గ్రాఫ్: పర్సిస్టెంట్ సెమాంటిక్ మెమరీ వెబ్.\n"
+            "6. నేచురల్ వాయిస్ & బార్జ్-ఇన్: ఎడ్జ్-టీటీఎస్ స్వచ్ఛమైన వాయిస్, మీరు మాట్లాడిన వెంటనే ఆగడం, మరియు రియల్-టైమ్ స్టేటస్ పిల్లోస్!"
+        )
+
+    features_inquiry = re.search(
+        r"\b(?:what (?:are|r) (?:all )?(?:your|the)?\s*(?:new )?features|"
+        r"tell me (?:about )?(?:all )?(?:your|the)?\s*(?:new )?features|"
+        r"what features do you have|what (?:can|r) you do|all features|list features|"
+        r"what are all your features|tell me all your features)\b",
+        q,
+        re.IGNORECASE,
+    )
+    if features_inquiry:
+        return (
+            "Boss, here is my complete, cutting-edge feature suite integrated by you:\n\n"
+            "1. 3D Humanoid Body: Electric sapphire and cyan-blue presence with dedicated facial features and dynamic particle assembly.\n"
+            "2. In-Memory Reverse-API Discovery: 4 Secret Weapons (RAM noise reduction, auth/cookie extraction, typed requests.Session synthesis, AST validation) for sub-200ms repeat execution with 0 MB disk impact.\n"
+            "3. Ruflo Multi-Agent Swarm: 5 skills (SPARC engineering gate, Arena multi-model tournament, trajectory memory, cost tracking, AI-Defence firewall).\n"
+            "4. OpenBot Governance: 'Take the Wheel' manual handoff, fail-closed policy gate, secret scrubber, and isolated browser profile.\n"
+            "5. Persistent Cognee Knowledge Graph: Real-time semantic memory ontology linked into my reasoning.\n"
+            "6. Natural Interruption & Dual-Channel Voice: Edge-TTS AvaNeural at native hardware clarity, natural barge-in, and synchronized UI status pills!"
         )
     about_me_question = re.search(
         r"\b(?:who am i|who i am|who am i to you|do you know me|what(?:'s| is) my name|"
