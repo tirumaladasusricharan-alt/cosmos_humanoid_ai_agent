@@ -38,3 +38,33 @@
 - **Decision:** Implemented `cosmos_ruflo_harness.py` covering SPARC 5-phase gates, Arena tournaments, trajectory caching, token burn monitoring, and prompt injection defense.
 - **Consequences:** 100% zero-regression, 0 MB disk footprint, automated code verification via AST parsing.
 
+
+---
+
+### ADR: Electric Blue Humanoid Migration
+- **Date:** 2026-11-05
+- **Status:** Accepted
+- **Creator / Authority:** Sri Charan Tirumaladasu ("Boss")
+- **Context:** User requested complete replacement of violet with celestial electric blue
+- **Decision:** Shift WebP pixel textures and GLSL shaders to electric blue
+- **Consequences:** Zero violet across humanoid body, hair, and background nebula
+
+---
+
+### ADR: Electric Blue Humanoid Migration
+- **Date:** 2026-11-05
+- **Status:** Accepted
+- **Creator / Authority:** Sri Charan Tirumaladasu ("Boss")
+- **Context:** User requested complete replacement of violet with celestial electric blue
+- **Decision:** Shift WebP pixel textures and GLSL shaders to electric blue
+- **Consequences:** Zero violet across humanoid body, hair, and background nebula
+
+---
+
+### ADR: Electric Blue Humanoid Migration
+- **Date:** 2026-11-05
+- **Status:** Accepted
+- **Creator / Authority:** Sri Charan Tirumaladasu ("Boss")
+- **Context:** User requested complete replacement of violet with celestial electric blue
+- **Decision:** Shift WebP pixel textures and GLSL shaders to electric blue
+- **Consequences:** Zero violet across humanoid body, hair, and background nebula
