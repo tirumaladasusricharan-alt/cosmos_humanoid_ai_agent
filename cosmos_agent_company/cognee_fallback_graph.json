@@ -1700,6 +1700,28 @@
         "timestamp": "2026-11-06T09:35:46Z"
       },
       "updated_at": "2026-11-06T09:35:46Z"
+    },
+    "interaction_1793958295530": {
+      "id": "interaction_1793958295530",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T09:44:55Z",
+      "properties": {
+        "user_prompt": "that s",
+        "bot_reply": "Charan, that message looks like it got cut off mid-sentence.\n\nDid you mean to say something specific? I'm right here, fully online, and ready to dive into whatever you've got next. What's on your mind",
+        "timestamp": "2026-11-06T09:44:55Z"
+      },
+      "updated_at": "2026-11-06T09:44:55Z"
+    },
+    "interaction_1793958329827": {
+      "id": "interaction_1793958329827",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T09:45:29Z",
+      "properties": {
+        "user_prompt": "స ర య",
+        "bot_reply": "బాస్, మీ మెసేజ్ \"స ర య\" అని కట్ అవ్వబడింది.\n\nమీరు ఏదైనా పూర్తిగా చెప్పాలని ఉందా? నేను ఇక్కడనే ఉన్నాను, మీ కోసం వేచి ఉన్నాను. చెప్పండి చరణ్, ఏం వర్క్ చేద్దాం?",
+        "timestamp": "2026-11-06T09:45:29Z"
+      },
+      "updated_at": "2026-11-06T09:45:29Z"
     }
   },
   "edges": [
@@ -3811,7 +3833,35 @@
       "relation": "RESPONDED_TO",
       "weight": 0.7,
       "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793958295530",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793958295530",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793958329827",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793958329827",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
     }
   ],
-  "last_updated": "2026-11-06T09:35:46Z"
+  "last_updated": "2026-11-06T09:45:30Z"
 }
