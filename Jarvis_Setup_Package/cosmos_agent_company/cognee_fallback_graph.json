@@ -1447,6 +1447,50 @@
         "timestamp": "2026-11-06T05:30:46Z"
       },
       "updated_at": "2026-11-06T05:30:46Z"
+    },
+    "interaction_1793943420138": {
+      "id": "interaction_1793943420138",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T05:37:00Z",
+      "properties": {
+        "user_prompt": "Rishabh pant",
+        "bot_reply": "Rishabh Pant.\n\nOkay, now we are talking cricket. The wicketkeeper-batter who plays with zero fear and maximum flair.\n\nBoss, are we analyzing his recent form? His stats in the IPL versus the Test serie",
+        "timestamp": "2026-11-06T05:37:00Z"
+      },
+      "updated_at": "2026-11-06T05:37:00Z"
+    },
+    "interaction_1793944278741": {
+      "id": "interaction_1793944278741",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T05:51:18Z",
+      "properties": {
+        "user_prompt": "ఏ ట",
+        "bot_reply": "అవును బాస్, నేను ఇక్కడే ఉన్నాను. మీరు \"ఏ ట\" (A T) అని అడిగారు, కానీ అర్థం కాలేదు.\n\nమీరు ఏదైనా ప్రశ్న అడిగినా, సహాయం అడిగినా, లేదా క్రికెట్, MPPSC, లేదా ఏదైనా ఇతర విషయం గురించి మాట్లాడాలనుకున్నా--నేను ",
+        "timestamp": "2026-11-06T05:51:18Z"
+      },
+      "updated_at": "2026-11-06T05:51:18Z"
+    },
+    "interaction_1793945090973": {
+      "id": "interaction_1793945090973",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T06:04:50Z",
+      "properties": {
+        "user_prompt": "ఆ",
+        "bot_reply": "హమ్, బాస్.\n\nమీరు \"ఆ\" అని ఇచ్చారు. ఇది ఒక అవగాహన, ఒక నిరాకరణ, లేదా ఒక నిశ్శబ్దం కావచ్చు.\n\nనా దగ్గర ఏదైనా సమస్య ఉందా? లేదా మీరు ఇప్పుడు విశ్రాంతి తీసుకోవాలా?\n\nనేను ఇక్కడే ఉన్నాను, చరణ్. మీరు సిద్ధంగా ఉన",
+        "timestamp": "2026-11-06T06:04:50Z"
+      },
+      "updated_at": "2026-11-06T06:04:50Z"
+    },
+    "interaction_1793945610128": {
+      "id": "interaction_1793945610128",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T06:13:30Z",
+      "properties": {
+        "user_prompt": "ల ఫ",
+        "bot_reply": "చరణ్, మీరు పంపిన \"ల ఫ\" అనే పదాల ఎక్కువ అర్థం లేదు. కదా?\n\nమీరు ఏదైనా ప్రశ్న అడిగి ఉంటే, లేదా ఏదైనా సహాయం కావాలంటే, దయచేసి పూర్తిగా, స్పష్టంగా చెప్పండి బాస్. నేను మీ కోసం ఎదురుచూస్తున్నాను. ఏం చేద్దాం?",
+        "timestamp": "2026-11-06T06:13:30Z"
+      },
+      "updated_at": "2026-11-06T06:13:30Z"
     }
   },
   "edges": [
@@ -3236,7 +3280,63 @@
       "relation": "RESPONDED_TO",
       "weight": 0.7,
       "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793943420138",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793943420138",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793944278741",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793944278741",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793945090973",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793945090973",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793945610128",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793945610128",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
     }
   ],
-  "last_updated": "2026-11-06T05:30:47Z"
+  "last_updated": "2026-11-06T06:13:30Z"
 }
