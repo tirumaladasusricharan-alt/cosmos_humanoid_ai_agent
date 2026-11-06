@@ -1,82 +1,120 @@
-# ⚡ COSMOS AI Personal Assistant - Complete Setup
+# 🌌 COSMOS - Autonomous 3D Humanoid AI Agent & Cognitive OS Engine
 
-> **A real voice-controlled AI executive assistant for your computer.**
-> Features voice app launching, YouTube playback, WhatsApp automation, email briefings, live stock market analysis (Buy/Sell calls), rate-limit failover, and a 3D holographic Iron Man HUD!
+> **Architected, Designed & Deployed Exclusively by [Sri Charan Tirumaladasu](https://github.com/tirumaladasusricharan-alt)**  
+> *Data Analyst | Data Scientist | ML Practitioner | Co-founder of Garuda Software Solutions*
 
 ---
 
-## 🚀 Quick Start (In 60 Seconds)
+## 🌟 Overview
 
-### On Windows:
-Run these commands from the project folder:
+**COSMOS** is an OS-level, voice-first autonomous executive AI assistant featuring a real-time WebGL 3D Humanoid avatar, bilingual Telugu + English conversational intelligence, multi-brain dual reasoning (Council Mode with DeepSeek-R1 + Qwen2.5-Coder), ultra-fast cloud failover, persistent Cognee semantic knowledge graphs, Ruflo multi-agent engineering skills, and hardware-locked voice execution.
+
+---
+
+## 💎 Core Capabilities & Architecture
+
+### 1. 🧬 WebGL 3D Fiber-Optic Humanoid Avatar
+- **Physical Living Embodiment**: Real-time 3D humanoid avatar rendered at `http://127.0.0.1:8080` with dynamic particles-to-body assembly.
+- **Precision Color Palette & Facial Landmarks**:
+  - **Electric Blue Irises**: Glowing circular eyeballs with radial texture, dark pupils, and crisp white catchlights.
+  - **Arched Neon-Pink Brows**: Delicate textured pink eyebrow hairs tracing the natural brow ridge.
+  - **Golden-Amber Cybernetic Mesh**: High-contrast golden face and body contours with zero blue on the nose, lips, or chin.
+  - **Neon-Pink & Cyan Circuit Accents**: Bold magenta contour lines tracing bust, ribs, and hips with electric cyan centerline below the collarbone.
+  - **Fiber-Optic Blue Hair**: Luminescent azure strands reactive to ambient lighting.
+- **Reactive Oral Luminescence**: Dynamic mouth and facial glow responding in real-time to oral speech states (`idle`, `listening`, `talking`).
+
+---
+
+### 2. 🗣️ Bilingual Native Telugu (తెలుగు) + English Voice Engine
+- **0 MB Model Disk Storage**: Zero-footprint streaming neural TTS via `te-IN-ShrutiNeural` (native Telugu) and `en-US-AvaNeural` (articulate English).
+- **Strict Language Symmetry**:
+  - **Telugu Input**: Immediate response in authentic, grammatically flawless Telugu script (తెలుగు లిపి) or natural conversational phrasing.
+  - **English Input**: Fluent, articulate, and intellectually razor-sharp English.
+- **Conversational & Transliteration Awareness**: Seamlessly understands casual check-ins and English words transliterated into Telugu script (e.g. `'లైఫ్'` for Life, `'జాబ్'` for Job, `'ప్రాజెక్ట్'` for Project, `'వర్క్'` for Work, `'కోడ్'` for Code, etc.).
+- **Hardware Audio Collision Lock**: Strict Realtek sound card mutex preventing microphone feedback collision during TTS playback.
+- **Natural Voice Barge-In**: Hardware audio interruption allowing the user to speak or barge in naturally mid-sentence.
+
+---
+
+### 3. 🧠 Multi-Brain Reasoning & Council Mode
+- **Multi-Model Tiered Intelligence**:
+  - **Pass 1 — Architectural Logic**: Local DeepSeek-R1 (`deepseek-r1:8b`) for structured reasoning and pseudocode blueprints.
+  - **Pass 2 — Polyglot Implementation**: Local Qwen2.5-Coder (`qwen2.5-coder:7b`) for verified syntax and logic implementation.
+  - **Sub-Second Cloud Failover**: Groq Llama-3.3-70B integration providing ~1.2s responses with anti-fragmentation guards.
+- **Zero Unsolicited Monologue**: Incomplete command fragment protection preventing unsolicited LLM monologues.
+
+---
+
+### 4. 🕸️ Persistent Cognee Knowledge Graph
+- **Live Semantic Graph**: Autonomous persistent memory subsystem (`./cosmos_agent_company/cognee_fallback_graph.json`).
+- **Dynamic Entity & Relation Extraction**: Automatically maps and connects people, projects, concepts, and preferences across live interactions.
+- **Active Endpoints**: Live REST queries served at `/api/cognee/graph` and `/api/cognee/query`.
+
+---
+
+### 5. 🛠️ Ruflo Multi-Agent Engineering Skills & Reverse-API Suite
+- **5 Loaded Ruflo Skills**:
+  1. `ruflo-sparc`: 5-Phase SPARC engineering gate (Specification $\rightarrow$ Pseudocode $\rightarrow$ Architecture $\rightarrow$ Refinement $\rightarrow$ Completion).
+  2. `ruflo-arena`: Competitive multi-model tournament scoring concurrent model outputs.
+  3. `ruflo-intelligence`: Self-learning trajectory loop caching verified recipes in `./cosmos_agent_company/ruflo_trajectories.json`.
+  4. `ruflo-cost-tracker`: Real-time token telemetry across Groq and Ollama.
+  5. `ruflo-aidefence & ruflo-adr`: Prompt injection firewall and living architecture decision records in `./cosmos_agent_company/ADR.md`.
+- **In-Memory Reverse-API Discovery Suite**:
+  - RAM-based HAR collection with 85%+ static asset noise reduction.
+  - Sub-200ms typed Python API client generation bypassing browser launch.
+
+---
+
+### 6. 💻 OS Automation & Desktop Productivity
+- **Desktop Application Control**: Launches, closes, and terminates Start Menu apps via Windows Shell APIs.
+- **Screen OCR Inspection**: Captures displays on demand and extracts text via Windows OCR (`"can you see my screen?"`).
+- **Zero-Cost Web Ground Truth**: Live DuckDuckGo search extraction synthesizing real-time web facts into responses.
+- **Phone Link & WhatsApp Automation**: Hands-free voice call dialing and messaging.
+
+---
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
+- **OS**: Windows 10 / 11
+- **Python**: 3.10 to 3.14
+- *(Optional)* [Ollama](https://ollama.ai) with `deepseek-r1:8b` or `qwen2.5-coder:7b` for local offline council mode.
+
+### 2. Setup & Installation
 ```cmd
-py -m venv .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt
-start_jarvis.bat
+# 1. Setup virtual environment
+python -m venv .venv
+.\.venv\Scripts\activate
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Set Groq API key in .env
+copy .env.example .env
+# Edit .env and enter: GROQ_API_KEY=gsk_...
 ```
 
+### 3. Launch COSMOS
+Double-click `start_jarvis.bat` or run:
+```cmd
+start_jarvis.bat
+```
+The server will boot on `http://127.0.0.1:8080`, summon the 3D Humanoid HUD, and greet you.
+
 ---
 
-## 🎙️ Voice Commands Cheat-Sheet
+## 🎙️ Spoken Wake Words & Hotkeys
 
-| What You Say | What COSMOS Does |
+| Action | Spoken Phrase / Key |
 | :--- | :--- |
-| `"COSMOS, open VS Code"` | Launches Visual Studio Code instantly |
-| `"COSMOS, open Antigravity"` | Launches local Antigravity IDE/CLI with browser fallback |
-| `"COSMOS, open [site] in browser"` | Smart resolution for any website (known platforms, spoken dot, or lucky launch) |
-| `"COSMOS, open [app name]"` | Launches a matching installed Start Menu app |
-| `"COSMOS, close Chrome"` | Closes the matching app window; say "force close" to terminate it |
-| `"Search the web for [topic]"` | Opens a Google search in your default browser |
-| `"Open example.com"` | Opens the website in your default browser |
-| `"Play lofi on YouTube"` | Opens YouTube and starts playing lofi music |
-| `"Stock market report"` | Analyzes Nifty, Sensex, Reliance, Nvidia & crypto |
-| `"Should I buy Reliance?"` | Checks moving averages and gives Buy/Sell advice |
-| `"Check my unread emails"` | Reads your unread mail and provides a 30s briefing |
-| `"Send WhatsApp message to Pallavi"` | Opens WhatsApp Web and drafts a message |
-| `"Volume up" / "Mute"` | Adjusts your system volume hands-free |
-
-### Screen and voice controls
-
-- **SCREEN** captures the primary display and runs local Windows OCR. A
-  screen-related question such as "can you see my screen?" also triggers OCR.
-  The overlay shows `[SCREEN OCR READ ... CHARACTERS]` after text is extracted.
-  Extracted text is sent with the question to Groq and is not saved to chat
-  history.
-- Voice input starts automatically when COSMOS launches. Say **"COSMOS"**,
-  **"Hey COSMOS"**, or **"OK COSMOS"** to bring up the overlay, or say one of
-  those wake phrases followed by a command to open it and
-  run that command. Voice close commands hide the overlay while leaving
-  voice wake active, so you can say **"COSMOS"** to open it again.
-- **MIC OFF / MIC ON** disables or enables voice wake and voice commands. While
-  enabled, the listener stays active across commands and speech playback and
-  retries transient recognition or microphone errors. Speech recognition uses
-  Google's online recognizer; replies use the Emma Edge neural voice at a
-  20% faster rate, with synthesis completed before the reply is displayed when
-  it finishes within four seconds. Playback
-  volume is boosted on Windows and the previous system volume is restored
-  afterward. Local text-to-speech uses a female voice as a fallback. Run
-  `.venv\Scripts\python.exe cosmos_human_voice.py` to play a voice check.
-- App launching uses installed Start Menu apps, shortcuts, or known app aliases;
-  web searches and addresses open in the default browser. Windows app launch
-  and close requests use hidden, parameterized PowerShell; COSMOS does not run
-  arbitrary Command Prompt or PowerShell commands. Requests to close protected
-  Windows processes or the COSMOS process are blocked.
-- COSMOS response messages include a **COPY** action. Fenced or recognized
-  multiline technical output is shown in a code container with **COPY CODE**.
-  Use **COPY LAST** or `Ctrl+Shift+C` to copy the latest response.
-- `start_jarvis.bat` restarts existing COSMOS overlay instances so code updates
-  are loaded when the launcher is run.
+| **Wake Words** | *"COSMOS"*, *"Hey COSMOS"*, *"OK COSMOS"* |
+| **Global Hotkey** | `Alt` or `Alt + Space` (instantly brings 3D HUD to foreground) |
+| **Life & Well-Being** | *"COSMOS, how is your life?"* / *"లైఫ్ ఎలా ఉంది బాస్"* |
+| **Mute / Unmute** | *"Mute"* / *"Unmute"* / Press UI Status Pill |
+| **Close / Minimize** | *"Close yourself"*, *"Minimize"*, or press `Esc` |
 
 ---
 
-## 🛡️ Best Part: Hybrid Failover (Zero Crashes)
-When cloud LLMs hit daily token limits or rate limits (HTTP 429), standard assistants crash and give error messages. 
-COSMOS has an **Automatic Cooldown & Local Fallback Engine**:
-- Detects the exact rate-limit duration.
-- Switches instantly to offline local code.
-- Executes your commands locally without interruption!
-
----
-
-## 🌐 Holographic Iron Man HUD
-Double click `jarvis_workplace.html` in your browser to experience the glowing cyber reactor core, animated globe, live voice audio visualizer, and live market quotes.
+## 🛡️ Author & Sole Authority
+- **Creator**: **Sri Charan Tirumaladasu** ("Boss" / "Charan" / "Sir")
+- **License**: MIT License

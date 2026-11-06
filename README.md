@@ -1,56 +1,101 @@
-# 🌌 COSMOS - Autonomous 3D Humanoid AI Agent
+# 🌌 COSMOS - Autonomous 3D Humanoid AI Agent & Cognitive OS Engine
 
->  
-> *An OS-level, voice-first autonomous executive AI assistant featuring a real-time WebGL 3D Humanoid avatar, multi-brain dual reasoning (Council Mode with DeepSeek-R1 + Qwen2.5-Coder), ultra-fast cloud failover, and hardware-level automation.*
+> **Architected, Designed & Deployed Exclusively by [Sri Charan Tirumaladasu](https://github.com/tirumaladasusricharan-alt)**  
+> *Data Analyst | Data Scientist | ML Practitioner | Co-founder of Garuda Software Solutions*
 
 ---
 
-## 🌟 Key Features
+## 🌟 Overview
 
-- **3D WebGL Humanoid Avatar:**
-  - Interactive, dynamic particles-to-body assembly.
-  - Luminescence and head/face glow reactive to oral speech (`talking`, `listening`, `idle`).
-  - Seamless, camouflaged glassmorphism HUD chat with wake-word instant summon.
+**COSMOS** is an OS-level, voice-first autonomous executive AI assistant featuring a real-time WebGL 3D Humanoid avatar, bilingual Telugu + English conversational intelligence, multi-brain dual reasoning (Council Mode with DeepSeek-R1 + Qwen2.5-Coder), ultra-fast cloud failover, persistent Cognee semantic knowledge graphs, Ruflo multi-agent engineering skills, and hardware-locked voice execution.
 
-- **Multi-Brain & Dual Reasoning (Council Mode):**
-  - **Local Ollama Inference:** Auto-discovers local models (`deepseek-r1:8b`, `qwen2.5-coder:7b`, `qwen2.5:latest`).
-  - **Council Mode:** Pass 1 architectural logic & blueprinting via DeepSeek-R1; Pass 2 verified polyglot implementation via Qwen2.5-Coder.
-  - **Ultra-Fast Cloud Failover:** Groq integration delivering ~1.2s sub-second responses with zero token crashes and anti-fragmentation guards.
+---
 
-- **Voice & Auditory Intelligence:**
-  - High-sensitivity oral listener (`pause_threshold = 0.5s`) detecting whisper, conversational, and soft speech.
-  - Direct Indian English (`en-IN`) single-pass Google STT with multi-language fallback.
-  - Crisp, natural speech output via Edge-TTS neural voice (`rate="+12%"`, `volume="+100%"`).
+## 💎 Core Capabilities & Architecture
 
-- **Full OS Automation & Productivity:**
-  - Desktop application launch and termination via native Windows APIs.
-  - Real-time zero-cost web search and browser ground truth extraction.
-  - Phone Link, WhatsApp automation, system audio controls, OCR screen inspection.
+### 1. 🧬 WebGL 3D Fiber-Optic Humanoid Avatar
+- **Physical Living Embodiment**: Real-time 3D humanoid avatar rendered at `http://127.0.0.1:8080` with dynamic particles-to-body assembly.
+- **Precision Color Palette & Facial Landmarks**:
+  - **Electric Blue Irises**: Glowing circular eyeballs with radial texture, dark pupils, and crisp white catchlights.
+  - **Arched Neon-Pink Brows**: Delicate textured pink eyebrow hairs tracing the natural brow ridge.
+  - **Golden-Amber Cybernetic Mesh**: High-contrast golden face and body contours with zero blue on the nose, lips, or chin.
+  - **Neon-Pink & Cyan Circuit Accents**: Bold magenta contour lines tracing bust, ribs, and hips with electric cyan centerline below the collarbone.
+  - **Fiber-Optic Blue Hair**: Luminescent azure strands reactive to ambient lighting.
+- **Reactive Oral Luminescence**: Dynamic mouth and facial glow responding in real-time to oral speech states (`idle`, `listening`, `talking`).
+
+---
+
+### 2. 🗣️ Bilingual Native Telugu (తెలుగు) + English Voice Engine
+- **0 MB Model Disk Storage**: Zero-footprint streaming neural TTS via `te-IN-ShrutiNeural` (native Telugu) and `en-US-AvaNeural` (articulate English).
+- **Strict Language Symmetry**:
+  - **Telugu Input**: Immediate response in authentic, grammatically flawless Telugu script (తెలుగు లిపి) or natural conversational phrasing.
+  - **English Input**: Fluent, articulate, and intellectually razor-sharp English.
+- **Conversational & Transliteration Awareness**: Seamlessly understands casual check-ins and English words transliterated into Telugu script (e.g. `'లైఫ్'` for Life, `'జాబ్'` for Job, `'ప్రాజెక్ట్'` for Project, `'వర్క్'` for Work, `'కోడ్'` for Code, etc.).
+- **Hardware Audio Collision Lock**: Strict Realtek sound card mutex preventing microphone feedback collision during TTS playback.
+- **Natural Voice Barge-In**: Hardware audio interruption allowing the user to speak or barge in naturally mid-sentence.
+
+---
+
+### 3. 🧠 Multi-Brain Reasoning & Council Mode
+- **Multi-Model Tiered Intelligence**:
+  - **Pass 1 — Architectural Logic**: Local DeepSeek-R1 (`deepseek-r1:8b`) for structured reasoning and pseudocode blueprints.
+  - **Pass 2 — Polyglot Implementation**: Local Qwen2.5-Coder (`qwen2.5-coder:7b`) for verified syntax and logic implementation.
+  - **Sub-Second Cloud Failover**: Groq Llama-3.3-70B integration providing ~1.2s responses with anti-fragmentation guards.
+- **Zero Unsolicited Monologue**: Incomplete command fragment protection preventing unsolicited LLM monologues.
+
+---
+
+### 4. 🕸️ Persistent Cognee Knowledge Graph
+- **Live Semantic Graph**: Autonomous persistent memory subsystem (`./cosmos_agent_company/cognee_fallback_graph.json`).
+- **Dynamic Entity & Relation Extraction**: Automatically maps and connects people, projects, concepts, and preferences across live interactions.
+- **Active Endpoints**: Live REST queries served at `/api/cognee/graph` and `/api/cognee/query`.
+
+---
+
+### 5. 🛠️ Ruflo Multi-Agent Engineering Skills & Reverse-API Suite
+- **5 Loaded Ruflo Skills**:
+  1. `ruflo-sparc`: 5-Phase SPARC engineering gate (Specification $\rightarrow$ Pseudocode $\rightarrow$ Architecture $\rightarrow$ Refinement $\rightarrow$ Completion).
+  2. `ruflo-arena`: Competitive multi-model tournament scoring concurrent model outputs.
+  3. `ruflo-intelligence`: Self-learning trajectory loop caching verified recipes in `./cosmos_agent_company/ruflo_trajectories.json`.
+  4. `ruflo-cost-tracker`: Real-time token telemetry across Groq and Ollama.
+  5. `ruflo-aidefence & ruflo-adr`: Prompt injection firewall and living architecture decision records in `./cosmos_agent_company/ADR.md`.
+- **In-Memory Reverse-API Discovery Suite**:
+  - RAM-based HAR collection with 85%+ static asset noise reduction.
+  - Sub-200ms typed Python API client generation bypassing browser launch.
+
+---
+
+### 6. 💻 OS Automation & Desktop Productivity
+- **Desktop Application Control**: Launches, closes, and terminates Start Menu apps via Windows Shell APIs.
+- **Screen OCR Inspection**: Captures displays on demand and extracts text via Windows OCR (`"can you see my screen?"`).
+- **Zero-Cost Web Ground Truth**: Live DuckDuckGo search extraction synthesizing real-time web facts into responses.
+- **Phone Link & WhatsApp Automation**: Hands-free voice call dialing and messaging.
 
 ---
 
 ## 🚀 Quick Start
 
 ### 1. Prerequisites
-- Python 3.10 - 3.14
-- (Optional) [Ollama](https://ollama.ai) installed with `deepseek-r1:8b` or `qwen2.5-coder:7b` for offline council mode.
+- **OS**: Windows 10 / 11
+- **Python**: 3.10 to 3.14
+- *(Optional)* [Ollama](https://ollama.ai) with `deepseek-r1:8b` or `qwen2.5-coder:7b` for local offline council mode.
 
 ### 2. Setup & Installation
-```bash
-# Clone the repository
+```cmd
+# 1. Clone repository
 git clone https://github.com/tirumaladasusricharan-alt/cosmos_humanoid_ai_agent.git
 cd cosmos_humanoid_ai_agent/Jarvis_Setup_Package
 
-# Create and activate virtual environment
+# 2. Setup virtual environment
 python -m venv .venv
 .\.venv\Scripts\activate
 
-# Install required dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# Configure your free Groq API key in .env
-cp .env.example .env
-# Edit .env and paste: GROQ_API_KEY=your_key_here
+# 4. Set Groq API key in .env
+copy .env.example .env
+# Edit .env and enter: GROQ_API_KEY=gsk_...
 ```
 
 ### 3. Launch COSMOS
@@ -58,20 +103,22 @@ Double-click `start_jarvis.bat` or run:
 ```cmd
 start_jarvis.bat
 ```
-COSMOS will initialize on `http://127.0.0.1:8080` and open the 3D Humanoid HUD!
+The server will boot on `http://127.0.0.1:8080`, summon the 3D Humanoid HUD, and greet you.
 
 ---
 
 ## 🎙️ Spoken Wake Words & Hotkeys
 
-- **Spoken Wake Words:** *"COSMOS"*, *"Hey COSMOS"*, *"OK COSMOS"*
-- **Global Hotkey:** `Alt` or `Alt + Space` to summon COSMOS to the foreground instantly.
-- **Close Command:** *"close yourself"* or *"minimize"*
-- **Settings:** *"open sound settings"* or *"microphone sensitivity"*
+| Action | Spoken Phrase / Key |
+| :--- | :--- |
+| **Wake Words** | *"COSMOS"*, *"Hey COSMOS"*, *"OK COSMOS"* |
+| **Global Hotkey** | `Alt` or `Alt + Space` (instantly brings 3D HUD to foreground) |
+| **Life & Well-Being** | *"COSMOS, how is your life?"* / *"లైఫ్ ఎలా ఉంది బాస్"* |
+| **Mute / Unmute** | *"Mute"* / *"Unmute"* / Press UI Status Pill |
+| **Close / Minimize** | *"Close yourself"*, *"Minimize"*, or press `Esc` |
 
 ---
 
-## 🛡️ License & Authorship
-Created by **Sri Charan Tirumaladasu** .
-Protected under the MIT License.
-
+## 🛡️ Author & Sole Authority
+- **Creator**: **Sri Charan Tirumaladasu** ("Boss" / "Charan" / "Sir")
+- **License**: MIT License
