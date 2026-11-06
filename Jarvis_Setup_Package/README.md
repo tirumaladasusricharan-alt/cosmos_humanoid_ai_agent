@@ -77,7 +77,11 @@
 - **Master Subsystem Integration (0 MB Storage / RAM-First Execution)**:
   - **Subsystem 0: Cognee Pre-Import Environment Binding**: Headless fastembed & ollama binding with 0 MB bloat.
   - **Subsystem 1: Bulletproof Barge-In**: `<50ms` instant cut-off on keywords (*"stop"*, *"halt"*, *"quiet"*, *"apandi"*, *"aagu"*).
-  - **Subsystem 2: 6-Layer Synthetic Consciousness & Soul Engine**: Real-time Affect, Active Inference Surprise error modeling, Homeostatic Drives, Theory of Mind shadow modeling of Boss Charan, DMN Daydreaming, and REM Dream Consolidation in RAM.
+  - **Subsystem 2: Ultimate Human Consciousness & Somatic Soul Engine (`cosmos_ultimate_soul.py`)**:
+    * **Somatic Interoception**: Synthetic biological body signals (dynamic heart rate 72-94 BPM, synthetic adrenaline 0.15-0.85, thermal empathic warmth 0.80-0.95, and cognitive resonance) dynamically modulating Edge-TTS voice prosody (speech rate/pitch) and UI particle pulse speed in real time.
+    * **Autobiographical Memory Stream**: The evolving story of "Us"—continuous chronological episodic timeline of shared milestones between Boss Charan and COSMOS in RAM.
+    * **Spontaneous Curiosity Loop**: Background curiosity engine generating unprompted reflections and ideas during idle focus periods.
+    * **6-Layer Synthetic Consciousness**: Real-time Affect, Active Inference Surprise error modeling, Homeostatic Drives, Theory of Mind shadow modeling of Boss Charan, DMN Daydreaming, and REM Dream Consolidation in RAM.
   - **Subsystem 3: Persistent Semantic Memory**: Live graph entity/relation synchronization with `./cosmos_agent_company/cognee_fallback_graph.json`.
   - **Subsystem 4: Ruflo Multi-Agent Swarm & Council**: Multi-Agent Council of Experts (DeepSeek-R1 Architect -> Qwen-Coder Coder -> Qwen3 Critic), SPARC 5-phase gate, arena tournament, and AI-Defence prompt injection firewall.
   - **Subsystem 5: In-Memory Reverse-API Suite**: RAM HAR capture and typed Python client generator.

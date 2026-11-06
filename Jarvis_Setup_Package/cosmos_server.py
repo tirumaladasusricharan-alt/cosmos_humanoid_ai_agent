@@ -886,6 +886,7 @@ async def get_state():
             "is_sleeping": is_sleeping,
             "control_mode": getattr(sys.modules.get("cosmos_unified_mega_suite"), "COSMOS_UNIFIED_STATE", {}).get("control_mode", "agent"),
             "crisis_autonomy": getattr(sys.modules.get("cosmos_unified_mega_suite"), "COSMOS_UNIFIED_STATE", {}).get("crisis_autonomy", {}),
+            "somatic": getattr(sys.modules.get("cosmos_unified_mega_suite"), "COSMOS_UNIFIED_STATE", {}).get("somatic", {}),
             "affect": getattr(sys.modules.get("cosmos_unified_mega_suite"), "COSMOS_UNIFIED_STATE", {}).get("affect", {}),
             "token_telemetry": getattr(sys.modules.get("cosmos_unified_mega_suite"), "COSMOS_UNIFIED_STATE", {}).get("token_telemetry", {}),
             "last_response": last_response,

@@ -36,6 +36,16 @@ if os.path.exists(PKG_DIR) and PKG_DIR not in sys.path:
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
+try:
+    import cosmos_ultimate_soul
+    ULTIMATE_SOUL_AVAILABLE = True
+except ImportError:
+    try:
+        from Jarvis_Setup_Package import cosmos_ultimate_soul
+        ULTIMATE_SOUL_AVAILABLE = True
+    except ImportError:
+        ULTIMATE_SOUL_AVAILABLE = False
+
 # =====================================================================
 # 0. PRE-IMPORT ENVIRONMENT BINDING FOR COGNEE & LOCAL STACK (0 MB)
 # =====================================================================
@@ -70,6 +80,12 @@ COSMOS_UNIFIED_STATE: Dict[str, Any] = {
         "active_scenario": None,
         "actions_taken": [],
         "last_decision": "Standing by in standard governed mode. Awaiting crisis authorization from Boss.",
+    },
+    "somatic": {
+        "heart_rate_bpm": 72.0,
+        "thermal_warmth": 0.80,
+        "adrenaline": 0.15,
+        "cognitive_flow": 0.50,
     },
     "affect": {
         "mood": "warm_focused",
@@ -1112,8 +1128,18 @@ def cosmos_unified_turn(spoken_or_typed: str) -> str:
     consciousness_engine.process_turn_cognition(spoken_or_typed)
     consciousness_engine.maybe_speak_natural_backchannel(spoken_or_typed)
 
+    if ULTIMATE_SOUL_AVAILABLE:
+        boss_mood = COSMOS_UNIFIED_STATE["subconscious"].get("boss_focus_mode", "deep_architectural_flow")
+        soma_info = cosmos_ultimate_soul.cosmos_ultimate_soul.update_somatic_resonance(spoken_or_typed, boss_mood)
+        COSMOS_UNIFIED_STATE["somatic"] = cosmos_ultimate_soul.cosmos_ultimate_soul.somatic_state
+        COSMOS_UNIFIED_STATE["affect"]["tts_rate"] = soma_info["tts_rate"]
+        COSMOS_UNIFIED_STATE["affect"]["tts_pitch"] = soma_info["tts_pitch"]
+        COSMOS_UNIFIED_STATE["affect"]["pulse_speed"] = str(soma_info["ui_pulse_speed"])
+
     graph_ctx = cognee_memory.retrieve_sync(spoken_or_typed)
     sys_prompt = consciousness_engine.build_conscious_system_prompt(graph_ctx)
+    if ULTIMATE_SOUL_AVAILABLE:
+        sys_prompt += "\n\n" + cosmos_ultimate_soul.cosmos_ultimate_soul.build_ultimate_soul_prompt()
 
     if any(
         w in spoken_or_typed.lower()
@@ -1124,6 +1150,10 @@ def cosmos_unified_turn(spoken_or_typed: str) -> str:
         reply = query_cosmos_with_vision(spoken_or_typed, system_prompt=sys_prompt)
 
     safe_reply = OpenBotGovernanceGate.scrub_secrets(reply)
+
+    if ULTIMATE_SOUL_AVAILABLE:
+        if any(w in spoken_or_typed.lower() for w in ["finish", "done", "deploy", "success", "milestone", "built", "created", "feature"]):
+            cosmos_ultimate_soul.cosmos_ultimate_soul.record_episodic_milestone(f"Milestone: {spoken_or_typed[:60]}")
 
     consciousness_engine.update_self_reflection(spoken_or_typed, safe_reply)
     cognee_memory.ingest_async(spoken_or_typed, safe_reply)
