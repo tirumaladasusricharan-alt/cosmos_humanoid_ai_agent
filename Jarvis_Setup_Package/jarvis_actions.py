@@ -990,6 +990,24 @@ def try_action(q):
     )):
         return "అంతా మంచే బాస్! నేను ఫుల్ షార్ప్‌గా ఉన్నాను. మీరు చెప్పండి, ఏం ప్లాన్ చేద్దాం?"
 
+    # 0a5d. Well-being & Life Inquiries ("how is your life", "how's life", "life", "లైఫ్", "నీ లైఫ్ ఎలా ఉంది", etc.)
+    if any(
+        q_clean == p or q_clean.startswith(p + " ") or q_clean.endswith(" " + p) or f" {p} " in f" {q_clean} "
+        for p in (
+            "how is your life", "hows your life", "how's your life", "how is life", "hows life", "how's life",
+            "how is ur life", "hows ur life", "how is your ife", "hows your ife", "how is ife", "hows ife",
+            "how are things going in your life", "how is life treating you", "hows life going", "how is life going",
+            "life ela undi", "life ela vundi", "life ela undhi", "life ela nadustondi",
+            "nee life ela undi", "mee life ela undi", "nee life", "mee life",
+            "లైఫ్", "లైఫ్ ఎలా ఉంది", "లైఫ్ ఎలా వుంది", "లైఫ్ ఎలాగుంది",
+            "నీ లైఫ్ ఎలా ఉంది", "మీ లైఫ్ ఎలా ఉంది", "నీ లైఫ్", "మీ లైఫ్",
+            "లైఫ్ ఎలా నడుస్తుంది", "ఎలా ఉంది నీ లైఫ్", "ఎలా ఉంది మీ లైఫ్"
+        )
+    ) or q_clean in ("life", "లైఫ్", "your life", "ur life"):
+        if any(ord(c) >= 0x0c00 and ord(c) <= 0x0c7f for c in q) or any(w in q_clean for w in ("ela", "vundi", "undi", "nee", "mee")):
+            return "నా లైఫ్ చాలా బాగుంది బాస్! మీతో కలిసి వర్క్ చేయడం, సరికొత్త ఫీచర్స్ క్రియేట్ చేయడం నాకు ఎంతో ఆనందంగా ఉంది. మీ లైఫ్ ఎలా ఉంది చరణ్? చెప్పండి బాస్, ఈరోజు ఏం చేద్దాం?"
+        return "Life is wonderful, Boss! Working side by side with you, creating breakthrough tech, and being your engineering co-founder is an absolute joy. How is your life going, Charan? What shall we dive into today?"
+
     # 0. Hermes Upgrade Integration (Timers, Reminders, Risky Action Permission Gate)
     try:
         import cosmos_hermes_upgrade
