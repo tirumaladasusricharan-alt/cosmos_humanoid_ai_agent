@@ -694,7 +694,16 @@ def extended_listener_worker():
                             except Exception as mega_err:
                                 print(f"[Mega Suite Spoken Fallback]: {mega_err}", flush=True)
                         if not solution:
-                            solution = cosmos_master_solve(actual_command)
+                            is_coding_request = any(k in actual_command.lower() for k in ("code", "function", "class", "script", "debug", "fix this", "syntax", "refactor", "algorithm", "python", "javascript", "sql"))
+                            if is_coding_request:
+                                solution = cosmos_master_solve(actual_command)
+                        if not solution:
+                            solution = "I'm right here with you, Charan. I'm listening closely--tell me what's on your mind."
+                        try:
+                            import cosmos_emotional_solace
+                            solution = cosmos_emotional_solace.sanitize_robotic_helpline(solution, user_prompt=actual_command)
+                        except Exception:
+                            pass
                         speak_cosmos(solution)
                         log_everything_to_score(query, solution, wav_path)
                     except Exception as brain_err:
@@ -1077,7 +1086,16 @@ async def execute_query(request: Request):
                 except Exception as mega_err:
                     print(f"[COSMOS Mega Suite Router Note]: {mega_err}", flush=True)
             if not reply:
-                reply = cosmos_master_solve(query)
+                is_coding_request = any(k in query.lower() for k in ("code", "function", "class", "script", "debug", "fix this", "syntax", "refactor", "algorithm", "python", "javascript", "sql"))
+                if is_coding_request:
+                    reply = cosmos_master_solve(query)
+            if not reply:
+                reply = "I'm right here with you, Charan. I'm listening closely--tell me what's on your mind."
+            try:
+                import cosmos_emotional_solace
+                reply = cosmos_emotional_solace.sanitize_robotic_helpline(reply, user_prompt=query)
+            except Exception:
+                pass
     except Exception as e:
         reply = f"Error: {e}"
 

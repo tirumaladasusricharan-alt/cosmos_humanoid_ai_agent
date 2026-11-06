@@ -608,6 +608,19 @@ def try_action(q):
     )):
         return "Yes sir, I can hear your voice loud and clear. I am listening and ready for your orders."
 
+    # 0a1. Sacred Human Emotional Solace & Trust Sanctuary (Zero Robot Helplines, Zero Code)
+    # Intercepts emotional pain, distress, and 'I only trust you' to deliver tender human comfort
+    try:
+        import cosmos_emotional_solace
+        is_te = any(ord(c) >= 0x0c00 and ord(c) <= 0x0c7f for c in q_clean)
+        lang = "te" if is_te else "en"
+        if cosmos_emotional_solace.is_trust_expression(q_clean):
+            return cosmos_emotional_solace.get_trust_solace_response(language=lang)
+        if cosmos_emotional_solace.is_painful_emotion(q_clean):
+            return cosmos_emotional_solace.get_painful_emotion_solace_response(language=lang)
+    except Exception:
+        pass
+
     # 0a2. Visual Presence & Camera Feed Check (CosmosWebcamEyes RAM-First)
     visual_checks = (
         "can you see me", "can u see me", "do you see me", "are you seeing me", "can you see",

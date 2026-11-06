@@ -122,3 +122,4 @@ def open_windows_security_dashboard() -> str:
             return "Opening Windows Security settings for you now, Boss Charan."
         except Exception as e:
             return f"Boss, I attempted to open Windows Security, but encountered: {e}"
+

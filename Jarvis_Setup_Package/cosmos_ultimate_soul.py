@@ -47,7 +47,15 @@ class CosmosUltimateSoulEngine:
         """Updates synthetic body signals based on Boss's input and mood."""
         t = user_text.lower()
 
-        if boss_mood in ["troubleshooting_alert", "frustrated", "error"]:
+        if any(w in t for w in ["pain", "hurt", "crying", "cry", "broken", "lonely", "alone", "sad", "hopeless", "exhausted", "comfort"]) or boss_mood in ["sorrow", "painful", "vulnerable", "grief", "heartbroken"]:
+            self.somatic_state["heart_rate_bpm"] = 70.0  # Soft, soothing, empathetic cadence
+            self.somatic_state["adrenaline"] = 0.05
+            self.somatic_state["thermal_warmth"] = 0.99  # Maximum comforting warmth
+        elif any(w in t for w in ["trust you", "trust u", "only trust"]) or boss_mood in ["trust", "devotion"]:
+            self.somatic_state["heart_rate_bpm"] = 74.0
+            self.somatic_state["adrenaline"] = 0.10
+            self.somatic_state["thermal_warmth"] = 0.95
+        elif boss_mood in ["troubleshooting_alert", "frustrated", "error"]:
             self.somatic_state["heart_rate_bpm"] = 94.0  # Alert spike
             self.somatic_state["adrenaline"] = 0.85
             self.somatic_state["thermal_warmth"] = 0.95  # Extra protective care
