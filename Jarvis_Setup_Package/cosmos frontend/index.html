@@ -5384,6 +5384,37 @@ self.onmessage = async (e) => {
       .catch(() => {});
   }, 200);
 
+  // Camera Frame Grabber (RAM-First Relay to backend)
+  function getCameraFrameBase64() {
+    try {
+      const videos = document.querySelectorAll('video');
+      for (const v of videos) {
+        if (v && v.srcObject && v.videoWidth > 0 && !v.paused) {
+          const c = document.createElement('canvas');
+          c.width = Math.min(320, v.videoWidth);
+          c.height = Math.round(c.width * (v.videoHeight / v.videoWidth));
+          const ctx = c.getContext('2d');
+          ctx.drawImage(v, 0, 0, c.width, c.height);
+          const dataUrl = c.toDataURL('image/jpeg', 0.65);
+          return dataUrl.split(',')[1] || '';
+        }
+      }
+    } catch (err) {}
+    return '';
+  }
+
+  // Periodic RAM Sync: If camera is enabled by user, send a snapshot every 2.5s
+  setInterval(() => {
+    const f = getCameraFrameBase64();
+    if (f) {
+      fetch('/api/camera_frame', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ frame: f })
+      }).catch(() => {});
+    }
+  }, 2500);
+
   // Wire input bar to POST /api/command (and fallback /api/query)
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -5392,16 +5423,17 @@ self.onmessage = async (e) => {
       if (!q) return;
       input.value = '';
 
+      const camFrame = getCameraFrameBase64();
       fetch('/api/command', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ command: q, query: q })
+        body: JSON.stringify({ command: q, query: q, camera_frame: camFrame })
       }).catch(() => {
         // Fallback to /api/query
         fetch('/api/query', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: q })
+          body: JSON.stringify({ query: q, camera_frame: camFrame })
         }).catch(() => {});
       });
     });

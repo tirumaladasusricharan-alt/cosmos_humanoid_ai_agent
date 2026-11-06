@@ -979,6 +979,30 @@ async def toggle_mute():
     return {"muted": muted_status}
 
 
+@app.post("/api/camera_frame")
+async def receive_camera_frame(request: Request):
+    """Receives in-memory base64 webcam frame from frontend (0 MB disk impact)."""
+    try:
+        data = await request.json()
+        b64 = (data.get("frame") or data.get("image") or data.get("camera_frame") or "").strip()
+        if b64:
+            if "," in b64:
+                b64 = b64.split(",", 1)[1]
+            try:
+                import cosmos_unified_mega_suite
+                cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_b64"] = b64
+                if hasattr(cosmos_unified_mega_suite, "cosmos_eyes"):
+                    with cosmos_unified_mega_suite.cosmos_eyes._lock:
+                        cosmos_unified_mega_suite.cosmos_eyes.latest_frame_b64 = b64
+                        cosmos_unified_mega_suite.cosmos_eyes.is_active = True
+            except Exception:
+                pass
+            return {"status": "ok", "bytes": len(b64)}
+    except Exception as e:
+        return {"status": "error", "error": str(e)}
+    return {"status": "empty"}
+
+
 @app.post("/api/command")
 @app.post("/api/query")
 async def execute_query(request: Request):
@@ -995,6 +1019,20 @@ async def execute_query(request: Request):
     query = (data.get("query") or data.get("command") or data.get("text") or "").strip()
     if not query:
         return {"response": ""}
+
+    camera_frame = (data.get("camera_frame") or data.get("frame") or "").strip()
+    if camera_frame:
+        if "," in camera_frame:
+            camera_frame = camera_frame.split(",", 1)[1]
+        try:
+            import cosmos_unified_mega_suite
+            cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_b64"] = camera_frame
+            if hasattr(cosmos_unified_mega_suite, "cosmos_eyes"):
+                with cosmos_unified_mega_suite.cosmos_eyes._lock:
+                    cosmos_unified_mega_suite.cosmos_eyes.latest_frame_b64 = camera_frame
+                    cosmos_unified_mega_suite.cosmos_eyes.is_active = True
+        except Exception:
+            pass
 
     with state_lock:
         last_transcript = query

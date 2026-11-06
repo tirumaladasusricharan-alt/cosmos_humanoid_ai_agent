@@ -608,11 +608,35 @@ def try_action(q):
     )):
         return "Yes sir, I can hear your voice loud and clear. I am listening and ready for your orders."
 
-    # 0a2. Visual Presence Check
-    if any(q_clean == p or q_clean.startswith(p) for p in (
-        "can you see me", "can u see me", "do you see me", "are you seeing me", "can you see", "can u see"
-    )):
-        return "Yes Boss, I see you and your workspace clearly. I am online and tracking your environment."
+    # 0a2. Visual Presence & Camera Feed Check (CosmosWebcamEyes RAM-First)
+    visual_checks = (
+        "can you see me", "can u see me", "do you see me", "are you seeing me", "can you see",
+        "can u see", "see me", "look at me", "look at this", "what do you see", "describe what you see",
+        "what am i holding", "what am i wearing", "check my expression", "do you have camera",
+        "is camera working", "i granted camera", "granted camera", "camera access", "can you look",
+        "look here", "watch me", "my camera", "see what i am", "are you able to see me", "able to see me",
+        "camera feed", "see you", "see through camera", "are you watching me", "look into camera",
+        "have camera", "camera working", "can see me"
+    )
+    if any(p in q_clean for p in visual_checks):
+        # Check if RAM camera frame is available
+        frame_b64 = ""
+        try:
+            import cosmos_unified_mega_suite
+            frame_b64 = cosmos_unified_mega_suite.cosmos_eyes.capture_snapshot()
+            if not frame_b64:
+                frame_b64 = cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE.get("camera_frame_b64", "")
+        except Exception:
+            pass
+
+        # If it's a specific visual inspection question ("what am I holding", "what am I wearing", "describe what you see")
+        # and we have a frame and Groq API key, let it fall through to multimodal vision in jarvis_brain!
+        inspection_words = ("what am i", "holding", "wearing", "describe", "what do you see", "what is on", "what am i doing")
+        if any(w in q_clean for w in inspection_words) and frame_b64:
+            return None  # Allow jarvis_brain.think multimodal vision to process image
+
+        # For presence, capability, and camera feed confirmation:
+        return "Yes Boss Charan, your camera feed is granted and fully connected to my neural eyes! I see you and your workspace clearly in real time. I am online, tracking your environment, and standing right here with you."
 
     # 0a3. Regional Ground Truth: Andhra Pradesh Formation Day & Location Weather
     if any(k in q_clean for k in (

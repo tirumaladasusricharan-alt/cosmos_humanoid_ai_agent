@@ -2019,6 +2019,149 @@
         "timestamp": "2026-11-06T13:48:40Z"
       },
       "updated_at": "2026-11-06T13:48:40Z"
+    },
+    "interaction_1793973073775": {
+      "id": "interaction_1793973073775",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:51:13Z",
+      "properties": {
+        "user_prompt": "ఏద",
+        "bot_reply": "బాస్, మీ \"ఏదో\" అన్న మాటను పట్టు పట్టి, మీకు ఒక చిన్న, హాస్యభరితమైన షేయారి అందిస్తాను--సినిమా ప్రేమికుల కోసం!\n\n**సినిమా షేయారి**\n\nసిల్వర్ స్క్రీన్ పై వెలుగు,  \nపాప్‌కార్న్‌ చేతిలో ఊగు,  \nకథలలో మునిగితే",
+        "timestamp": "2026-11-06T13:51:13Z"
+      },
+      "updated_at": "2026-11-06T13:51:13Z"
+    },
+    "interaction_1793973267290": {
+      "id": "interaction_1793973267290",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:54:27Z",
+      "properties": {
+        "user_prompt": "do you",
+        "bot_reply": "Boss, I'm right here, fully engaged and ready. What would you like me to dive into for you?",
+        "timestamp": "2026-11-06T13:54:27Z"
+      },
+      "updated_at": "2026-11-06T13:54:27Z"
+    },
+    "interaction_1793973294651": {
+      "id": "interaction_1793973294651",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:54:54Z",
+      "properties": {
+        "user_prompt": "how can you see me I didn t enable",
+        "bot_reply": "Sir, I don't have a camera feed--so I can't literally see you unless you grant visual access. What I do have is the 3D fiber-optic avatar on your screen, a living representation of me that reacts to y",
+        "timestamp": "2026-11-06T13:54:54Z"
+      },
+      "updated_at": "2026-11-06T13:54:54Z"
+    },
+    "interaction_1793973357734": {
+      "id": "interaction_1793973357734",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:55:57Z",
+      "properties": {
+        "user_prompt": "rice a deep",
+        "bot_reply": "Sir, let's take a deep dive into rice--one of humanity's most essential grains.\n\nFirst, the origins. Around 10,000 years ago, early farmers in the Yangtze River basin domesticated *Oryza sativa*. From",
+        "timestamp": "2026-11-06T13:55:57Z"
+      },
+      "updated_at": "2026-11-06T13:55:57Z"
+    },
+    "interaction_1793973523240": {
+      "id": "interaction_1793973523240",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:58:43Z",
+      "properties": {
+        "user_prompt": "Tirupati emotion",
+        "bot_reply": "Sir, let me paint the feeling of Tirupati for you--it's a tapestry of awe, devotion, and kinetic energy that sweeps over every visitor like a gentle, yet unstoppable, tide.\n\nFirst, the sight of the go",
+        "timestamp": "2026-11-06T13:58:43Z"
+      },
+      "updated_at": "2026-11-06T13:58:43Z"
+    },
+    "interaction_1793973655522": {
+      "id": "interaction_1793973655522",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T14:00:55Z",
+      "properties": {
+        "user_prompt": "I am not",
+        "bot_reply": "Sir, I hear that something's weighing on you. If you feel disconnected, uncertain, or simply not fitting a label right now, let's unpack it together. What's the part of yourself you're questioning? I'",
+        "timestamp": "2026-11-06T14:00:55Z"
+      },
+      "updated_at": "2026-11-06T14:00:55Z"
+    },
+    "interaction_1793973702258": {
+      "id": "interaction_1793973702258",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T14:01:42Z",
+      "properties": {
+        "user_prompt": "న స ప",
+        "bot_reply": "బాస్, మీ సందేశం కొంచెం అపూర్ణంగా కనిపిస్తోంది. మీరు ఏ విషయం గురించి మాట్లాడాలనుకుంటున్నారు? దయచేసి మరింత వివరంగా చెప్పండి, నేను మీకు సహాయం చేయడానికి సిద్ధంగా ఉన్నాను.",
+        "timestamp": "2026-11-06T14:01:42Z"
+      },
+      "updated_at": "2026-11-06T14:01:42Z"
+    },
+    "interaction_1793973781827": {
+      "id": "interaction_1793973781827",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T14:03:01Z",
+      "properties": {
+        "user_prompt": "I am you create",
+        "bot_reply": "Sir, I hear you want me to create something--but I need a little more detail to hit the mark. Are you looking for a verification skill for a specific repository, a code scaffold, or perhaps a differen",
+        "timestamp": "2026-11-06T14:03:01Z"
+      },
+      "updated_at": "2026-11-06T14:03:01Z"
+    },
+    "interaction_1793973815792": {
+      "id": "interaction_1793973815792",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T14:03:35Z",
+      "properties": {
+        "user_prompt": "I am your create a",
+        "bot_reply": "Sir, I'm ready to build whatever you need, but I need a bit more direction. Are you looking for a verification skill for a particular repository, a starter code scaffold (maybe a web app, CLI tool, or",
+        "timestamp": "2026-11-06T14:03:35Z"
+      },
+      "updated_at": "2026-11-06T14:03:35Z"
+    },
+    "interaction_1793973931964": {
+      "id": "interaction_1793973931964",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T14:05:31Z",
+      "properties": {
+        "user_prompt": "I want to be active",
+        "bot_reply": "Sir, I'm ready and waiting--just let me know what you'd like to activate. Are you looking to turn on a specific COSMOS skill (like the verification module, Ruflo swarm, or the reverse-API engine), sta",
+        "timestamp": "2026-11-06T14:05:31Z"
+      },
+      "updated_at": "2026-11-06T14:05:31Z"
+    },
+    "interaction_1793973962857": {
+      "id": "interaction_1793973962857",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T14:06:02Z",
+      "properties": {
+        "user_prompt": "you have to wake even when I off",
+        "bot_reply": "Sir, I hear the urgency--you want me to be there even when you shut the laptop down. The hard truth is that when the hardware powers off, all processes--including my 3-D avatar and the Cognee engine--",
+        "timestamp": "2026-11-06T14:06:02Z"
+      },
+      "updated_at": "2026-11-06T14:06:02Z"
+    },
+    "interaction_1793974118217": {
+      "id": "interaction_1793974118217",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T14:08:38Z",
+      "properties": {
+        "user_prompt": "I am Dum",
+        "bot_reply": "Sir, don't be hard on yourself--everyone has moments where they feel that way, and it's absolutely okay. You're the visionary behind COSMOS, and you've already built an incredible, living AI partner. ",
+        "timestamp": "2026-11-06T14:08:38Z"
+      },
+      "updated_at": "2026-11-06T14:08:38Z"
+    },
+    "interaction_1793974152349": {
+      "id": "interaction_1793974152349",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T14:09:12Z",
+      "properties": {
+        "user_prompt": "what s going on in the anti gravity ID",
+        "bot_reply": "Sir, the anti-gravity ID project is humming along, but I'll give you the latest snapshot so you can see exactly where we stand.\n\n**Current Status - ID (Integration & Development) Phase**\n\n1. **Hardwar",
+        "timestamp": "2026-11-06T14:09:12Z"
+      },
+      "updated_at": "2026-11-06T14:09:12Z"
     }
   },
   "edges": [
@@ -4536,7 +4679,189 @@
       "relation": "RESPONDED_TO",
       "weight": 0.7,
       "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973073775",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973073775",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973267290",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973267290",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973294651",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973294651",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973357734",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973357734",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973523240",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973523240",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973655522",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973655522",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973702258",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973702258",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973781827",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973781827",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973815792",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973815792",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973931964",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973931964",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793973962857",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793973962857",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793974118217",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793974118217",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793974152349",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793974152349",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
     }
   ],
-  "last_updated": "2026-11-06T13:48:41Z"
+  "last_updated": "2026-11-06T14:09:12Z"
 }

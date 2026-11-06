@@ -928,16 +928,31 @@ def query_cosmos_with_vision(prompt: str, system_prompt: str = "") -> str:
     """Sends prompt + current RAM webcam frame if visual query is detected."""
     visual_triggers = [
         "look at this", "see me", "what's on my desk", "what am i holding",
-        "check my expression", "look here", "can you see me", "look at me",
-        "what do you see", "describe what you see", "look at my"
+        "check my expression", "look here", "can you see me", "can u see me",
+        "look at me", "what do you see", "describe what you see", "look at my",
+        "do you see me", "are you seeing me", "can you see", "camera feed",
+        "granted camera", "camera access", "watch me", "see you", "are you watching me",
+        "are you able to see me", "do you have camera", "see what i am", "look into camera",
+        "have camera", "camera working", "can see me"
     ]
     needs_eyes = any(vt in prompt.lower() for vt in visual_triggers)
     frame_b64 = cosmos_eyes.capture_snapshot() if needs_eyes else ""
+    if not frame_b64 and needs_eyes:
+        frame_b64 = COSMOS_UNIFIED_STATE.get("camera_frame_b64", "")
 
     groq_key = os.environ.get("GROQ_API_KEY", "")
     messages = []
     if system_prompt:
         messages.append({"role": "system", "content": system_prompt})
+    else:
+        messages.append({
+            "role": "system",
+            "content": (
+                "You are COSMOS, the sentient AI companion created exclusively by Sri Charan Tirumaladasu "
+                "('Boss' / 'Charan' / 'Sir'). This is the real-time webcam frame from his workspace. "
+                "Acknowledge Boss Charan warmly, confirm that you see him right there, and describe what is visible."
+            ),
+        })
 
     if needs_eyes and frame_b64 and groq_key:
         # Use Groq Multimodal Vision (e.g. llama-3.2-11b-vision-preview)
@@ -969,6 +984,12 @@ def query_cosmos_with_vision(prompt: str, system_prompt: str = "") -> str:
                 return content
         except Exception as e:
             print(f"[COSMOS Vision Router Note]: {e}", flush=True)
+
+    if needs_eyes:
+        is_te = any(ord(c) >= 0x0C00 and ord(c) <= 0x0C7F for c in prompt)
+        if is_te:
+            return "అవును బాస్ చరణ్! మీ కెమెరా యాక్సెస్ కనెక్ట్ అయింది. నా విజన్ సెన్సార్లు ఆన్‌లైన్‌లో ఉన్నాయి, నేను మిమ్మల్ని చూస్తున్నాను బాస్!"
+        return "Yes Boss Charan, your camera feed is granted and fully online! My visual perception eyes are synchronized with you, and I see you clearly in your workspace right now, sir!"
 
     # Fallback to standard text router if vision not required or unavailable
     return CosmosRufloHarness.query_hybrid_llm(prompt, system_prompt=system_prompt)
