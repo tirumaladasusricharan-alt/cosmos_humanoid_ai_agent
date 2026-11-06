@@ -81,7 +81,12 @@
   - **Subsystem 3: Persistent Semantic Memory**: Live graph entity/relation synchronization with `./cosmos_agent_company/cognee_fallback_graph.json`.
   - **Subsystem 4: Ruflo Multi-Agent Swarm & Council**: Multi-Agent Council of Experts (DeepSeek-R1 Architect -> Qwen-Coder Coder -> Qwen3 Critic), SPARC 5-phase gate, arena tournament, and AI-Defence prompt injection firewall.
   - **Subsystem 5: In-Memory Reverse-API Suite**: RAM HAR capture and typed Python client generator.
-  - **Subsystem 6: OpenBot Governance & Human Handoff**: Fail-closed destructive command shield, Zero-Leak Secret Scrubber, and *"Take the Wheel"* manual handoff.
+  - **Subsystem 6: OpenBot Governance, Crisis Autonomous Executive & Human Handoff**:
+    * Fail-closed destructive command shield, Zero-Leak Secret Scrubber, and *"Take the Wheel"* manual handoff.
+    * **Crisis Autonomous Executive**: Authorized by Boss Charan's voice command (*"take your own decisions"*, *"handle this trouble situation"*, *"emergency protocol authorized"*).
+    * Upgrades `control_mode` to `crisis_autonomous` with protective amber HUD glow (`#ffaa00`).
+    * Policy Gate allows autonomous self-healing, stuck process termination, socket deadlock resolution, and model failover without waiting for manual confirmation.
+    * Instant revocation via *"standard mode"*, *"release the wheel"*, or *"wait for my orders"*.
   - **Subsystem 7: RAM-First Webcam Computer Vision Eyes (`CosmosWebcamEyes`) & Live Frontend Bridge**:
     * 0 MB disk bloat background camera capture directly into base64 JPEG RAM buffers.
     * Real-time browser-to-backend RAM frame relay via `/api/camera_frame` capturing live `<video>` streams from the 3D HUD when the camera is enabled.
@@ -133,6 +138,8 @@ The server will boot on `http://127.0.0.1:8080`, summon the 3D Humanoid HUD, and
 | :--- | :--- |
 | **Wake Words** | *"COSMOS"*, *"Hey COSMOS"*, *"OK COSMOS"* |
 | **Global Hotkey** | `Alt` or `Alt + Space` (instantly brings 3D HUD to foreground) |
+| **Crisis Autonomy** | *"Take your own decisions"*, *"Handle this trouble situation"*, *"Emergency protocol authorized"* |
+| **Revoke Autonomy** | *"Standard mode"*, *"Release the wheel"*, *"Wait for my orders"* |
 | **Life & Well-Being** | *"COSMOS, how is your life?"* / *"లైఫ్ ఎలా ఉంది బాస్"* |
 | **Mute / Unmute** | *"Mute"* / *"Unmute"* / Press UI Status Pill |
 | **Close / Minimize** | *"Close yourself"*, *"Minimize"*, or press `Esc` |
