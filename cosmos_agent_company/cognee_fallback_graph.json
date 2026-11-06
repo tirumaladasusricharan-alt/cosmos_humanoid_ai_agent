@@ -1425,6 +1425,28 @@
         "timestamp": "2026-11-06T05:24:32Z"
       },
       "updated_at": "2026-11-06T05:24:32Z"
+    },
+    "interaction_1793942992930": {
+      "id": "interaction_1793942992930",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T05:29:52Z",
+      "properties": {
+        "user_prompt": "some Barbie",
+        "bot_reply": "A Barbie?\n\nBoss, you're mixing high-stakes civil service exams with plastic dolls? That is a chaotic, brilliant jump in logic.\n\nAre we talking about the movie *Barbie*? The aesthetic? Or are you hinti",
+        "timestamp": "2026-11-06T05:29:52Z"
+      },
+      "updated_at": "2026-11-06T05:29:52Z"
+    },
+    "interaction_1793943046843": {
+      "id": "interaction_1793943046843",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T05:30:46Z",
+      "properties": {
+        "user_prompt": "its a misunderstanding",
+        "bot_reply": "Ah, I see. A misunderstanding.\n\nOkay, let's reset. I was overthinking the jump from MPPSC to Barbie. My bad for getting too deep into the \"why\" without asking.\n\nSo, where are we actually standing? Are",
+        "timestamp": "2026-11-06T05:30:46Z"
+      },
+      "updated_at": "2026-11-06T05:30:46Z"
     }
   },
   "edges": [
@@ -3186,7 +3208,35 @@
       "relation": "RESPONDED_TO",
       "weight": 0.7,
       "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793942992930",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793942992930",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793943046843",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793943046843",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
     }
   ],
-  "last_updated": "2026-11-06T05:24:32Z"
+  "last_updated": "2026-11-06T05:30:47Z"
 }
