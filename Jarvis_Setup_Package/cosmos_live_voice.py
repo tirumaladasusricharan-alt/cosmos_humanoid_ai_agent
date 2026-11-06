@@ -161,10 +161,14 @@ def _init_audio():
     global _pygame_initialized
     if not _pygame_initialized:
         try:
-            pygame.mixer.init()
+            pygame.mixer.init(frequency=24000, size=-16, channels=2, buffer=2048)
             _pygame_initialized = True
         except Exception:
-            pass
+            try:
+                pygame.mixer.init()
+                _pygame_initialized = True
+            except Exception:
+                pass
 
 
 async def _stream_tts_to_memory(text: str, voice: str = VOICE_NAME) -> bytes:

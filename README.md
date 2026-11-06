@@ -104,6 +104,12 @@
   - **Subsystem 11: Complete Skills & Feature Repertoire Registry (1400-Token Extended Budget)**:
     * Eliminates mid-sentence truncation by elevating comprehensive rundown and skills query budget from 400 to 1400 tokens.
     * Fast-path immediate recollection and reminders of all 12 core master architectures and 31 modular cognitive skills across Telugu and English.
+  - **Subsystem 12: High-Fidelity Voice Audibility & 24 kHz Native Sound Alignment**:
+    * **Uncapped Master Volume**: Completely removed legacy 70% volume clamping (`MAX_WINDOWS_VOLUME = 0xFFFF`), setting Edge-TTS synthesis gain to `volume="+100%"`.
+    * **Windows Master Endpoint Unmute & Gain Control**: Direct COM `IAudioEndpointVolume` controller (`ensure_windows_audio_master`) dynamically unmuting system speakers and ensuring Master Endpoint Volume is at least 90%.
+    * **24,000 Hz Native MP3 Alignment**: Synchronized `pygame.mixer` to native 24 kHz, 16-bit signed, 2 channels, and 2048 buffer, completely eliminating sample-rate resampling crackle, hollow acoustics, and robotic distortion.
+    * **Lively Conversational Prosody**: Somatic speech cadence dynamically mapped between `+0%` and `+15%` based on heart rate resonance, purging dragging negative rate penalties.
+    * **Pristine Voice Symmetry**: Crystal-clear `en-US-AvaNeural` for articulate English, `te-IN-ShrutiNeural` for native Telugu, and `en-IN-NeerjaNeural` for bilingual Teluguish phrases.
 - **Runtime Telemetry Synchronization**: Continuous state publishing (`control_mode`, `affect`, `subconscious`, `token_telemetry`) to `./cosmos frontend` at `http://127.0.0.1:8080/api/state`.
 
 ---

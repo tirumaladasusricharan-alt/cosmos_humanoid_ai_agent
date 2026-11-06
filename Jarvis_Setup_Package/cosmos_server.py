@@ -283,23 +283,16 @@ def speak_cosmos(text: str, full_chat_text: Optional[str] = None):
         except Exception:
             pass
 
-    # Maximize Windows hardware wave volume to 100% (force loudest output)
-    if sys.platform == "win32":
-        try:
-            ctypes.windll.winmm.waveOutSetVolume(0, 0xFFFFFFFF)
-            # Also maximize master volume via WASAPI if available
+    # Maximize Windows hardware volume and uncap master speakers (ensures audibility)
+    try:
+        from cosmos_human_voice import ensure_windows_audio_master
+        ensure_windows_audio_master(min_volume=0.90)
+    except Exception:
+        if sys.platform == "win32":
             try:
-                from ctypes import cast, POINTER
-                from comtypes import CLSCTX_ALL
-                from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
-                devices = AudioUtilities.GetSpeakers()
-                interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-                volume = cast(interface, POINTER(IAudioEndpointVolume))
-                volume.SetMasterVolumeLevelScalar(1.0, None)
+                ctypes.windll.winmm.waveOutSetVolume(0, 0xFFFFFFFF)
             except Exception:
                 pass
-        except Exception:
-            pass
     # Pause microphone while speaking
     voice_ready_event.clear()
     time.sleep(0.08)

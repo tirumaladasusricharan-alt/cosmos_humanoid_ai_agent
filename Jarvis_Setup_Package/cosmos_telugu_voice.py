@@ -73,7 +73,7 @@ def detect_language_and_select_voice(text: str, default_voice: str = VOICE_DEFAU
 async def synth_bilingual_ram(text: str, default_voice: str = VOICE_DEFAULT_ENGLISH) -> bytes:
     voice = detect_language_and_select_voice(text, default_voice)
     comm = edge_tts.Communicate(
-        text, voice, rate="+0%", pitch="+0Hz", volume="+0%"
+        text, voice, rate="+0%", pitch="+0Hz", volume="+100%"
     )
     buf = io.BytesIO()
     async for chunk in comm.stream():

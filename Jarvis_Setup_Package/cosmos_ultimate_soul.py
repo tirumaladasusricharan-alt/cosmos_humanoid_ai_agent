@@ -62,7 +62,7 @@ class CosmosUltimateSoulEngine:
 
         # Map somatic state to Edge-TTS voice prosody parameters
         hr = self.somatic_state["heart_rate_bpm"]
-        rate_val = f"+{int((hr - 72) * 0.1)}%" if hr > 72 else "-2%"
+        rate_val = f"+{max(0, int((hr - 72) * 0.15))}%"
         pitch_val = f"+{int((hr - 72) * 0.05)}Hz"
 
         return {

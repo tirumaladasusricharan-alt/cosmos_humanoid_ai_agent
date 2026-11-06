@@ -131,7 +131,7 @@ STOP_KEYWORDS = {
 }
 VOICE_TELUGU = "te-IN-ShrutiNeural"
 VOICE_BILINGUAL_IN = "en-IN-NeerjaNeural"
-VOICE_ENGLISH_WARM = "en-US-EmmaMultilingualNeural"
+VOICE_ENGLISH_WARM = "en-US-AvaNeural"
 
 
 class CosmosBargeInAndVoiceManager:
@@ -142,9 +142,12 @@ class CosmosBargeInAndVoiceManager:
         self.is_speaking = False
         if not pygame.mixer.get_init():
             try:
-                pygame.mixer.init(frequency=24000)
+                pygame.mixer.init(frequency=24000, size=-16, channels=2, buffer=2048)
             except Exception:
-                pass
+                try:
+                    pygame.mixer.init()
+                except Exception:
+                    pass
         threading.Thread(target=self._playback_worker, daemon=True).start()
 
     def trigger_interruption(self, reason: str = "Voice/Keyword Barge-In"):
@@ -184,7 +187,6 @@ class CosmosBargeInAndVoiceManager:
         if re.search(r"[\u0c00-\u0c7f]", text):
             return VOICE_TELUGU
         teluguish_markers = [
-            "boss",
             "cheppu",
             "endi",
             "em ",
@@ -197,7 +199,7 @@ class CosmosBargeInAndVoiceManager:
         ]
         if any(m in text.lower() for m in teluguish_markers):
             return VOICE_BILINGUAL_IN
-        return VOICE_BILINGUAL_IN
+        return VOICE_ENGLISH_WARM
 
     async def _synth_ram(self, text: str) -> bytes:
         voice = self.select_voice(text)
@@ -206,9 +208,9 @@ class CosmosBargeInAndVoiceManager:
             comm = edge_tts.Communicate(
                 text,
                 voice,
-                rate=affect.get("tts_rate", "-2%"),
+                rate=affect.get("tts_rate", "+0%"),
                 pitch=affect.get("tts_pitch", "+0Hz"),
-                volume="+4%",
+                volume="+100%",
             )
             buf = io.BytesIO()
             async with asyncio.timeout(3.5):
@@ -245,6 +247,7 @@ class CosmosBargeInAndVoiceManager:
                 self.is_speaking = True
                 COSMOS_UNIFIED_STATE["status"] = "TALKING"
                 pygame.mixer.music.load(io.BytesIO(audio_data))
+                pygame.mixer.music.set_volume(1.0)
                 pygame.mixer.music.play()
                 while pygame.mixer.music.get_busy():
                     if self.stop_signal.is_set():
