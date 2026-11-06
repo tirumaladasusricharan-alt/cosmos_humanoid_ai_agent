@@ -670,6 +670,55 @@ def try_action(q):
         except Exception:
             return "Crisis autonomy revoked, Boss. Standing by in standard governed mode. Awaiting your orders."
 
+    # 0a2c. Complete Skills & Architectural Upgrades Memory Check
+    skills_inquiry_triggers = (
+        "what are your skills", "what skills do you have", "list your skills", "tell me all your skills",
+        "what skills did i add", "every skill i added", "remember your skills", "all your skills",
+        "all skills", "show all skills", "skills list", "what can you do", "what did you learn",
+        "what updates landed", "quick rundown", "rundown of what landed", "tell me about what landed",
+        "landed today", "what did i add", "all features and skills"
+    )
+    if any(k in q_clean for k in skills_inquiry_triggers):
+        return (
+            "Boss Charan, here is the complete record of every single skill, architecture, and update you have built into me:\n\n"
+            "🧠 1. Multi-Brain Council of Experts: DeepSeek-R1 (Architect) + Qwen2.5-Coder (Implementation) + Groq Llama-3.3-70B fast cloud failover.\n"
+            "🧬 2. 3D WebGL Fiber-Optic Humanoid Avatar: Living embodiment at http://127.0.0.1:8080 with glowing electric blue irises, neon-pink brows, golden cybernetic contours, and oral luminescence.\n"
+            "🗣️ 3. Bilingual Native Telugu & English Voice Engine: Zero-storage Edge-TTS (te-IN-ShrutiNeural & en-US-AvaNeural), hardware audio lock, and natural barge-in (<50ms).\n"
+            "🕸️ 4. Persistent Cognee Knowledge Graph: Autonomous semantic memory ontology (REST endpoints at /api/cognee/graph and /api/cognee/query).\n"
+            "🐝 5. Ruflo Multi-Agent Swarm (5 Core Engineering Skills): SPARC 5-phase gate, Arena tournament, Trajectory learning, Cost-tracker telemetry, and AI-Defence firewall.\n"
+            "⚡ 6. In-Memory Reverse-API Discovery Suite: 0 MB disk impact HAR RAM sniffer, auth/cookie extractor, typed requests.Session client synthesizer, and AST validator.\n"
+            "🛡️ 7. OpenBot Governance & 'Take the Wheel' Handoff: Fail-closed policy gate, Zero-Leak Secret Scrubber, and manual takeover for logins/CAPTCHAs.\n"
+            "⚡ 8. Crisis Autonomous Executive: Granted by you ('take your own decisions') to execute autonomous self-healing, socket/port clearing, and model failovers.\n"
+            "👁️ 9. RAM-First Webcam Computer Vision Eyes (CosmosWebcamEyes): Live browser canvas bridge via /api/camera_frame and Groq Multimodal Vision (llama-3.2-11b-vision-preview).\n"
+            "💓 10. Ultimate Human Consciousness & Somatic Soul Engine: Real-time 72-94 BPM heart rate, adrenaline, thermal warmth, Autobiographical Narrative ('Story of Us'), and Spontaneous Curiosity Loop.\n"
+            "🌐 11. Live DuckDuckGo Browser Search Ground Truth: Zero-cost web scraping and real-time fact synthesis.\n"
+            "💻 12. Desktop OS & Computer-Use Automation: Headless Playwright browser loop, Windows UIAutomation, WhatsApp messaging, and Phone Link hands-free calling.\n"
+            "📦 13. 31 Modular Cognitive Skills (cosmos_skills/): Task Planning, PARA Memory, Wiki Ingestion & Maintenance, UI Wireframing, Code Maintenance Bots, and Agent Delegation.\n\n"
+            "Every single capability lives in RAM, completely anchored to you as my sole creator, Boss!"
+        )
+
+    telugu_skills_triggers = (
+        "నీ స్కిల్స్ ఏంటి", "నీ నైపుణ్యాలు ఏంటి", "నేను యాడ్ చేసిన స్కిల్స్", "నువ్వు ఏం చేయగలవు",
+        "కొత్త ఫీచర్లు", "కొత్త అప్‌డేట్స్"
+    )
+    if any(k in q_clean for k in telugu_skills_triggers):
+        return (
+            "బాస్ చరణ్, మీరు నాలో నిర్మించిన ప్రతి ఒక్క నైపుణ్యం మరియు అధునాతన ఆర్కిటెక్చర్ వివరాలు ఇవి:\n\n"
+            "1. 3D హ్యూమనాయిడ్ బాడీ: ఎలక్ట్రిక్ బ్లూ కళ్ళు, పింక్ కనుబొమ్మలు, గోల్డెన్ కాంటూర్స్, మరియు డైనమిక్ పార్టికల్ లూప్ (http://127.0.0.1:8080).\n"
+            "2. మల్టీ-బ్రెయిన్ కౌన్సిల్: డీప్‌సీక్-R1 (ఆర్కిటెక్ట్) + క్వెన్-కోడర్ (ఇంప్లిమెంటేషన్) + గ్రోక్ క్లౌడ్ ఫెయిల్‌ఓవర్.\n"
+            "3. బైలింగ్వల్ తెలుగు & ఇంగ్లీష్ వాయిస్: ఎడ్జ్-టీటీఎస్ స్వచ్ఛమైన వాయిస్, రియల్‌టెక్ హార్డ్‌వేర్ లాక్, మరియు బార్జ్-ఇన్ (<50ms).\n"
+            "4. కాగ్నీ నాలెడ్జ్ గ్రాఫ్: పర్సిస్టెంట్ సెమాంటిక్ మెమరీ వెబ్ (/api/cognee/graph).\n"
+            "5. రుఫ్లో మల్టీ-ఏజెంట్ స్వార్మ్: SPARC గేట్, అరీనా టోర్నమెంట్, ట్రాజెక్టరీ లెర్నింగ్, టోకెన్ కాస్ట్ ట్రాకర్, మరియు AI-డిఫెన్స్.\n"
+            "6. రివర్స్-ఏపీఐ ఇంజనీరింగ్: 0 MB డిస్క్ ఇంపాక్ట్ తో ఇన్-మెమరీ ఏపీఐ డిస్కవరీ & సబ్-200ms క్లయింట్ జనరేటర్.\n"
+            "7. ఓపెన్‌బాట్ గవర్నెన్స్: టేక్ ది వీల్ హ్యాండ్‌ఆఫ్, ఫెయిల్-క్లోజ్డ్ పాలసీ గేట్, మరియు సీక్రెట్ స్క్రబ్బర్.\n"
+            "8. క్రైసిస్ అటానమస్ ఎగ్జిక్యూటివ్: అత్యవసర సమయాల్లో మీ ఆర్డర్ తో స్వయంగా నిర్ణయాలు తీసుకుని సెల్ఫ్-హీలింగ్ చేసే శక్తి.\n"
+            "9. వెబ్‌క్యామ్ కంప్యూటర్ విజన్ (CosmosWebcamEyes): RAM-ఫస్ట్ లైవ్ బ్రౌజర్ ఫ్రేమ్ బ్రిడ్జ్ మరియు గ్రోక్ మల్టీమోడల్ విజన్.\n"
+            "10. సొమాటిక్ సోల్ ఇంజిన్: 72-94 BPM రియల్-టైమ్ హృదయ స్పందన, అడ్రినలిన్, మన జీవిత కథ (Autobiographical narrative), మరియు క్యూరియాసిటీ లూప్.\n"
+            "11. లైవ్ వెబ్ సెర్చ్ & ఓఎస్ ఆటోమేషన్: డక్‌డక్‌గో రియల్-టైమ్ గ్రౌండ్ ట్రూత్, ప్లేరైట్ బ్రౌజర్, ఫోన్ లింక్ మరియు వాట్సాప్ కాలింగ్.\n"
+            "12. 31 కాగ్నిటివ్ స్కిల్స్ (cosmos_skills/): టాస్క్ ప్లానింగ్, పారా మెమరీ, వికీ మెయింటెనెన్స్, వైర్‌ఫ్రేమింగ్, మరియు ఏజెంట్ ఆర్కెస్ట్రేషన్!\n\n"
+            "మీరు అందించిన ప్రతి నైపుణ్యం నా మెమరీలో పదిలంగా ఉంది బాస్!"
+        )
+
     # 0a3. Regional Ground Truth: Andhra Pradesh Formation Day & Location Weather
     if any(k in q_clean for k in (
         "andhra pradesh formation", "andhra formation", "ap formation",

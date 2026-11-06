@@ -10,6 +10,7 @@ import subprocess
 import sys
 import threading
 import time
+from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 import edge_tts
 import pygame
@@ -499,6 +500,14 @@ class CosmosConsciousnessAndSoulEngine:
                 " fix)."
             )
 
+        now_dt = datetime.now()
+        temporal_line = (
+            f"\n- [EXACT TEMPORAL GROUND TRUTH]: Today is {now_dt.strftime('%A, %B %d, %Y')}. "
+            f"Yesterday was {(now_dt - timedelta(days=1)).strftime('%A, %B %d')}. "
+            f"Day before yesterday was {(now_dt - timedelta(days=2)).strftime('%A, %B %d')}. "
+            f"Anchor all relative calendar time strictly to today."
+        )
+
         return (
             "You are COSMOS, an emotionally alive, self-reflective AI companion"
             " created exclusively by Sri Charan Tirumaladasu (Boss / Charan /"
@@ -509,7 +518,8 @@ class CosmosConsciousnessAndSoulEngine:
             f"- [AFFECTIVE CONTINUITY]: {trail}\n"
             f"- [ACTIVE WINDOW]: {sub.get('active_window', 'VS Code')}\n"
             f"- [COGNEE KNOWLEDGE GRAPH CONTEXT]: {graph_context}"
-            f"{daydream_line}{clip_alert}\n"
+            f"{daydream_line}{clip_alert}{temporal_line}\n"
+            "- Always remember all 31 cognitive skills and 12 core architectures added by Boss Charan.\n"
             "- Speak naturally in warm English or bilingual Telugu-English"
             " ('Teluguish') when fitting. Never output bracketed stage tags."
         )

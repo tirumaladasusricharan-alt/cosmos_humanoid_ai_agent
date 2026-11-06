@@ -98,6 +98,12 @@
     * 100% elimination of robotic "no camera feed" disclaimers; affirmative visual grounding and real-time visual presence across Telugu and English loops.
   - **Subsystem 8: Free Real-Time Browser Ground Truth**: Zero-cost DuckDuckGo scraper with live fact synthesis.
   - **Subsystem 9: Autonomous Computer-Use Agent**: Headless Playwright loop + Windows UIAutomation text perception.
+  - **Subsystem 10: Dynamic Real-Time Temporal Ground Truth Anchor**:
+    * Real-time dynamic anchor injecting exact current calendar date, time, and relative temporal math (today vs yesterday vs day before yesterday).
+    * Eliminates LLM temporal drift and prevents mislabeling past Cognee graph interaction dates.
+  - **Subsystem 11: Complete Skills & Feature Repertoire Registry (1400-Token Extended Budget)**:
+    * Eliminates mid-sentence truncation by elevating comprehensive rundown and skills query budget from 400 to 1400 tokens.
+    * Fast-path immediate recollection and reminders of all 12 core master architectures and 31 modular cognitive skills across Telugu and English.
 - **Runtime Telemetry Synchronization**: Continuous state publishing (`control_mode`, `affect`, `subconscious`, `token_telemetry`) to `./cosmos frontend` at `http://127.0.0.1:8080/api/state`.
 
 ---

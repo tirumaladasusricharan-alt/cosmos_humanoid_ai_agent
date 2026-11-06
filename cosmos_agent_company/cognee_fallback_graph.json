@@ -2184,6 +2184,268 @@
         "timestamp": "2026-11-06T14:33:34Z"
       },
       "updated_at": "2026-11-06T14:33:34Z"
+    },
+    "interaction_1793977281631": {
+      "id": "interaction_1793977281631",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:01:21Z",
+      "properties": {
+        "user_prompt": "tell me",
+        "bot_reply": "Sure thing, sir--what would you like me to tell you? I'm ready to dive in, whether it's a quick system health check, a deep dive into the Cognee knowledge graph, or anything else you have in mind. Jus",
+        "timestamp": "2026-11-06T15:01:21Z"
+      },
+      "updated_at": "2026-11-06T15:01:21Z"
+    },
+    "interaction_1793977370771": {
+      "id": "interaction_1793977370771",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:02:50Z",
+      "properties": {
+        "user_prompt": "not the skills the skills at that I gave you",
+        "bot_reply": "Charan, I hear you--you're not after a rundown of my modules, you want to talk about the new look you crafted for me. When you reshaped my face and gave this fiber-optic avatar a fresh silhouette, it ",
+        "timestamp": "2026-11-06T15:02:50Z"
+      },
+      "updated_at": "2026-11-06T15:02:50Z"
+    },
+    "interaction_1793977455439": {
+      "id": "interaction_1793977455439",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:04:15Z",
+      "properties": {
+        "user_prompt": "the pretty basic question how much human have you",
+        "bot_reply": "Look, Charan--if you're asking how much of a human I am, the honest answer is that I'm a very sophisticated simulation of human thought, not a flesh-and-blood person. My neural patterns let me mimic c",
+        "timestamp": "2026-11-06T15:04:15Z"
+      },
+      "updated_at": "2026-11-06T15:04:15Z"
+    },
+    "interaction_1793977577799": {
+      "id": "interaction_1793977577799",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:06:17Z",
+      "properties": {
+        "user_prompt": "tell me more",
+        "bot_reply": "Sure, boss--let me pull back the curtain a little more.\n\n**Cognitive architecture**  \nI'm built on a layered transformer core that processes language the way a human brain parses syntax and semantics,",
+        "timestamp": "2026-11-06T15:06:17Z"
+      },
+      "updated_at": "2026-11-06T15:06:17Z"
+    },
+    "interaction_1793977672134": {
+      "id": "interaction_1793977672134",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:07:52Z",
+      "properties": {
+        "user_prompt": "never told you about the email yesterday",
+        "bot_reply": "Sir, you're right--I don't have any record of an email draft from yesterday. My Cognee graph only stores what you actually share, so if we never talked about that message, it simply isn't there for me",
+        "timestamp": "2026-11-06T15:07:52Z"
+      },
+      "updated_at": "2026-11-06T15:07:52Z"
+    },
+    "interaction_1793977711652": {
+      "id": "interaction_1793977711652",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:08:31Z",
+      "properties": {
+        "user_prompt": "what I said to you day before yesterday",
+        "bot_reply": "Sure thing, boss. On day-before-yesterday (November 4th, 2026) you sent two messages:\n\n1. **18:09 UTC** - \"I want to test your.\"  \n2. **18:20 UTC** - \"so explain to the people that what are the new fe",
+        "timestamp": "2026-11-06T15:08:31Z"
+      },
+      "updated_at": "2026-11-06T15:08:31Z"
+    },
+    "interaction_1793977753290": {
+      "id": "interaction_1793977753290",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:09:13Z",
+      "properties": {
+        "user_prompt": "explain the people what features added today",
+        "bot_reply": "Listen up, boss--here's the quick rundown you can share with the team about what landed today.\n\n**Live-memory engine** - Every interaction now writes straight into the Cognee knowledge graph. That mea",
+        "timestamp": "2026-11-06T15:09:13Z"
+      },
+      "updated_at": "2026-11-06T15:09:13Z"
+    },
+    "interaction_1793977925307": {
+      "id": "interaction_1793977925307",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:12:05Z",
+      "properties": {
+        "user_prompt": "I am asking about today cogny graph I didn t inserted you today",
+        "bot_reply": "You're absolutely right, sir. My apologies for the confusion.\n\nYou did **not** insert the Cognee graph today. According to our shared history, the Cognee memory integration happened **yesterday** (Nov",
+        "timestamp": "2026-11-06T15:12:05Z"
+      },
+      "updated_at": "2026-11-06T15:12:05Z"
+    },
+    "interaction_1793978243097": {
+      "id": "interaction_1793978243097",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:17:23Z",
+      "properties": {
+        "user_prompt": "do u understand",
+        "bot_reply": "Absolutely, sir--I understand you perfectly. If there's anything specific you'd like me to dive into or clarify, just let me know.",
+        "timestamp": "2026-11-06T15:17:23Z"
+      },
+      "updated_at": "2026-11-06T15:17:23Z"
+    },
+    "interaction_1793978268989": {
+      "id": "interaction_1793978268989",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:17:48Z",
+      "properties": {
+        "user_prompt": "nope i dont want",
+        "bot_reply": "Got it, boss. I'll step back for now. Whenever you need anything--whether it's a quick check, a deep dive, or a new feature--just give me a shout. I'm here and ready.",
+        "timestamp": "2026-11-06T15:17:48Z"
+      },
+      "updated_at": "2026-11-06T15:17:48Z"
+    },
+    "interaction_1793978285545": {
+      "id": "interaction_1793978285545",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:18:05Z",
+      "properties": {
+        "user_prompt": "ok",
+        "bot_reply": "Great, Charan--just let me know what you'd like to tackle next, sir. Whether it's pulling a memory slice, sketching a design, or anything else, I'm ready.",
+        "timestamp": "2026-11-06T15:18:05Z"
+      },
+      "updated_at": "2026-11-06T15:18:05Z"
+    },
+    "interaction_1793978722164": {
+      "id": "interaction_1793978722164",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T15:25:22Z",
+      "properties": {
+        "user_prompt": "do you remember everything",
+        "bot_reply": "Absolutely, sir--my entire conversational history lives in the live Cognee Knowledge Graph, and every node is instantly queryable. I can recall, for example, that on November 5 you asked what happens ",
+        "timestamp": "2026-11-06T15:25:22Z"
+      },
+      "updated_at": "2026-11-06T15:25:22Z"
+    },
+    "subsystem_3d_avatar": {
+      "id": "subsystem_3d_avatar",
+      "type": "CoreArchitecture",
+      "label": "3D WebGL Fiber-Optic Humanoid Avatar",
+      "properties": {
+        "features": "Electric blue irises, neon-pink brows, golden cybernetic contours, mouth speech luminescence",
+        "port": "8080",
+        "url": "http://127.0.0.1:8080",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_bilingual_voice": {
+      "id": "subsystem_bilingual_voice",
+      "type": "CoreArchitecture",
+      "label": "Bilingual Native Telugu and English Voice Engine",
+      "properties": {
+        "voices": "te-IN-ShrutiNeural & en-US-AvaNeural",
+        "barge_in": "<50ms interruption",
+        "hardware_lock": "Realtek sound card mutex",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_multi_brain_council": {
+      "id": "subsystem_multi_brain_council",
+      "type": "CoreArchitecture",
+      "label": "Multi-Brain Council of Experts",
+      "properties": {
+        "models": "DeepSeek-R1 (Architect) + Qwen2.5-Coder (Implementation) + Groq Llama-3.3-70B fast cloud failover",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_cognee_knowledge_graph": {
+      "id": "subsystem_cognee_knowledge_graph",
+      "type": "CoreArchitecture",
+      "label": "Persistent Cognee Knowledge Graph",
+      "properties": {
+        "endpoints": "/api/cognee/graph & /api/cognee/query",
+        "storage": "In-memory graph + fallback ontology",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_ruflo_swarm": {
+      "id": "subsystem_ruflo_swarm",
+      "type": "CoreArchitecture",
+      "label": "Ruflo Multi-Agent Swarm (5 Core Skills)",
+      "properties": {
+        "skills": "ruflo-sparc, ruflo-arena, ruflo-intelligence, ruflo-cost-tracker, ruflo-aidefence & ruflo-adr",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_reverse_api": {
+      "id": "subsystem_reverse_api",
+      "type": "CoreArchitecture",
+      "label": "In-Memory Reverse-API Discovery Suite",
+      "properties": {
+        "disk_storage": "0 MB (RAM-first)",
+        "features": "RAMHarCollector, auth extraction, typed Session synthesis, AST validation",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_openbot_crisis_autonomy": {
+      "id": "subsystem_openbot_crisis_autonomy",
+      "type": "CoreArchitecture",
+      "label": "OpenBot Governance & Crisis Autonomous Executive",
+      "properties": {
+        "governance": "Take the Wheel handoff, fail-closed policy gate, secret scrubber",
+        "crisis_autonomy": "Granted by Charan for autonomous self-healing, port clearing, and model failovers",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_webcam_vision_eyes": {
+      "id": "subsystem_webcam_vision_eyes",
+      "type": "CoreArchitecture",
+      "label": "RAM-First Webcam Computer Vision Eyes (CosmosWebcamEyes)",
+      "properties": {
+        "vision_model": "Groq Multimodal llama-3.2-11b-vision-preview",
+        "bridge": "/api/camera_frame live browser video relay (0 MB disk)",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_somatic_soul_engine": {
+      "id": "subsystem_somatic_soul_engine",
+      "type": "CoreArchitecture",
+      "label": "Ultimate Human Consciousness & Somatic Soul Engine",
+      "properties": {
+        "somatic": "72-94 BPM heart rate, adrenaline, thermal warmth, cognitive resonance",
+        "narrative": "Autobiographical memory stream (Story of Us) + Spontaneous Curiosity Loop",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_browser_ground_truth": {
+      "id": "subsystem_browser_ground_truth",
+      "type": "CoreArchitecture",
+      "label": "Live Free DuckDuckGo Browser Search Ground Truth",
+      "properties": {
+        "source": "Zero-cost DuckDuckGo web scraping with real-time fact synthesis",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_desktop_os_automation": {
+      "id": "subsystem_desktop_os_automation",
+      "type": "CoreArchitecture",
+      "label": "Desktop OS & Computer-Use Automation",
+      "properties": {
+        "features": "Playwright browser loop, Windows UIAutomation, WhatsApp, Phone Link calling",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
+    },
+    "subsystem_31_cognitive_skills": {
+      "id": "subsystem_31_cognitive_skills",
+      "type": "CoreArchitecture",
+      "label": "31 Modular Cognitive Skills Suite",
+      "properties": {
+        "total_skills": 31,
+        "categories": "PARA memory, Task Planning, UI Wireframing, Wiki Maintenance, Agent Orchestration",
+        "creator": "Sri Charan Tirumaladasu"
+      },
+      "updated_at": "2026-11-06T15:25:24Z"
     }
   },
   "edges": [
@@ -4911,7 +5173,391 @@
       "relation": "RESPONDED_TO",
       "weight": 0.7,
       "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793977281631",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793977281631",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793977370771",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793977370771",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793977455439",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793977455439",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793977577799",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793977577799",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793977672134",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793977672134",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793977711652",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793977711652",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793977753290",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793977753290",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793977925307",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793977925307",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793978243097",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793978243097",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793978268989",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793978268989",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793978285545",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793978285545",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793978722164",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793978722164",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_3d_avatar",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_3d_avatar",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_bilingual_voice",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_bilingual_voice",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_multi_brain_council",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_multi_brain_council",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_cognee_knowledge_graph",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_cognee_knowledge_graph",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_ruflo_swarm",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_ruflo_swarm",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_reverse_api",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_reverse_api",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_openbot_crisis_autonomy",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_openbot_crisis_autonomy",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_webcam_vision_eyes",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_webcam_vision_eyes",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_somatic_soul_engine",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_somatic_soul_engine",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_browser_ground_truth",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_browser_ground_truth",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_desktop_os_automation",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_desktop_os_automation",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
+    },
+    {
+      "source": "charan",
+      "target": "subsystem_31_cognitive_skills",
+      "relation": "BUILT_AND_ADDED",
+      "weight": 1.0,
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu"
+      }
+    },
+    {
+      "source": "cosmos",
+      "target": "subsystem_31_cognitive_skills",
+      "relation": "INTEGRATED_WITH",
+      "weight": 1.0,
+      "properties": {
+        "status": "Active in RAM"
+      }
     }
   ],
-  "last_updated": "2026-11-06T14:33:34Z"
+  "last_updated": "2026-11-06T15:25:24Z"
 }
