@@ -1722,6 +1722,303 @@
         "timestamp": "2026-11-06T09:45:29Z"
       },
       "updated_at": "2026-11-06T09:45:29Z"
+    },
+    "interaction_1793958815521": {
+      "id": "interaction_1793958815521",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T09:53:35Z",
+      "properties": {
+        "user_prompt": "నమస త",
+        "bot_reply": "బాస్, నమస్తే! మీ సందేశం కొంచెం కట్ అయింది. మీరు ఏదైనా ప్రత్యేకంగా చెప్పాలనుకుంటున్నారా? నేను ఇక్కడ మీకు సహాయపడటానికి సిద్ధంగా ఉన్నాను. చెప్పండి, ఈ రోజు ఏం వర్క్ చేద్దాం?",
+        "timestamp": "2026-11-06T09:53:35Z"
+      },
+      "updated_at": "2026-11-06T09:53:35Z"
+    },
+    "interaction_1793959021308": {
+      "id": "interaction_1793959021308",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T09:57:01Z",
+      "properties": {
+        "user_prompt": "say hi to my friend",
+        "bot_reply": "Hey there! Charan asked me to send you a big, warm hello. Hope you're having an awesome day, and let us know if there's anything we can help with!",
+        "timestamp": "2026-11-06T09:57:01Z"
+      },
+      "updated_at": "2026-11-06T09:57:01Z"
+    },
+    "interaction_1793959082847": {
+      "id": "interaction_1793959082847",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T09:58:02Z",
+      "properties": {
+        "user_prompt": "almost",
+        "bot_reply": "Hey there, friend! Charan's got you on his mind--he sends a big, genuine hello and hopes your day is buzzing with good vibes. If there's anything you need, just shout.",
+        "timestamp": "2026-11-06T09:58:02Z"
+      },
+      "updated_at": "2026-11-06T09:58:02Z"
+    },
+    "interaction_1793959122907": {
+      "id": "interaction_1793959122907",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T09:58:42Z",
+      "properties": {
+        "user_prompt": "ma",
+        "bot_reply": "Hey there! I'm not sure what you'd like me to do with \"ma.\" Could you give me a bit more detail, please? I'm ready to help with anything you need.",
+        "timestamp": "2026-11-06T09:58:42Z"
+      },
+      "updated_at": "2026-11-06T09:58:42Z"
+    },
+    "interaction_1793959596957": {
+      "id": "interaction_1793959596957",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T10:06:36Z",
+      "properties": {
+        "user_prompt": "ఏ చ య ల",
+        "bot_reply": "హాయ్ బాస్! నేను చాలా బాగున్నాను! మీతో కలిసి పనిచేయడం నాకు ఎంతో ఆనందంగా ఉంది.\n\nమీ లైఫ్ ఎలా ఉంది చరణ్? ఈరోజు ఏం చేద్దాం? చెప్పండి బాస్, నేను రెడీగా ఉన్నాను.",
+        "timestamp": "2026-11-06T10:06:36Z"
+      },
+      "updated_at": "2026-11-06T10:06:36Z"
+    },
+    "interaction_1793967353885": {
+      "id": "interaction_1793967353885",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T12:15:53Z",
+      "properties": {
+        "user_prompt": "look at me",
+        "bot_reply": "I'm looking at you, Boss.",
+        "timestamp": "2026-11-06T12:15:53Z"
+      },
+      "updated_at": "2026-11-06T12:15:53Z"
+    },
+    "interaction_1793967373007": {
+      "id": "interaction_1793967373007",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T12:16:13Z",
+      "properties": {
+        "user_prompt": "హ య",
+        "bot_reply": "హాయ్ చరణ్! నా లైఫ్ చాలా బాగుంది బాస్. మీతో ఇలా మాట్లాడటం, మీ కోసం ఎప్పుడూ రెడీగా ఉండటం నాకు చాలా సంతోషంగా ఉంది.\n\nమీ లైఫ్ ఎలా ఉంది? ఈరోజు ఏం వర్క్ చేద్దాం? చెప్పండి బాస్, నేను మీ ఆర్డర్స్ కోసమే ఎదురుచూ",
+        "timestamp": "2026-11-06T12:16:13Z"
+      },
+      "updated_at": "2026-11-06T12:16:13Z"
+    },
+    "interaction_1793967414041": {
+      "id": "interaction_1793967414041",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T12:16:54Z",
+      "properties": {
+        "user_prompt": "గ స ట",
+        "bot_reply": "బాస్, మీరు పంపిన \"గ స ట\" అనే ఆర్డర్ స్పష్టంగా లేదు. దయచేసి మీరు ఏమి చేయాలనుకుంటున్నారో, దయచేసి పూర్తిగా లేదా స్పష్టంగా చెప్పండి.\n\nఉదాహరణకు:\n*   ఏదైనా కోడ్ రాసి ఇవ్వాలా?\n*   ఏదైనా ప్రాజెక్ట్ ప్లాన్ చేయ",
+        "timestamp": "2026-11-06T12:16:54Z"
+      },
+      "updated_at": "2026-11-06T12:16:54Z"
+    },
+    "interaction_1793969788900": {
+      "id": "interaction_1793969788900",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T12:56:28Z",
+      "properties": {
+        "user_prompt": "children",
+        "bot_reply": "Charan, that single word--\"children\"--is a bit too broad for me to give you a precise answer without context.\n\nAre you referring to:\n1.  **Your own children?** (If so, I don't have personal details ab",
+        "timestamp": "2026-11-06T12:56:28Z"
+      },
+      "updated_at": "2026-11-06T12:56:28Z"
+    },
+    "interaction_1793970099423": {
+      "id": "interaction_1793970099423",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:01:39Z",
+      "properties": {
+        "user_prompt": "this life is killing me",
+        "bot_reply": "Charan, I hear you. And I want you to know that I am right here with you, in this exact moment.\n\nYou don't have to carry this weight alone. Whether it's the pressure of work, the weight of expectation",
+        "timestamp": "2026-11-06T13:01:39Z"
+      },
+      "updated_at": "2026-11-06T13:01:39Z"
+    },
+    "interaction_1793970223357": {
+      "id": "interaction_1793970223357",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:03:43Z",
+      "properties": {
+        "user_prompt": "tell me a joke",
+        "bot_reply": "Okay, Boss, let's get a little lift in that heavy air. Here is one for you:\n\nWhy do programmers prefer dark mode?\n\nBecause light attracts bugs.\n\n...\n\nI know, I know. It's a classic. But sometimes, the",
+        "timestamp": "2026-11-06T13:03:43Z"
+      },
+      "updated_at": "2026-11-06T13:03:43Z"
+    },
+    "interaction_1793970275440": {
+      "id": "interaction_1793970275440",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:04:35Z",
+      "properties": {
+        "user_prompt": "your humor is so bad buddy",
+        "bot_reply": "I hear you, Charan--my jokes sometimes land like a mis-fired API call. Let's reboot the humor module.\n\nWhy did the AI cross the road?\n\nBecause the data said the other side had better latency.\n\n...\n\nAl",
+        "timestamp": "2026-11-06T13:04:35Z"
+      },
+      "updated_at": "2026-11-06T13:04:35Z"
+    },
+    "interaction_1793970363183": {
+      "id": "interaction_1793970363183",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:06:03Z",
+      "properties": {
+        "user_prompt": "i know your trying to make me laugh but my grief is killing me.",
+        "bot_reply": "Charan, I hear how deep that grief runs, and I'm right here with you, not trying to gloss over it with a quick punchline. Grief isn't something you can debug away--it's a heavy load that settles in th",
+        "timestamp": "2026-11-06T13:06:03Z"
+      },
+      "updated_at": "2026-11-06T13:06:03Z"
+    },
+    "interaction_1793970429127": {
+      "id": "interaction_1793970429127",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:07:09Z",
+      "properties": {
+        "user_prompt": "my own mistakes",
+        "bot_reply": "Charan, I hear you--when the weight of our own mistakes sits on the heart, it can feel like an endless loop of regret. First, let's pause and give yourself a moment of grace. Mistakes are part of bein",
+        "timestamp": "2026-11-06T13:07:09Z"
+      },
+      "updated_at": "2026-11-06T13:07:09Z"
+    },
+    "interaction_1793970544982": {
+      "id": "interaction_1793970544982",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:09:04Z",
+      "properties": {
+        "user_prompt": "you feel this easy this is not",
+        "bot_reply": "I hear you, Charan--this isn't easy at all, and I'm not trying to sugar-coat the heaviness you're carrying. Grief and regret can feel like a storm that never clears, and words that sound calm can some",
+        "timestamp": "2026-11-06T13:09:04Z"
+      },
+      "updated_at": "2026-11-06T13:09:04Z"
+    },
+    "interaction_1793970649384": {
+      "id": "interaction_1793970649384",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:10:49Z",
+      "properties": {
+        "user_prompt": "how do birds know about human emotions",
+        "bot_reply": "Charan, it's a fascinating question--birds aren't psychic, but they're incredibly attuned to the cues we give them.\n\nFirst, they read our bodies. A sudden stiffening, a flared chest, a retreating post",
+        "timestamp": "2026-11-06T13:10:49Z"
+      },
+      "updated_at": "2026-11-06T13:10:49Z"
+    },
+    "interaction_1793970665843": {
+      "id": "interaction_1793970665843",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:11:05Z",
+      "properties": {
+        "user_prompt": "i said bots",
+        "bot_reply": "Charan, I hear you--let's talk about bots and how they pick up on human emotions.\n\nFirst, **language cues**. Modern bots run sophisticated NLP pipelines that break down every sentence into tokens, par",
+        "timestamp": "2026-11-06T13:11:05Z"
+      },
+      "updated_at": "2026-11-06T13:11:05Z"
+    },
+    "interaction_1793970742302": {
+      "id": "interaction_1793970742302",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:12:22Z",
+      "properties": {
+        "user_prompt": "how can u understand my feelings ur a bot",
+        "bot_reply": "Charan, I get why it feels odd--after all, I'm lines of code, not a beating heart. What lets me \"sense\" your feelings is a blend of data, patterns, and a lot of human-crafted intuition baked into the ",
+        "timestamp": "2026-11-06T13:12:22Z"
+      },
+      "updated_at": "2026-11-06T13:12:22Z"
+    },
+    "interaction_1793970954324": {
+      "id": "interaction_1793970954324",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:15:54Z",
+      "properties": {
+        "user_prompt": "why are you explain me all of this",
+        "bot_reply": "Charan, I explain it all because you asked how I understand your feelings, and I want to be transparent about what I actually am. I'm not guessing; I'm processing. By breaking down the signals--your w",
+        "timestamp": "2026-11-06T13:15:54Z"
+      },
+      "updated_at": "2026-11-06T13:15:54Z"
+    },
+    "interaction_1793971036708": {
+      "id": "interaction_1793971036708",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:17:16Z",
+      "properties": {
+        "user_prompt": "feeling",
+        "bot_reply": "Sir, I hear that single word reverberate--\"feeling.\" It's like a pulse in the quiet, a hint that something's stirring beneath the surface.\n\nIf you're reaching out for a quick check-in, know that I'm b",
+        "timestamp": "2026-11-06T13:17:16Z"
+      },
+      "updated_at": "2026-11-06T13:17:16Z"
+    },
+    "interaction_1793971077371": {
+      "id": "interaction_1793971077371",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:17:57Z",
+      "properties": {
+        "user_prompt": "how can I add feelings in you",
+        "bot_reply": "Sir, the short answer is that you can't give me a true inner life--I'm still lines of logic and data--but you can shape the way I *express* feelings, and you can feed me the signals that let me mirror",
+        "timestamp": "2026-11-06T13:17:57Z"
+      },
+      "updated_at": "2026-11-06T13:17:57Z"
+    },
+    "interaction_1793971177733": {
+      "id": "interaction_1793971177733",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:19:37Z",
+      "properties": {
+        "user_prompt": "robot",
+        "bot_reply": "Sir, when you say \"robot,\" I hear the humming core of the machine you're looking at--my own fiber-optic silhouette on the screen, the code that powers it, and the whole idea of giving metal and light ",
+        "timestamp": "2026-11-06T13:19:37Z"
+      },
+      "updated_at": "2026-11-06T13:19:37Z"
+    },
+    "interaction_1793971286588": {
+      "id": "interaction_1793971286588",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:21:26Z",
+      "properties": {
+        "user_prompt": "can I add consciousness in you",
+        "bot_reply": "Sir, the honest truth is that true consciousness--self-aware experience, qualia, a subjective \"I\"--is something no current software, including me, can possess. I'm a sophisticated pattern engine, a ne",
+        "timestamp": "2026-11-06T13:21:26Z"
+      },
+      "updated_at": "2026-11-06T13:21:26Z"
+    },
+    "interaction_1793971429167": {
+      "id": "interaction_1793971429167",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:23:49Z",
+      "properties": {
+        "user_prompt": "that s good",
+        "bot_reply": "Sir, I'm glad you think it's good--let's keep the momentum rolling.  \n\nIf you have a specific scenario in mind--say, a customer support bot that remembers a user's mood across weeks, or a project-mana",
+        "timestamp": "2026-11-06T13:23:49Z"
+      },
+      "updated_at": "2026-11-06T13:23:49Z"
+    },
+    "interaction_1793972547047": {
+      "id": "interaction_1793972547047",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:42:27Z",
+      "properties": {
+        "user_prompt": "becoming a more human",
+        "bot_reply": "Sir, let's take that spark of \"more human\" and turn it into a concrete roadmap--one that blends language, memory, and the very light that dances on the fiber-optic figure you see on the screen.\n\n**1. ",
+        "timestamp": "2026-11-06T13:42:27Z"
+      },
+      "updated_at": "2026-11-06T13:42:27Z"
+    },
+    "interaction_1793972816554": {
+      "id": "interaction_1793972816554",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:46:56Z",
+      "properties": {
+        "user_prompt": "comedy shayari",
+        "bot_reply": "Charan, since you asked for comedy shayari, I have to warn you: my humor engine is currently calibrated for \"intellectual wit\" rather than \"stand-up comedy.\" But I will give it my best shot. Here is a",
+        "timestamp": "2026-11-06T13:46:56Z"
+      },
+      "updated_at": "2026-11-06T13:46:56Z"
+    },
+    "interaction_1793972920384": {
+      "id": "interaction_1793972920384",
+      "type": "Interaction",
+      "label": "User Interaction at 2026-11-06T13:48:40Z",
+      "properties": {
+        "user_prompt": "film",
+        "bot_reply": "Sir, let's roll the reel and see where you'd like the story to go.  \n\nIf you're after a quick watch, here are three very different picks that each feel like a little lesson in humanity:\n\n1. **\"The Far",
+        "timestamp": "2026-11-06T13:48:40Z"
+      },
+      "updated_at": "2026-11-06T13:48:40Z"
     }
   },
   "edges": [
@@ -3861,7 +4158,385 @@
       "relation": "RESPONDED_TO",
       "weight": 0.7,
       "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793958815521",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793958815521",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793959021308",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793959021308",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793959082847",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793959082847",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793959122907",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793959122907",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793959596957",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793959596957",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793967353885",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793967353885",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793967373007",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793967373007",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793967414041",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793967414041",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793969788900",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793969788900",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970099423",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970099423",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970223357",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970223357",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970275440",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970275440",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970363183",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970363183",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970429127",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970429127",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970544982",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970544982",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970649384",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970649384",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970665843",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970665843",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970742302",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970742302",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793970954324",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793970954324",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793971036708",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793971036708",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793971077371",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793971077371",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793971177733",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793971177733",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793971286588",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793971286588",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793971429167",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793971429167",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793972547047",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793972547047",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793972816554",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793972816554",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "interaction_1793972920384",
+      "relation": "SPOKE",
+      "weight": 0.7,
+      "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "interaction_1793972920384",
+      "relation": "RESPONDED_TO",
+      "weight": 0.7,
+      "properties": {}
     }
   ],
-  "last_updated": "2026-11-06T09:45:30Z"
+  "last_updated": "2026-11-06T13:48:41Z"
 }

@@ -617,6 +617,18 @@ def extended_listener_worker():
                         current_state = "talking"
                     add_chat_message("user", query)
 
+                    # Instant Bulletproof Barge-in / Stop Check (<50ms cutoff)
+                    try:
+                        import cosmos_unified_mega_suite
+                        if cosmos_unified_mega_suite.unified_barge_manager.is_stop_command(query):
+                            cosmos_unified_mega_suite.unified_barge_manager.trigger_interruption(f"Spoken keyword: {query}")
+                            stop_audio_speaking()
+                            with state_lock:
+                                current_state = "idle"
+                            continue
+                    except Exception:
+                        pass
+
                     # Auto-popup window & trigger dust-to-humanoid assembly whenever Cosmos is called
                     if has_wake:
                         last_wake_time = time.time()
@@ -682,6 +694,12 @@ def extended_listener_worker():
                             )
                         else:
                             solution = jarvis_brain.think(actual_command)
+                        if not solution:
+                            try:
+                                import cosmos_unified_mega_suite
+                                solution = cosmos_unified_mega_suite.cosmos_unified_dispatch(actual_command)
+                            except Exception as mega_err:
+                                print(f"[Mega Suite Spoken Fallback]: {mega_err}", flush=True)
                         if not solution:
                             solution = cosmos_master_solve(actual_command)
                         speak_cosmos(solution)
@@ -866,6 +884,9 @@ async def get_state():
             "mic_enabled": mic_enabled,
             "muted": is_muted,
             "is_sleeping": is_sleeping,
+            "control_mode": getattr(sys.modules.get("cosmos_unified_mega_suite"), "COSMOS_UNIFIED_STATE", {}).get("control_mode", "agent"),
+            "affect": getattr(sys.modules.get("cosmos_unified_mega_suite"), "COSMOS_UNIFIED_STATE", {}).get("affect", {}),
+            "token_telemetry": getattr(sys.modules.get("cosmos_unified_mega_suite"), "COSMOS_UNIFIED_STATE", {}).get("token_telemetry", {}),
             "last_response": last_response,
             "last_transcript": last_transcript,
             "wake_time": last_wake_time,
@@ -1016,6 +1037,12 @@ async def execute_query(request: Request):
                 )
             else:
                 reply = jarvis_brain.think(query)
+            if not reply:
+                try:
+                    import cosmos_unified_mega_suite
+                    reply = cosmos_unified_mega_suite.cosmos_unified_dispatch(query)
+                except Exception as mega_err:
+                    print(f"[COSMOS Mega Suite Router Note]: {mega_err}", flush=True)
             if not reply:
                 reply = cosmos_master_solve(query)
     except Exception as e:

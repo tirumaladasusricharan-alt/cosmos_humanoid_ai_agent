@@ -73,6 +73,22 @@
 
 ---
 
+### 7. ⚡ Unified Agentic Architecture (`cosmos_unified_mega_suite.py`)
+- **Master Subsystem Integration (0 MB Storage / RAM-First Execution)**:
+  - **Subsystem 0: Cognee Pre-Import Environment Binding**: Headless fastembed & ollama binding with 0 MB bloat.
+  - **Subsystem 1: Bulletproof Barge-In**: `<50ms` instant cut-off on keywords (*"stop"*, *"halt"*, *"quiet"*, *"apandi"*, *"aagu"*).
+  - **Subsystem 2: 6-Layer Synthetic Consciousness & Soul Engine**: Real-time Affect, Active Inference Surprise error modeling, Homeostatic Drives, Theory of Mind shadow modeling of Boss Charan, DMN Daydreaming, and REM Dream Consolidation in RAM.
+  - **Subsystem 3: Persistent Semantic Memory**: Live graph entity/relation synchronization with `./cosmos_agent_company/cognee_fallback_graph.json`.
+  - **Subsystem 4: Ruflo Multi-Agent Swarm & Council**: Multi-Agent Council of Experts (DeepSeek-R1 Architect -> Qwen-Coder Coder -> Qwen3 Critic), SPARC 5-phase gate, arena tournament, and AI-Defence prompt injection firewall.
+  - **Subsystem 5: In-Memory Reverse-API Suite**: RAM HAR capture and typed Python client generator.
+  - **Subsystem 6: OpenBot Governance & Human Handoff**: Fail-closed destructive command shield, Zero-Leak Secret Scrubber, and *"Take the Wheel"* manual handoff.
+  - **Subsystem 7: RAM-First Webcam Computer Vision Eyes (`CosmosWebcamEyes`)**: 0 MB disk bloat background camera capture directly into base64 JPEG RAM buffers, feeding dynamic visual prompts into Groq Multimodal Vision (`llama-3.2-11b-vision-preview`).
+  - **Subsystem 8: Free Real-Time Browser Ground Truth**: Zero-cost DuckDuckGo scraper with live fact synthesis.
+  - **Subsystem 9: Autonomous Computer-Use Agent**: Headless Playwright loop + Windows UIAutomation text perception.
+- **Runtime Telemetry Synchronization**: Continuous state publishing (`control_mode`, `affect`, `subconscious`, `token_telemetry`) to `./cosmos frontend` at `http://127.0.0.1:8080/api/state`.
+
+---
+
 ## 🚀 Quick Start
 
 ### 1. Prerequisites
