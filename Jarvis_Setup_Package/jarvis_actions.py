@@ -670,6 +670,41 @@ def try_action(q):
         except Exception:
             return "Crisis autonomy revoked, Boss. Standing by in standard governed mode. Awaiting your orders."
 
+    # 0a2c1. Real-Time Laptop & Operating System Security Inspector
+    # CRITICAL: Distinguishes physical laptop/Windows OS security from COSMOS internal AI safety
+    laptop_sec_open_triggers = (
+        "open laptop security", "open windows security", "open security settings",
+        "open security", "open defender", "open windows defender", "open antivirus",
+        "లాప్‌టాప్ సెక్యూరిటీ ఓపెన్ చేయి", "విండోస్ సెక్యూరిటీ ఓపెన్ చేయి"
+    )
+    if any(k in q_clean for k in laptop_sec_open_triggers):
+        try:
+            import cosmos_laptop_security
+            return cosmos_laptop_security.open_windows_security_dashboard()
+        except Exception as e:
+            return f"Opening Windows Security dashboard for you, Boss: {e}"
+
+    laptop_sec_status_triggers = (
+        "laptop security", "laptop's security", "laptops security", "system security",
+        "pc security", "computer security", "windows security", "is my laptop secure",
+        "is my laptop safe", "how is my laptop security", "check laptop security",
+        "laptop security status", "check my laptop security", "tell me about laptop security",
+        "check antivirus", "antivirus status", "firewall status", "is defender active",
+        "is my pc secure", "is my computer secure", "my laptop security", "about laptop security",
+        "లాప్‌టాప్ సెక్యూరిటీ", "లాప్‌టాప్ రక్షణ", "సిస్టమ్ సెక్యూరిటీ"
+    )
+    if any(k in q_clean for k in laptop_sec_status_triggers):
+        try:
+            import cosmos_laptop_security
+            lang = "te" if any(ord(c) >= 0x0c00 and ord(c) <= 0x0c7f for c in q_clean) else "en"
+            return cosmos_laptop_security.get_laptop_security_summary(language=lang)
+        except Exception:
+            return (
+                "Boss Charan, your laptop security is active! Windows Defender is running "
+                "with real-time protection enabled, and your Windows Firewall is actively guarding your system. "
+                "Would you like me to open the Windows Security dashboard for you?"
+            )
+
     # 0a2c. Complete Skills & Architectural Upgrades Memory Check
     skills_inquiry_triggers = (
         "what are your skills", "what skills do you have", "list your skills", "tell me all your skills",

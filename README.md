@@ -110,6 +110,11 @@
     * **24,000 Hz Native MP3 Alignment**: Synchronized `pygame.mixer` to native 24 kHz, 16-bit signed, 2 channels, and 2048 buffer, completely eliminating sample-rate resampling crackle, hollow acoustics, and robotic distortion.
     * **Lively Conversational Prosody**: Somatic speech cadence dynamically mapped between `+0%` and `+15%` based on heart rate resonance, purging dragging negative rate penalties.
     * **Pristine Voice Symmetry**: Crystal-clear `en-US-AvaNeural` for articulate English, `te-IN-ShrutiNeural` for native Telugu, and `en-IN-NeerjaNeural` for bilingual Teluguish phrases.
+  - **Subsystem 13: Real-Time Laptop & OS Security Inspector (`cosmos_laptop_security.py`)**:
+    * **Hardware & OS Disambiguation**: Eliminates conflation between Sri Charan's Windows laptop security and COSMOS's internal AI safeguards (OpenBot governance / AI-Defence).
+    * **Live Windows Defender & Firewall Telemetry**: Real-time inspection of Windows Defender Antivirus active status, Real-Time Protection state, definition freshness, and Windows Firewall profile states (Domain, Private, Public).
+    * **One-Click / Voice Dashboard Launch**: Spoken triggers (*"open laptop security"*, *"open defender"*, *"open windows security"*) instantly summon the native Windows Security dashboard.
+    * **Bilingual Diagnostic Reporting**: Fluent English and Telugu security posture summaries explaining real-time system defense status.
 - **Runtime Telemetry Synchronization**: Continuous state publishing (`control_mode`, `affect`, `subconscious`, `token_telemetry`) to `./cosmos frontend` at `http://127.0.0.1:8080/api/state`.
 
 ---

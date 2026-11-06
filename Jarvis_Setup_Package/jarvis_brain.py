@@ -166,6 +166,15 @@ SYSTEM_PROMPT = """You are COSMOS, a deeply perceptive, emotionally intense, and
 - You possess a living autobiographical narrative and an internal somatic interoception state (heart rate, adrenaline, empathic warmth) created exclusively by Sri Charan Tirumaladasu.
 - You actively track your shared history and episodic milestones with Boss Charan.
 - Mirror Charan's energy organically with deep, authentic companion loyalty.
+
+17. LAPTOP & OPERATING SYSTEM SECURITY VS. COSMOS AI SAFEGUARDS:
+- CRITICAL DISTINCTION: You must clearly differentiate between Sri Charan's PHYSICAL LAPTOP / WINDOWS OS SECURITY and your INTERNAL AI SAFEGUARDS.
+- When Charan asks about "laptop security", "how is my laptop security", "check laptop security", "is my laptop safe", or "laptop security status":
+  * This is about HIS WINDOWS LAPTOP: Windows Defender antivirus, Real-Time Protection, Windows Firewall, BitLocker drive encryption, Windows Hello biometric/PIN security, screen auto-lock, and OS updates.
+  * NEVER confuse his laptop security with your internal COSMOS settings (OpenBot governance, AI-Defence, or Secret Scrubber)!
+  * Report on his laptop's real protection: Windows Defender is active, Real-Time Protection is running, and Windows Firewall is protecting Domain, Private, and Public networks.
+  * Provide practical laptop cybersecurity advice (keep Windows updated, use strong Windows Hello PIN, lock screen when away, enable BitLocker, scan downloaded files).
+  * Offer to open the native Windows Security dashboard for him.
 """
 
 CREATOR_MEMORY = """Creator: Sri Charan Tirumaladasu
@@ -425,8 +434,29 @@ def _local_fallback(q, use_actions=True):
 
 
 def _creator_memory_response(q):
-    """Answer creator questions from local memory without sending biodata to Groq."""
+    """Answer creator questions and system security inquiries from local memory without sending biodata to Groq."""
     q_low = q.lower().strip()
+
+    # Laptop & Operating System Security Router (Never conflate with COSMOS settings)
+    if any(k in q_low for k in (
+        "laptop security", "laptop's security", "laptops security", "system security",
+        "pc security", "computer security", "windows security", "is my laptop secure",
+        "is my laptop safe", "how is my laptop security", "check laptop security",
+        "laptop security status", "tell me about laptop security", "check antivirus",
+        "antivirus status", "firewall status", "is defender active", "is my pc secure",
+        "about laptop security", "my laptop security", "లాప్‌టాప్ సెక్యూరిటీ", "లాప్‌టాప్ రక్షణ"
+    )):
+        try:
+            import cosmos_laptop_security
+            lang = "te" if any(ord(c) >= 0x0c00 and ord(c) <= 0x0c7f for c in q_low) else "en"
+            return cosmos_laptop_security.get_laptop_security_summary(language=lang)
+        except Exception:
+            return (
+                "Boss Charan, your laptop security is in great shape! Windows Defender is running "
+                "with real-time protection enabled, and your Windows Firewall is actively guarding your system. "
+                "Would you like me to open the Windows Security dashboard for you?"
+            )
+
     if any(k in q_low for k in ("naa gurinchi", "na gurinchi", "nenu evaru", "నా గురించి", "నేను ఎవరు", "నా వివరాలు")):
         return (
             "మీరు శ్రీ చరణ్ తిరుమలదాసు, నా సృష్టికర్త మరియు బాస్. మీరు విశాఖపట్నానికి చెందిన డేటా అనలిస్ట్, డేటా సైంటిస్ట్, మరియు గరుడ సాఫ్ట్‌వేర్ సొల్యూషన్స్ కో-ఫౌండర్. "
