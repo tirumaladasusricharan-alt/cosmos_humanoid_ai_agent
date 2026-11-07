@@ -1060,6 +1060,7 @@ def query_cosmos_with_vision(prompt: str, system_prompt: str = "") -> str:
     """Sends prompt + current RAM webcam frame if visual query is detected."""
     visual_triggers = [
         "look at this", "see me", "what's on my desk", "what am i holding",
+        "what am i doing", "what am i doing now",
         "check my expression", "look here", "can you see me", "can u see me",
         "look at me", "what do you see", "describe what you see", "look at my",
         "do you see me", "are you seeing me", "can you see", "camera feed",

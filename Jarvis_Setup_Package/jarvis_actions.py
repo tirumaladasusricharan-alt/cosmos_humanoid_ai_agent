@@ -625,11 +625,12 @@ def try_action(q):
     visual_checks = (
         "can you see me", "can u see me", "do you see me", "are you seeing me", "can you see",
         "can u see", "see me", "look at me", "look at this", "what do you see", "describe what you see",
-        "what am i holding", "what am i wearing", "check my expression", "do you have camera",
-        "is camera working", "i granted camera", "granted camera", "camera access", "can you look",
-        "look here", "watch me", "my camera", "see what i am", "are you able to see me", "able to see me",
-        "camera feed", "see you", "see through camera", "are you watching me", "look into camera",
-        "have camera", "camera working", "can see me", "what i see now", "what do you see now",
+        "what am i holding", "what am i wearing", "what am i doing", "what am i doing now",
+        "check my expression", "do you have camera", "is camera working", "i granted camera",
+        "granted camera", "camera access", "can you look", "look here", "watch me", "my camera",
+        "see what i am", "are you able to see me", "able to see me", "camera feed", "see you",
+        "see through camera", "are you watching me", "look into camera", "have camera",
+        "camera working", "can see me", "what i see now", "what do you see now",
         "what can you see", "what do you see in front"
     )
     if any(p in q_clean for p in visual_checks):

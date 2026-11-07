@@ -15,3 +15,4 @@ from cosmos_minicpm_agency_skills import (
     CosmosMiniCPMVSkillsEngine,
     minicpm_skills
 )
+

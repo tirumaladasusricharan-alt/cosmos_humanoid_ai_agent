@@ -246,3 +246,4 @@ class CosmosMiniCPMVSkillsEngine:
 
 
 minicpm_skills = CosmosMiniCPMVSkillsEngine()
+

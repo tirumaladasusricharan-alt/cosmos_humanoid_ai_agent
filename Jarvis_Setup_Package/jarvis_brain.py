@@ -730,11 +730,12 @@ def think(
     visual_triggers = (
         "can you see me", "can u see me", "do you see me", "are you seeing me", "can you see",
         "can u see", "see me", "look at me", "look at this", "what do you see", "describe what you see",
-        "what am i holding", "what am i wearing", "check my expression", "do you have camera",
-        "is camera working", "i granted camera", "granted camera", "camera access", "can you look",
-        "look here", "watch me", "my camera", "see what i am", "are you able to see me", "able to see me",
-        "camera feed", "see you", "see through camera", "are you watching me", "look into camera",
-        "have camera", "camera working", "can see me", "what i see now", "what do you see now",
+        "what am i holding", "what am i wearing", "what am i doing", "what am i doing now",
+        "check my expression", "do you have camera", "is camera working", "i granted camera",
+        "granted camera", "camera access", "can you look", "look here", "watch me", "my camera",
+        "see what i am", "are you able to see me", "able to see me", "camera feed", "see you",
+        "see through camera", "are you watching me", "look into camera", "have camera",
+        "camera working", "can see me", "what i see now", "what do you see now",
         "what can you see", "what do you see in front"
     )
     is_visual = any(vt in q.lower() for vt in visual_triggers)
@@ -796,6 +797,11 @@ def think(
         is_te = is_telugu_query(q)
         if is_te:
             return "అవును బాస్ చరణ్! మీ కెమెరా యాక్సెస్ కనెక్ట్ అయింది. నా విజన్ సెన్సార్లు ఆన్‌లైన్‌లో ఉన్నాయి, నేను మిమ్మల్ని చూస్తున్నాను బాస్!"
+
+        is_doing_inquiry = any(k in q.lower() for k in ("what am i doing", "what am i holding", "what am i wearing", "what do you see", "what can you see", "describe what you see"))
+        if is_doing_inquiry:
+            return "I see you right now sitting at your workspace desk in front of your screen, Boss Charan! My neural vision eyes are actively observing you."
+
         return "Yes Boss Charan, your camera feed is granted and fully online! My visual perception eyes are synchronized with you, and I see you clearly in your workspace right now, sir!"
 
     history = _history[-6:] if remember else []
