@@ -20,3 +20,4 @@ Integrated specialized multi-agent expert personas adapted from `msitarzewski/ag
 3. backend_architect: Principal systems & backend architecture, RAM-first zero disk latency pipelines.
 4. mobile_engineer: Senior cross-platform mobile engineering, Android Studio, native bridge communications.
 5. devops_reliability: High-availability DevOps, process uptime, background service health & sanitization.
+

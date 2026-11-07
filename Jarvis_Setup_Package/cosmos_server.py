@@ -276,12 +276,8 @@ def speak_cosmos(text: str, full_chat_text: Optional[str] = None):
     chat_display = full_chat_text if full_chat_text else proc["chat_text"]
     voice_to_speak = proc["voice_text"]
 
-    # Auto-inject any code blocks into Windows clipboard
-    if proc.get("code_blocks"):
-        try:
-            cosmos_power_updates.copy_code_to_clipboard(proc["code_blocks"][0])
-        except Exception:
-            pass
+    # Code blocks are delivered cleanly to the side chat UI without hijacking the user's OS clipboard
+    # (Preserves the user's manual copy/paste autonomy across other applications)
 
     # Pause microphone while speaking
     voice_ready_event.clear()

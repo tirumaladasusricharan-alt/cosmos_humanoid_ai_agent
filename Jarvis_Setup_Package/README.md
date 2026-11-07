@@ -169,6 +169,7 @@ The server will boot on `http://127.0.0.1:8080`, summon the 3D Humanoid HUD, and
 | **Mute / Unmute** | *"Mute"* / *"Unmute"* / Press UI Status Pill |
 | **Close / Minimize** | *"Close yourself"*, *"Minimize"*, or press `Esc` |
 | **System Mouse Recovery** | `python restore_system_mouse.py` (restores, unclips, and re-centers Windows mouse cursor) |
+| **System Clipboard Recovery** | `python restore_system_clipboard.py` (unlocks and restores Windows clipboard for copy & paste) |
 | **High-Speed Human Voice** | Ultra-fast sub-second answer latency, genuine emotional warmth, background Cognee flush & fast failover |
 | **Agency-Agents Personas** | Integrated 5 expert personas from `msitarzewski/agency-agents` (frontend, security, backend, mobile, devops) in RAM |
 

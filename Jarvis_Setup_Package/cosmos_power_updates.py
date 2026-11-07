@@ -20,35 +20,64 @@ import time
 import requests
 
 def copy_code_to_clipboard(text: str) -> bool:
-    """Safely copies code or text directly to the Windows OS clipboard."""
+    """Safely copies code or text directly to the Windows OS clipboard with guaranteed unlock."""
     if not text or sys.platform != "win32":
         return False
+    user32 = ctypes.windll.user32
+    kernel32 = ctypes.windll.kernel32
+    from ctypes import wintypes
+
+    CF_UNICODETEXT = 13
+    GMEM_MOVEABLE = 0x0002
+
+    user32.OpenClipboard.argtypes = [wintypes.HWND]
+    user32.OpenClipboard.restype = wintypes.BOOL
+    user32.CloseClipboard.argtypes = []
+    user32.CloseClipboard.restype = wintypes.BOOL
+    user32.EmptyClipboard.argtypes = []
+    user32.EmptyClipboard.restype = wintypes.BOOL
+    user32.SetClipboardData.argtypes = [wintypes.UINT, wintypes.HANDLE]
+    user32.SetClipboardData.restype = wintypes.HANDLE
+    kernel32.GlobalAlloc.argtypes = [wintypes.UINT, ctypes.c_size_t]
+    kernel32.GlobalAlloc.restype = wintypes.HGLOBAL
+    kernel32.GlobalLock.argtypes = [wintypes.HGLOBAL]
+    kernel32.GlobalLock.restype = ctypes.c_void_p
+    kernel32.GlobalUnlock.argtypes = [wintypes.HGLOBAL]
+    kernel32.GlobalUnlock.restype = wintypes.BOOL
+
+    opened = False
+    for _ in range(5):
+        if user32.OpenClipboard(None):
+            opened = True
+            break
+        time.sleep(0.04)
+
+    if not opened:
+        return False
+
     try:
-        user32 = ctypes.windll.user32
-        kernel32 = ctypes.windll.kernel32
-        CF_UNICODETEXT = 13
-        GMEM_MOVEABLE = 0x0002
-
-        if not user32.OpenClipboard(None):
-            return False
-
         user32.EmptyClipboard()
         encoded = text.encode("utf-16-le") + b"\x00\x00"
         h_glb = kernel32.GlobalAlloc(GMEM_MOVEABLE, len(encoded))
         if not h_glb:
-            user32.CloseClipboard()
             return False
 
         p_glb = kernel32.GlobalLock(h_glb)
-        ctypes.memmove(p_glb, encoded, len(encoded))
-        kernel32.GlobalUnlock(h_glb)
+        if not p_glb:
+            return False
+        try:
+            ctypes.memmove(p_glb, encoded, len(encoded))
+        finally:
+            kernel32.GlobalUnlock(h_glb)
+
         user32.SetClipboardData(CF_UNICODETEXT, h_glb)
-        user32.CloseClipboard()
         print(f"[COSMOS CLIPBOARD]: Injected {len(text)} characters into Windows clipboard.", flush=True)
         return True
     except Exception as e:
         print(f"[Clipboard Injection Note]: {e}", flush=True)
         return False
+    finally:
+        user32.CloseClipboard()
 
 
 def verify_ast_syntax(code_str: str) -> tuple[bool, str]:
