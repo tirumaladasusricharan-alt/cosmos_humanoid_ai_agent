@@ -57,6 +57,16 @@ except ImportError:
     except ImportError:
         AGENCY_ADAPTER_AVAILABLE = False
 
+try:
+    import cosmos_minicpm_agency_skills
+    MINICPM_SKILLS_AVAILABLE = True
+except ImportError:
+    try:
+        from Jarvis_Setup_Package import cosmos_minicpm_agency_skills
+        MINICPM_SKILLS_AVAILABLE = True
+    except ImportError:
+        MINICPM_SKILLS_AVAILABLE = False
+
 # =====================================================================
 # 0. PRE-IMPORT ENVIRONMENT BINDING FOR COGNEE & LOCAL STACK (0 MB)
 # =====================================================================
@@ -1174,6 +1184,14 @@ def cosmos_unified_turn(spoken_or_typed: str) -> str:
         for w in ["architect", "build system", "council", "complex code"]
     ):
         reply = CosmosRufloHarness.run_council_of_experts(spoken_or_typed)
+    elif MINICPM_SKILLS_AVAILABLE and any(w in spoken_or_typed.lower() for w in ["extract table", "table to markdown", "ocr this", "read my screen", "read text on screen", "document ocr"]):
+        reply = cosmos_minicpm_agency_skills.minicpm_skills.skill_scene_ocr_and_table(spoken_or_typed)
+    elif MINICPM_SKILLS_AVAILABLE and any(w in spoken_or_typed.lower() for w in ["locate button", "find ui", "ground ui", "element coordinates", "locate element", "where is button"]):
+        reply = cosmos_minicpm_agency_skills.minicpm_skills.skill_ground_ui_element(spoken_or_typed)
+    elif MINICPM_SKILLS_AVAILABLE and any(w in spoken_or_typed.lower() for w in ["temporal video", "gesture over time", "watch my motion", "motion analysis", "hand gesture"]):
+        reply = cosmos_minicpm_agency_skills.minicpm_skills.skill_temporal_video_analysis(spoken_or_typed)
+    elif MINICPM_SKILLS_AVAILABLE and any(w in spoken_or_typed.lower() for w in ["desk posture", "visual affect", "how is my posture", "check my posture", "posture check"]):
+        reply = cosmos_minicpm_agency_skills.minicpm_skills.skill_detect_boss_visual_affect()
     else:
         reply = query_cosmos_with_vision(spoken_or_typed, system_prompt=sys_prompt)
 
