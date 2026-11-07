@@ -280,7 +280,7 @@ class CosmosKnowledgeGraph:
                 except Exception:
                     pass
 
-    def add_node(self, node_id: str, node_type: str, label: str, properties: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def add_node(self, node_id: str, node_type: str, label: str, properties: Optional[Dict[str, Any]] = None, auto_save: bool = True) -> Dict[str, Any]:
         """Creates or updates an entity node in the Knowledge Graph."""
         node_id_clean = re.sub(r"[^a-zA-Z0-9_-]+", "_", node_id.lower()).strip("_")
         node_entry = {
@@ -291,10 +291,11 @@ class CosmosKnowledgeGraph:
             "updated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
         }
         self.nodes[node_id_clean] = node_entry
-        self.save()
+        if auto_save:
+            self.save()
         return node_entry
 
-    def add_edge(self, source_id: str, target_id: str, relation: str, weight: float = 1.0, properties: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def add_edge(self, source_id: str, target_id: str, relation: str, weight: float = 1.0, properties: Optional[Dict[str, Any]] = None, auto_save: bool = True) -> Dict[str, Any]:
         """Creates or updates a directed semantic relationship edge between nodes."""
         s_clean = re.sub(r"[^a-zA-Z0-9_-]+", "_", source_id.lower()).strip("_")
         t_clean = re.sub(r"[^a-zA-Z0-9_-]+", "_", target_id.lower()).strip("_")
@@ -306,7 +307,8 @@ class CosmosKnowledgeGraph:
                 edge["weight"] = weight
                 if properties:
                     edge.setdefault("properties", {}).update(properties)
-                self.save()
+                if auto_save:
+                    self.save()
                 return edge
 
         new_edge = {
@@ -317,7 +319,8 @@ class CosmosKnowledgeGraph:
             "properties": properties or {}
         }
         self.edges.append(new_edge)
-        self.save()
+        if auto_save:
+            self.save()
         return new_edge
 
     def get_node(self, node_id: str) -> Optional[Dict[str, Any]]:
@@ -517,28 +520,34 @@ def get_creator_ground_truth() -> Dict[str, Any]:
 
 def record_interaction(user_prompt: str, bot_reply: str):
     """
-    Lightweight background recorder linking interactions into the knowledge graph.
+    Lightning-fast background recorder linking interactions into the knowledge graph (0 latency on reply).
     """
     if not user_prompt or not bot_reply:
         return
-    try:
-        graph = get_graph()
-        timestamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        node_id = f"interaction_{int(time.time() * 1000)}"
-        graph.add_node(
-            node_id=node_id,
-            node_type="Interaction",
-            label=f"User Interaction at {timestamp}",
-            properties={
-                "user_prompt": user_prompt,
-                "bot_reply": bot_reply[:200],
-                "timestamp": timestamp
-            }
-        )
-        graph.add_edge(source_id="charan", target_id=node_id, relation="SPOKE", weight=0.7)
-        graph.add_edge(source_id="cosmos", target_id=node_id, relation="RESPONDED_TO", weight=0.7)
-    except Exception as e:
-        print(f"[COSMOS MEMORY RECORD NOTE]: {e}", flush=True)
+
+    def _bg_record():
+        try:
+            graph = get_graph()
+            timestamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+            node_id = f"interaction_{int(time.time() * 1000)}"
+            graph.add_node(
+                node_id=node_id,
+                node_type="Interaction",
+                label=f"User Interaction at {timestamp}",
+                properties={
+                    "user_prompt": user_prompt,
+                    "bot_reply": bot_reply[:250],
+                    "timestamp": timestamp
+                },
+                auto_save=False
+            )
+            graph.add_edge(source_id="charan", target_id=node_id, relation="SPOKE", weight=0.7, auto_save=False)
+            graph.add_edge(source_id="cosmos", target_id=node_id, relation="RESPONDED_TO", weight=0.7, auto_save=False)
+            graph.save()
+        except Exception as e:
+            print(f"[COSMOS MEMORY RECORD NOTE]: {e}", flush=True)
+
+    threading.Thread(target=_bg_record, daemon=True).start()
 
 
 # =====================================================================

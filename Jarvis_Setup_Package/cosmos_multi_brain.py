@@ -87,8 +87,13 @@ def select_best_model_for_task(task_type: str, installed: List[str]) -> Optional
 # 2. LOCAL OLLAMA INFERENCE & GROQ FAILOVER
 # ═══════════════════════════════════════════════════════════════════════
 
-def query_ollama(model: str, prompt: str, timeout: float = 3.5, system_prompt: str = "") -> Optional[str]:
-    """Queries a specific local Ollama model."""
+_ollama_cooldown_until = 0.0
+
+def query_ollama(model: str, prompt: str, timeout: float = 1.8, system_prompt: str = "") -> Optional[str]:
+    """Queries a specific local Ollama model with fast failover."""
+    global _ollama_cooldown_until
+    if time.time() < _ollama_cooldown_until:
+        return None
     try:
         url = f"{OLLAMA_BASE_URL}/api/generate"
         payload = {
@@ -109,7 +114,8 @@ def query_ollama(model: str, prompt: str, timeout: float = 3.5, system_prompt: s
             res_json = json.loads(resp.read().decode())
             return res_json.get("response", "").strip()
     except Exception as e:
-        print(f"[COSMOS MULTI-BRAIN] Ollama ({model}) error: {e}")
+        _ollama_cooldown_until = time.time() + 60.0
+        print(f"[COSMOS MULTI-BRAIN] Ollama ({model}) error: {e}. Fast failover to Groq cloud for 60s.")
         return None
 
 def query_groq_failover(prompt: str, system_prompt: str = "") -> Optional[str]:
@@ -185,7 +191,7 @@ def run_council_mode(query: str, installed_models: List[str]) -> str:
         f"3. Time & Space Complexity Target\n"
         f"Be precise, concise, and technical."
     )
-    blueprint = query_ollama(deepseek_model, pass1_prompt, timeout=3.5)
+    blueprint = query_ollama(deepseek_model, pass1_prompt, timeout=1.8)
     if not blueprint:
         blueprint = query_groq_failover(pass1_prompt)
 
@@ -202,7 +208,7 @@ def run_council_mode(query: str, installed_models: List[str]) -> str:
         f"[SPOKEN_SUMMARY]:\n"
         f"1-2 concise, articulate sentences addressed to 'Boss' or 'sir' summarizing the resolution."
     )
-    code_solution = query_ollama(coder_model, pass2_prompt, timeout=3.5)
+    code_solution = query_ollama(coder_model, pass2_prompt, timeout=1.8)
     if not code_solution:
         code_solution = query_groq_failover(pass2_prompt)
 
@@ -257,10 +263,10 @@ def cosmos_multi_model_solve(user_input: str) -> str:
         f"Solve the problem thoroughly adhering to the required format."
     )
 
-    # Try the best local model with a fast 3.5s timeout; failover instantly if slow or cold
+    # Try the best local model with a fast 1.8s timeout; failover instantly if slow or cold
     for model in ordered_models[:1]:
         print(f"[COSMOS MULTI-BRAIN] Querying local model: {model}")
-        res = query_ollama(model, full_prompt, timeout=3.5, system_prompt=system_prompt)
+        res = query_ollama(model, full_prompt, timeout=1.8, system_prompt=system_prompt)
         if res and len(res.strip()) > 30:
             return res
         break

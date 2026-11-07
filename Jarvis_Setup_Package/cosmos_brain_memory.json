@@ -81,5 +81,44 @@
       "only",
       "trust"
     ]
+  },
+  {
+    "timestamp": "2026-11-07T17:28:08.830170",
+    "query": "Can you explain what a Python generator is and why we use yield?",
+    "lesson": ": Sir, a Python generator is a lazy iterator created by a function containing yield; it produces values one at a time while preserving its internal state, which saves memory and enables efficient, on\u2011demand computation.",
+    "keywords": [
+      "can",
+      "you",
+      "explain",
+      "what",
+      "python",
+      "generator"
+    ]
+  },
+  {
+    "timestamp": "2026-11-07T17:30:22.978382",
+    "query": "Can you explain what a Python generator is and why we use yield?",
+    "lesson": ": Sir, a Python generator is a lazy iterator created by a function that uses yield to return values one at a time while preserving its execution state, which lets us generate large or infinite sequences efficiently and with minimal memory overhead.",
+    "keywords": [
+      "can",
+      "you",
+      "explain",
+      "what",
+      "python",
+      "generator"
+    ]
+  },
+  {
+    "timestamp": "2026-11-07T17:30:57.834039",
+    "query": "Can you explain what a Python generator is and why we use yield?",
+    "lesson": ": Sir, a Python generator is a lazy iterator created by a function that uses yield to emit one value at a time while preserving its execution state, which lets us generate large or even infinite sequences efficiently and with minimal memory overhead.",
+    "keywords": [
+      "can",
+      "you",
+      "explain",
+      "what",
+      "python",
+      "generator"
+    ]
   }
 ]

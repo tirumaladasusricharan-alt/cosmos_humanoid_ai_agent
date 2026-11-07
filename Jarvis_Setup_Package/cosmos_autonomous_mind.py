@@ -367,8 +367,13 @@ def get_available_ollama_model(prompt: str = "") -> Optional[str]:
     models = get_available_ollama_models(prompt)
     return models[0] if models else None
 
-def query_ollama(model: str, prompt: str, timeout: int = 25) -> Optional[str]:
-    """Generates completion using local Ollama model."""
+_mind_ollama_cooldown = 0.0
+
+def query_ollama(model: str, prompt: str, timeout: float = 2.0) -> Optional[str]:
+    """Generates completion using local Ollama model with fast failover."""
+    global _mind_ollama_cooldown
+    if time.time() < _mind_ollama_cooldown:
+        return None
     try:
         url = f"{OLLAMA_BASE_URL}/api/generate"
         payload = {
@@ -386,7 +391,8 @@ def query_ollama(model: str, prompt: str, timeout: int = 25) -> Optional[str]:
             res_json = json.loads(resp.read().decode())
             return res_json.get("response", "").strip()
     except Exception as e:
-        print(f"[COSMOS OLLAMA GENERATE ERROR ({model})] {e}")
+        _mind_ollama_cooldown = time.time() + 60.0
+        print(f"[COSMOS OLLAMA GENERATE ERROR ({model})] {e}. Fast failing over to Groq for 60s.")
     return None
 
 def query_groq_failover(prompt: str) -> Optional[str]:
@@ -429,14 +435,15 @@ def query_groq_failover(prompt: str) -> Optional[str]:
 def generate_reasoning(prompt: str) -> str:
     """Executes prompt on local Ollama across installed models, falling back to Groq if local engine is slow or offline."""
     models_to_try = get_available_ollama_models(prompt)
-    for model in models_to_try:
+    for model in models_to_try[:1]:
         print(f"[COSMOS MIND] Generating solution with local model: {model}")
-        ollama_reply = query_ollama(model, prompt, timeout=30)
+        ollama_reply = query_ollama(model, prompt, timeout=2.0)
         if ollama_reply and len(ollama_reply.strip()) > 20:
             return ollama_reply
+        break
 
-    # Seamless failover to Groq
-    print("[COSMOS MIND] Local Ollama models offline/timed out, invoking Groq failover...")
+    # Seamless fast failover to Groq
+    print("[COSMOS MIND] Local Ollama models offline/timed out, invoking fast Groq failover...")
     groq_reply = query_groq_failover(prompt)
     if groq_reply:
         return groq_reply
