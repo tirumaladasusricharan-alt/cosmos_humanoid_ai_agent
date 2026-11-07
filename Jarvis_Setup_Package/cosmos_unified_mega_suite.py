@@ -47,6 +47,16 @@ except ImportError:
     except ImportError:
         ULTIMATE_SOUL_AVAILABLE = False
 
+try:
+    import cosmos_agency_adapter
+    AGENCY_ADAPTER_AVAILABLE = True
+except ImportError:
+    try:
+        from Jarvis_Setup_Package import cosmos_agency_adapter
+        AGENCY_ADAPTER_AVAILABLE = True
+    except ImportError:
+        AGENCY_ADAPTER_AVAILABLE = False
+
 # =====================================================================
 # 0. PRE-IMPORT ENVIRONMENT BINDING FOR COGNEE & LOCAL STACK (0 MB)
 # =====================================================================
@@ -1153,6 +1163,9 @@ def cosmos_unified_turn(spoken_or_typed: str) -> str:
     sys_prompt = consciousness_engine.build_conscious_system_prompt(graph_ctx)
     if ULTIMATE_SOUL_AVAILABLE:
         sys_prompt += "\n\n" + cosmos_ultimate_soul.cosmos_ultimate_soul.build_ultimate_soul_prompt()
+    if AGENCY_ADAPTER_AVAILABLE:
+        persona_key, persona_prompt = cosmos_agency_adapter.select_agency_persona(spoken_or_typed)
+        sys_prompt += f"\n\n[AGENCY-AGENTS COUNCIL EXPERT ({persona_key.upper()})]:\n{persona_prompt}"
 
     if any(
         w in spoken_or_typed.lower()

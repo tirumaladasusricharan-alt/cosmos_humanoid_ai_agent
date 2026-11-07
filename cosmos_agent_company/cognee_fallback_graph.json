@@ -3023,6 +3023,25 @@
         "timestamp": "2026-11-07T11:37:27Z"
       },
       "updated_at": "2026-11-07T11:37:27Z"
+    },
+    "agency_agents": {
+      "id": "agency_agents",
+      "type": "SkillSuite",
+      "label": "msitarzewski/agency-agents Specialized Expert Personas",
+      "properties": {
+        "creator": "Sri Charan Tirumaladasu",
+        "personas": [
+          "frontend_expert",
+          "security_auditor",
+          "backend_architect",
+          "mobile_engineer",
+          "devops_reliability"
+        ],
+        "source": "msitarzewski/agency-agents",
+        "status": "100% active and integrated in RAM",
+        "description": "Multi-agent specialized expert personas adapting frontend, security, backend, mobile, and devops workflows."
+      },
+      "updated_at": "2026-11-07T12:49:41Z"
     }
   },
   "edges": [
@@ -6799,7 +6818,21 @@
       "relation": "RESPONDED_TO",
       "weight": 0.7,
       "properties": {}
+    },
+    {
+      "source": "cosmos",
+      "target": "agency_agents",
+      "relation": "INTEGRATES",
+      "weight": 1.0,
+      "properties": {}
+    },
+    {
+      "source": "charan",
+      "target": "agency_agents",
+      "relation": "AUTHORIZED",
+      "weight": 1.0,
+      "properties": {}
     }
   ],
-  "last_updated": "2026-11-07T11:37:27Z"
+  "last_updated": "2026-11-07T12:49:41Z"
 }
