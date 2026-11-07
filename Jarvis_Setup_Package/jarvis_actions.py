@@ -1459,9 +1459,24 @@ def try_action(q):
     if "volume down" in q_clean or "quieter" in q_clean:
         _change_volume("down")
         return "Volume decreased."
-    if q_clean in ("mute", "mute volume", "mute the volume"):
+    if q_clean in ("mute", "mute volume", "mute the volume", "mute audio", "mute yourself", "mute cosmos"):
+        try:
+            import cosmos_server
+            with cosmos_server.state_lock:
+                cosmos_server.is_muted = True
+        except Exception:
+            pass
         _change_volume("mute")
-        return "System audio muted."
+        return "Audio muted, sir."
+    if q_clean in ("unmute", "unmute volume", "unmute the volume", "unmute audio", "unmute yourself", "unmute cosmos"):
+        try:
+            import cosmos_server
+            with cosmos_server.state_lock:
+                cosmos_server.is_muted = False
+        except Exception:
+            pass
+        _change_volume("mute")
+        return "Audio unmuted, sir."
 
     # 9. Date and Time
     if any(k in q_clean for k in ("what time is it", "current time", "tell me the time", "time now")) or q_clean == "time":

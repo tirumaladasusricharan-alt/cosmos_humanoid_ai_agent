@@ -283,16 +283,6 @@ def speak_cosmos(text: str, full_chat_text: Optional[str] = None):
         except Exception:
             pass
 
-    # Maximize Windows hardware volume and uncap master speakers (ensures audibility)
-    try:
-        from cosmos_human_voice import ensure_windows_audio_master
-        ensure_windows_audio_master(min_volume=0.90)
-    except Exception:
-        if sys.platform == "win32":
-            try:
-                ctypes.windll.winmm.waveOutSetVolume(0, 0xFFFFFFFF)
-            except Exception:
-                pass
     # Pause microphone while speaking
     voice_ready_event.clear()
     time.sleep(0.08)

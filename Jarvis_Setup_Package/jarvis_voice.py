@@ -53,11 +53,8 @@ _speech_lock = threading.Lock()
 
 
 def _set_windows_output_volume(volume):
-    """Set the Windows output volume."""
-    winmm = ctypes.windll.winmm
-    result = winmm.waveOutSetVolume(0, volume)
-    if result != 0:
-        raise OSError(result, "Could not set Windows output volume")
+    """Disabled: COSMOS strictly respects user's manual Windows audio settings."""
+    pass
 
 
 def _get_windows_output_volume():
@@ -157,17 +154,9 @@ def speak(text):
                 if matching_voice is not None:
                     engine.setProperty("voice", matching_voice.id)
                 engine.setProperty("rate", 175)
-                previous_output_volume = None
-                if sys.platform == "win32":
-                    previous_output_volume = _get_windows_output_volume()
-                    _set_windows_output_volume(0xFFFFFFFF)
-                try:
-                    engine.setProperty("volume", 1.0)
-                    engine.say(text)
-                    engine.runAndWait()
-                finally:
-                    if previous_output_volume is not None:
-                        _set_windows_output_volume(previous_output_volume)
+                engine.setProperty("volume", 1.0)
+                engine.say(text)
+                engine.runAndWait()
             except Exception as error:
                 print(f"[TTS ERROR] Could not speak with the {selected_voice} voice: {error}")
 
