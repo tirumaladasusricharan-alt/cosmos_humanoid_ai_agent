@@ -5384,9 +5384,21 @@ self.onmessage = async (e) => {
       .catch(() => {});
   }, 200);
 
-  // Camera Frame Grabber (RAM-First Relay to backend)
+  // Camera Status & Frame Grabber (RAM-First Relay to backend)
+  function isCameraActiveOnUI() {
+    try {
+      const camBtn = document.querySelector('[data-testid="mira-humanoid-camera"]') || 
+                     Array.from(document.querySelectorAll('button')).find(b => (b.textContent || '').includes('CAMERA OFF') || (b.textContent || '').includes('ENABLE CAMERA'));
+      if (camBtn) {
+        return (camBtn.textContent || '').includes('CAMERA OFF') || camBtn.getAttribute('aria-pressed') === 'true';
+      }
+    } catch (e) {}
+    return false;
+  }
+
   function getCameraFrameBase64() {
     try {
+      if (!isCameraActiveOnUI()) return '';
       const videos = document.querySelectorAll('video');
       for (const v of videos) {
         if (v && v.srcObject && v.videoWidth > 0 && !v.paused) {
@@ -5403,16 +5415,15 @@ self.onmessage = async (e) => {
     return '';
   }
 
-  // Periodic RAM Sync: If camera is enabled by user, send a snapshot every 2.5s
+  // Periodic RAM Sync: Reports camera status & frames to backend every 2.5s
   setInterval(() => {
-    const f = getCameraFrameBase64();
-    if (f) {
-      fetch('/api/camera_frame', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ frame: f })
-      }).catch(() => {});
-    }
+    const isCamOn = isCameraActiveOnUI();
+    const f = isCamOn ? getCameraFrameBase64() : '';
+    fetch('/api/camera_frame', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ frame: f, camera_active: isCamOn && !!f })
+    }).catch(() => {});
   }, 2500);
 
   // Wire input bar to POST /api/command (and fallback /api/query)
@@ -5423,17 +5434,18 @@ self.onmessage = async (e) => {
       if (!q) return;
       input.value = '';
 
-      const camFrame = getCameraFrameBase64();
+      const isCamOn = isCameraActiveOnUI();
+      const camFrame = isCamOn ? getCameraFrameBase64() : '';
       fetch('/api/command', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ command: q, query: q, camera_frame: camFrame })
+        body: JSON.stringify({ command: q, query: q, camera_frame: camFrame, camera_active: isCamOn && !!camFrame })
       }).catch(() => {
         // Fallback to /api/query
         fetch('/api/query', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: q, camera_frame: camFrame })
+          body: JSON.stringify({ query: q, camera_frame: camFrame, camera_active: isCamOn && !!camFrame })
         }).catch(() => {});
       });
     });

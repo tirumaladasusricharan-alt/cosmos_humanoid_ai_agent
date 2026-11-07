@@ -167,9 +167,9 @@ def gather_autonomous_context(query: str) -> Dict[str, Any]:
         "web_research": []
     }
 
-    # 1. Clipboard Check
-    clipboard_triggers = ("clipboard", "copied", "this code", "my code", "fix this", "error below", "stacktrace", "traceback")
-    if any(t in q_lower for t in clipboard_triggers) or len(query.strip().split()) <= 4:
+    # 1. Explicit Clipboard Check only when specifically requested
+    clipboard_triggers = ("clipboard", "from clipboard", "in clipboard", "copied code")
+    if any(t in q_lower for t in clipboard_triggers):
         clip_text = get_clipboard_content().strip()
         if clip_text and len(clip_text) > 10:
             context["clipboard"] = clip_text[:8000]
@@ -614,7 +614,7 @@ def should_trigger_autonomous_mind(q_clean: str, q_raw: str = "") -> bool:
     # Exclude basic chit-chat, greetings, app open launchers, and simple date/time lookups
     if any(q.startswith(prefix) for prefix in ("open ", "launch ", "start ", "call ", "dial ")):
         return False
-    if q in ("hi", "hello", "namaste", "hey", "how are you", "who are you", "who created you", "what time is it"):
+    if q in ("hi", "hello", "namaste", "hey", "how are you", "who are you", "who created you", "who is cosmos", "what is cosmos", "who is jarvis", "what is jarvis", "what time is it"):
         return False
     if "news" in q and not any(k in q for k in ("code", "debug", "python", "script", "algorithm")):
         return False

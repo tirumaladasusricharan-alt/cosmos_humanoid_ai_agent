@@ -419,7 +419,7 @@ clean_html = f"""<!doctype html>
     
     // Format fenced code blocks if present
     if (content.includes('```')) {{
-      const parts = content.split(/```(?:[a-zA-Z0-9_\-\.\+]*\n)?(.*?)```/s);
+      const parts = content.split(/```(?:[a-zA-Z0-9_\\-\\.\\+]*\n)?(.*?)```/s);
       div.innerHTML = '';
       for (let i = 0; i < parts.length; i++) {{
         if (i % 2 === 1) {{

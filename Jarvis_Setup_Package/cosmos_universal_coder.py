@@ -33,30 +33,43 @@ SUPPORTED_LANGUAGES = {
 # ═══════════════════════════════════════════════════════════════════════
 
 def get_windows_clipboard_text() -> str:
-    """Safely retrieves text from the Windows OS clipboard via ctypes Win32 API."""
+    """Safely retrieves text from the Windows OS clipboard via ctypes Win32 API with guaranteed cleanup."""
+    if sys.platform != "win32":
+        return ""
     try:
         user32 = ctypes.windll.user32
         kernel32 = ctypes.windll.kernel32
         CF_UNICODETEXT = 13
 
+        user32.OpenClipboard.argtypes = [ctypes.c_void_p]
+        user32.OpenClipboard.restype = ctypes.c_bool
+        user32.CloseClipboard.argtypes = []
+        user32.CloseClipboard.restype = ctypes.c_bool
+        user32.GetClipboardData.argtypes = [ctypes.c_uint]
+        user32.GetClipboardData.restype = ctypes.c_void_p
+        kernel32.GlobalLock.argtypes = [ctypes.c_void_p]
+        kernel32.GlobalLock.restype = ctypes.c_void_p
+        kernel32.GlobalUnlock.argtypes = [ctypes.c_void_p]
+        kernel32.GlobalUnlock.restype = ctypes.c_bool
+
         if not user32.OpenClipboard(None):
             return ""
 
-        h_glb = user32.GetClipboardData(CF_UNICODETEXT)
-        if not h_glb:
-            user32.CloseClipboard()
-            return ""
+        try:
+            h_glb = user32.GetClipboardData(CF_UNICODETEXT)
+            if not h_glb:
+                return ""
 
-        kernel32.GlobalLock.restype = ctypes.c_void_p
-        p_text = kernel32.GlobalLock(h_glb)
-        if not p_text:
+            p_text = kernel32.GlobalLock(h_glb)
+            if not p_text:
+                return ""
+            try:
+                text = ctypes.c_wchar_p(p_text).value or ""
+                return text.strip()
+            finally:
+                kernel32.GlobalUnlock(h_glb)
+        finally:
             user32.CloseClipboard()
-            return ""
-
-        text = ctypes.c_wchar_p(p_text).value or ""
-        kernel32.GlobalUnlock(h_glb)
-        user32.CloseClipboard()
-        return text.strip()
     except Exception as e:
         print(f"[COSMOS CLIPBOARD ERROR] {e}")
         return ""

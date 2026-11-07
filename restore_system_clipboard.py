@@ -36,3 +36,4 @@ def restore_clipboard():
 
 if __name__ == "__main__":
     restore_clipboard()
+

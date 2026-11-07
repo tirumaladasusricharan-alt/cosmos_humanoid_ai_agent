@@ -429,7 +429,7 @@ class CosmosConsciousnessAndSoulEngine:
         ] = self.episodic_self_reflection
 
     def _peripheral_sniffer_loop(self):
-        """Sniffs Windows foreground window & clipboard for proactive assistance."""
+        """Sniffs Windows foreground window for context with zero clipboard locking."""
         while True:
             time.sleep(15)
             if WIN32_AVAILABLE:
@@ -438,16 +438,6 @@ class CosmosConsciousnessAndSoulEngine:
                     w_title = win32gui.GetWindowText(hwnd)
                     if w_title:
                         COSMOS_UNIFIED_STATE["subconscious"]["active_window"] = w_title
-
-                    win32clipboard.OpenClipboard()
-                    clip_text = win32clipboard.GetClipboardData()
-                    win32clipboard.CloseClipboard()
-                    if clip_text and (
-                        "Traceback" in clip_text or "Error" in clip_text
-                    ) and len(clip_text) < 500:
-                        COSMOS_UNIFIED_STATE["subconscious"][
-                            "pending_clipboard_alert"
-                        ] = clip_text[:120]
                 except Exception:
                     pass
 
@@ -1021,6 +1011,8 @@ class CosmosWebcamEyes:
         if not CV2_AVAILABLE:
             return
         try:
+            if hasattr(cv2, "setLogLevel"):
+                cv2.setLogLevel(0)
             # Fast Windows backend (DSHOW), fallback to default
             cap = cv2.VideoCapture(self.camera_index, cv2.CAP_DSHOW)
             if not cap.isOpened():
@@ -1063,12 +1055,22 @@ def query_cosmos_with_vision(prompt: str, system_prompt: str = "") -> str:
         "do you see me", "are you seeing me", "can you see", "camera feed",
         "granted camera", "camera access", "watch me", "see you", "are you watching me",
         "are you able to see me", "do you have camera", "see what i am", "look into camera",
-        "have camera", "camera working", "can see me"
+        "have camera", "camera working", "can see me", "what i see now", "what do you see now",
+        "what can you see", "what do you see in front"
     ]
     needs_eyes = any(vt in prompt.lower() for vt in visual_triggers)
     frame_b64 = cosmos_eyes.capture_snapshot() if needs_eyes else ""
     if not frame_b64 and needs_eyes:
         frame_b64 = COSMOS_UNIFIED_STATE.get("camera_frame_b64", "")
+
+    frame_time = COSMOS_UNIFIED_STATE.get("camera_frame_timestamp", 0)
+    is_camera_on = bool(frame_b64 and (time.monotonic() - frame_time < 15 or frame_time == 0))
+
+    if needs_eyes and not is_camera_on:
+        is_te = any(ord(c) >= 0x0C00 and ord(c) <= 0x0C7F for c in prompt)
+        if is_te:
+            return "బాస్ చరణ్, ప్రస్తుతం మీ కెమెరా ఆఫ్‌లో ఉంది. స్క్రీన్ ఎడమవైపు పైనున్న 'ENABLE CAMERA' బటన్ క్లిక్ చేస్తే నా విజన్ సెన్సార్లు కనెక్ట్ అవుతాయి బాస్!"
+        return "I cannot see you right now, Boss Charan, because your camera is currently disabled. Please click 'ENABLE CAMERA' at the top left of the screen so my neural eyes can connect and see you!"
 
     groq_key = os.environ.get("GROQ_API_KEY", "")
     messages = []

@@ -781,32 +781,35 @@ def start_global_hotkey_thread():
 
         def keyboard_hook(code, message, data):
             nonlocal alt_press_time, alt_combo_used
-            if code == 0 and message in (WM_KEYDOWN, WM_SYSKEYDOWN, WM_KEYUP, WM_SYSKEYUP):
-                event = ctypes.cast(data, ctypes.POINTER(KeyboardEvent)).contents
-                key = event.vk_code
-                was_alt_down = bool(pressed_keys & VK_ALT_KEYS)
-                
-                if message in (WM_KEYDOWN, WM_SYSKEYDOWN):
-                    pressed_keys.add(key)
-                else:
-                    pressed_keys.discard(key)
+            try:
+                if code == 0 and message in (WM_KEYDOWN, WM_SYSKEYDOWN, WM_KEYUP, WM_SYSKEYUP):
+                    event = ctypes.cast(data, ctypes.POINTER(KeyboardEvent)).contents
+                    key = event.vk_code
+                    was_alt_down = bool(pressed_keys & VK_ALT_KEYS)
+                    
+                    if message in (WM_KEYDOWN, WM_SYSKEYDOWN):
+                        pressed_keys.add(key)
+                    else:
+                        pressed_keys.discard(key)
 
-                alt_down = bool(pressed_keys & VK_ALT_KEYS)
+                    alt_down = bool(pressed_keys & VK_ALT_KEYS)
 
-                if alt_down and not was_alt_down:
-                    alt_press_time = time.monotonic()
-                    alt_combo_used = any(k not in VK_ALT_KEYS for k in pressed_keys)
-                elif alt_down and key not in VK_ALT_KEYS:
-                    alt_combo_used = True
+                    if alt_down and not was_alt_down:
+                        alt_press_time = time.monotonic()
+                        alt_combo_used = any(k not in VK_ALT_KEYS for k in pressed_keys)
+                    elif alt_down and key not in VK_ALT_KEYS:
+                        alt_combo_used = True
 
-                # Single Alt tap detection
-                if was_alt_down and not alt_down:
-                    held = time.monotonic() - alt_press_time
-                    if not alt_combo_used and 0.02 < held < 0.85:
-                        hotkey_summon_action()
-                    alt_combo_used = False
-
-            return user32.CallNextHookEx(_global_hook_handle, code, message, data)
+                    # Single Alt tap detection
+                    if was_alt_down and not alt_down:
+                        held = time.monotonic() - alt_press_time
+                        if not alt_combo_used and 0.02 < held < 0.85:
+                            hotkey_summon_action()
+                        alt_combo_used = False
+            except Exception:
+                pass
+            finally:
+                return user32.CallNextHookEx(_global_hook_handle, code, message, data)
 
         _global_hook_proc = hook_proc_type(keyboard_hook)
         user32.SetWindowsHookExW.argtypes = (ctypes.c_int, hook_proc_type, ctypes.c_void_p, wintypes.DWORD)
@@ -974,13 +977,15 @@ async def receive_camera_frame(request: Request):
     """Receives in-memory base64 webcam frame from frontend (0 MB disk impact)."""
     try:
         data = await request.json()
+        camera_active = data.get("camera_active")
         b64 = (data.get("frame") or data.get("image") or data.get("camera_frame") or "").strip()
-        if b64:
+        if b64 and (camera_active is True or camera_active is None):
             if "," in b64:
                 b64 = b64.split(",", 1)[1]
             try:
                 import cosmos_unified_mega_suite
                 cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_b64"] = b64
+                cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_timestamp"] = time.monotonic()
                 if hasattr(cosmos_unified_mega_suite, "cosmos_eyes"):
                     with cosmos_unified_mega_suite.cosmos_eyes._lock:
                         cosmos_unified_mega_suite.cosmos_eyes.latest_frame_b64 = b64
@@ -988,9 +993,20 @@ async def receive_camera_frame(request: Request):
             except Exception:
                 pass
             return {"status": "ok", "bytes": len(b64)}
+        else:
+            try:
+                import cosmos_unified_mega_suite
+                cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_b64"] = ""
+                cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_timestamp"] = 0.0
+                if hasattr(cosmos_unified_mega_suite, "cosmos_eyes"):
+                    with cosmos_unified_mega_suite.cosmos_eyes._lock:
+                        cosmos_unified_mega_suite.cosmos_eyes.latest_frame_b64 = ""
+                        cosmos_unified_mega_suite.cosmos_eyes.is_active = False
+            except Exception:
+                pass
+            return {"status": "offline"}
     except Exception as e:
         return {"status": "error", "error": str(e)}
-    return {"status": "empty"}
 
 
 @app.post("/api/command")
@@ -1010,17 +1026,30 @@ async def execute_query(request: Request):
     if not query:
         return {"response": ""}
 
+    camera_active = data.get("camera_active")
     camera_frame = (data.get("camera_frame") or data.get("frame") or "").strip()
-    if camera_frame:
+    if camera_frame and (camera_active is True or camera_active is None):
         if "," in camera_frame:
             camera_frame = camera_frame.split(",", 1)[1]
         try:
             import cosmos_unified_mega_suite
             cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_b64"] = camera_frame
+            cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_timestamp"] = time.monotonic()
             if hasattr(cosmos_unified_mega_suite, "cosmos_eyes"):
                 with cosmos_unified_mega_suite.cosmos_eyes._lock:
                     cosmos_unified_mega_suite.cosmos_eyes.latest_frame_b64 = camera_frame
                     cosmos_unified_mega_suite.cosmos_eyes.is_active = True
+        except Exception:
+            pass
+    elif camera_active is False:
+        try:
+            import cosmos_unified_mega_suite
+            cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_b64"] = ""
+            cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE["camera_frame_timestamp"] = 0.0
+            if hasattr(cosmos_unified_mega_suite, "cosmos_eyes"):
+                with cosmos_unified_mega_suite.cosmos_eyes._lock:
+                    cosmos_unified_mega_suite.cosmos_eyes.latest_frame_b64 = ""
+                    cosmos_unified_mega_suite.cosmos_eyes.is_active = False
         except Exception:
             pass
 

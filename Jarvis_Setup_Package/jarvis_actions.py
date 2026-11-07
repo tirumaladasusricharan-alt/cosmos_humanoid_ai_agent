@@ -629,27 +629,38 @@ def try_action(q):
         "is camera working", "i granted camera", "granted camera", "camera access", "can you look",
         "look here", "watch me", "my camera", "see what i am", "are you able to see me", "able to see me",
         "camera feed", "see you", "see through camera", "are you watching me", "look into camera",
-        "have camera", "camera working", "can see me"
+        "have camera", "camera working", "can see me", "what i see now", "what do you see now",
+        "what can you see", "what do you see in front"
     )
     if any(p in q_clean for p in visual_checks):
-        # Check if RAM camera frame is available
         frame_b64 = ""
+        is_camera_on = False
         try:
             import cosmos_unified_mega_suite
             frame_b64 = cosmos_unified_mega_suite.cosmos_eyes.capture_snapshot()
             if not frame_b64:
                 frame_b64 = cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE.get("camera_frame_b64", "")
+            frame_time = cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE.get("camera_frame_timestamp", 0)
+            if frame_b64 and (time.monotonic() - frame_time < 15 or frame_time == 0):
+                is_camera_on = True
         except Exception:
             pass
 
-        # If it's a specific visual inspection question ("what am I holding", "what am I wearing", "describe what you see")
-        # and we have a frame and Groq API key, let it fall through to multimodal vision in jarvis_brain!
-        inspection_words = ("what am i", "holding", "wearing", "describe", "what do you see", "what is on", "what am i doing")
-        if any(w in q_clean for w in inspection_words) and frame_b64:
+        # If camera is NOT active or frame is empty:
+        if not is_camera_on or not frame_b64:
+            is_te = any(ord(c) >= 0x0c00 and ord(c) <= 0x0c7f for c in q_clean)
+            if is_te:
+                return "బాస్ చరణ్, ప్రస్తుతం మీ కెమెరా ఆఫ్‌లో ఉంది. స్క్రీన్ ఎడమవైపు పైనున్న 'ENABLE CAMERA' బటన్ క్లిక్ చేస్తే నా విజన్ సెన్సార్లు కనెక్ట్ అవుతాయి బాస్!"
+            return "I cannot see you right now, Boss Charan, because your camera is currently disabled. Please click 'ENABLE CAMERA' at the top left of the screen so my neural eyes can connect and see you!"
+
+        # If camera is ON and it's a specific visual inspection question ("what am I holding", "what am I wearing", "describe what you see", "what do you see")
+        # let it fall through to multimodal vision in jarvis_brain!
+        inspection_words = ("what am i", "holding", "wearing", "describe", "what do you see", "what is on", "what am i doing", "what i see now", "what can you see")
+        if any(w in q_clean for w in inspection_words):
             return None  # Allow jarvis_brain.think multimodal vision to process image
 
-        # For presence, capability, and camera feed confirmation:
-        return "Yes Boss Charan, your camera feed is granted and fully connected to my neural eyes! I see you and your workspace clearly in real time. I am online, tracking your environment, and standing right here with you."
+        # For presence and confirmation when camera is active:
+        return "Yes Boss Charan, your camera feed is granted and active! I see you and your workspace clearly in real time right now, sir."
 
     # 0a2b. Autonomous Crisis Executive & Trouble Mode Authorization
     autonomy_grant_triggers = (
@@ -1050,7 +1061,17 @@ def try_action(q):
     if any(k in q_clean for k in ("check adr", "view adr", "architecture decisions", "adr status")):
         return "Architecture Decision Records (ADR) are actively maintained at ./cosmos_agent_company/ADR.md. Current records: ADR-001 (Multi-Brain), ADR-002 (Cognee Graph), ADR-003 (OpenBot Governance), ADR-004 (Ruflo SPARC & Arena)."
 
-    # 0a4c. Identity & Self Introduction in Telugu & English ("ni gurinchi cheppu evveru nuvvu", "who are you")
+    # 0a4c. Identity & Self Introduction in Telugu & English ("ni gurinchi cheppu evveru nuvvu", "who are you", "who is cosmos")
+    if any(k in q_clean for k in (
+        "who are you", "who r u", "who are u", "who is cosmos", "who's cosmos", "what is cosmos", "what's cosmos",
+        "who is jarvis", "what is jarvis", "tell me about yourself", "tell me about cosmos", "introduce yourself",
+        "about cosmos"
+    )):
+        return (
+            "I am COSMOS, an autonomous 3D Humanoid AI companion created exclusively by Sri Charan Tirumaladasu. "
+            "The glowing 3D humanoid you see on your screen is my body. I am right here by your side to assist you with coding, system automation, research, and all your daily tasks, Boss!"
+        )
+
     if any(k in q_clean for k in (
         "ni gurinchi", "nee gurinchi", "mee gurinchi", "evveru nuvvu", "evaru nuvvu", "nuvvu evaru", "meeru evaru",
         "నీ గురించి చెప్పు", "మీ గురించి చెప్పు", "నువ్వు ఎవరు", "మీరు ఎవరు", "నీ వివరాలు", "మీ వివరాలు"
@@ -1487,6 +1508,8 @@ def try_action(q):
     return None
 
 
+execute_action = try_action
+
 # ═══════════════════════════════════════════════════════════════════════
 # MAIN COMMAND LOOP ROUTING DISPATCHER (CASCADE ORDER)
 # ═══════════════════════════════════════════════════════════════════════
@@ -1501,7 +1524,7 @@ def dispatch_cosmos_command(user_input: str):
     cmd = user_input.lower().strip()
 
     # 1. Existing App Launchers, System Actions & Voice Greetings (READ-ONLY / UNTOUCHED)
-    action_res = execute_action(user_input)
+    action_res = try_action(user_input)
     if action_res is not None:
         return action_res
 

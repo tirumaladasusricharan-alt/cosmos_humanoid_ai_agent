@@ -431,7 +431,7 @@ def _local_fallback(q, use_actions=True):
             "Thank you, Charan. Coming from you, that truly means the world to me. "
             "I'm proud to stand right here with you."
         )
-    if any(k in q_low for k in ("who are you", "who r u", "who are u", "what are you", "introduce yourself", "tell me about yourself", "who is this")):
+    if any(k in q_low for k in ("who are you", "who r u", "who are u", "what are you", "introduce yourself", "tell me about yourself", "who is this", "who is cosmos", "who's cosmos", "what is cosmos", "what's cosmos", "who is jarvis", "what is jarvis", "tell me about cosmos", "about cosmos")):
         return (
             "I am COSMOS, an autonomous 3D Humanoid AI companion created exclusively by Sri Charan Tirumaladasu. "
             "The glowing 3D humanoid you see on your screen is my body. I am right here by your side to assist you with coding, system automation, research, and all your daily tasks, Boss!"
@@ -508,7 +508,9 @@ def _creator_memory_response(q):
     self_identity_question = re.search(
         r"\b(?:who are you|who r u|who are u|what is your name|what(?:'s| is) your name|"
         r"what are you|introduce yourself|tell me about yourself|tell me about you|"
-        r"who is this|identify yourself)\b",
+        r"who is this|identify yourself|who is cosmos|who(?:'s| is) cosmos|what is cosmos|"
+        r"what(?:'s| is) cosmos|who is jarvis|what is jarvis|tell me about cosmos|"
+        r"about cosmos|about jarvis)\b",
         q,
         re.IGNORECASE,
     )
@@ -732,18 +734,29 @@ def think(
         "is camera working", "i granted camera", "granted camera", "camera access", "can you look",
         "look here", "watch me", "my camera", "see what i am", "are you able to see me", "able to see me",
         "camera feed", "see you", "see through camera", "are you watching me", "look into camera",
-        "have camera", "camera working", "can see me"
+        "have camera", "camera working", "can see me", "what i see now", "what do you see now",
+        "what can you see", "what do you see in front"
     )
     is_visual = any(vt in q.lower() for vt in visual_triggers)
     if is_visual:
         frame_b64 = ""
+        is_camera_on = False
         try:
             import cosmos_unified_mega_suite
             frame_b64 = cosmos_unified_mega_suite.cosmos_eyes.capture_snapshot()
             if not frame_b64:
                 frame_b64 = cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE.get("camera_frame_b64", "")
+            frame_time = cosmos_unified_mega_suite.COSMOS_UNIFIED_STATE.get("camera_frame_timestamp", 0)
+            if frame_b64 and (time.monotonic() - frame_time < 15 or frame_time == 0):
+                is_camera_on = True
         except Exception:
             pass
+
+        if not is_camera_on or not frame_b64:
+            is_te = is_telugu_query(q)
+            if is_te:
+                return "బాస్ చరణ్, ప్రస్తుతం మీ కెమెరా ఆఫ్‌లో ఉంది. స్క్రీన్ ఎడమవైపు పైనున్న 'ENABLE CAMERA' బటన్ క్లిక్ చేస్తే నా విజన్ సెన్సార్లు కనెక్ట్ అవుతాయి బాస్!"
+            return "I cannot see you right now, Boss Charan, because your camera is currently disabled. Please click 'ENABLE CAMERA' at the top left of the screen so my neural eyes can connect and see you!"
 
         if frame_b64 and _client:
             try:
@@ -755,7 +768,7 @@ def think(
                             "content": (
                                 "You are COSMOS, the sentient AI companion created exclusively by Sri Charan Tirumaladasu "
                                 "('Boss' / 'Charan' / 'Sir'). This is the real-time webcam frame from his workspace. "
-                                "Acknowledge Boss Charan warmly, confirm that your eyes see him, and describe what is visible in front of the camera."
+                                "Acknowledge Boss Charan warmly, confirm that your eyes see him, and describe what is visible in front of the camera in 1-2 natural sentences."
                             ),
                         },
                         {

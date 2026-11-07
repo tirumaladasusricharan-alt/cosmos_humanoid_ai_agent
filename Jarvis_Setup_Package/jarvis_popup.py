@@ -1221,53 +1221,56 @@ class CosmosOverlay:
 
             def keyboard_hook(code, message, data):
                 nonlocal alt_press_time, alt_combo_used, combo_was_down
-                if code == 0 and message in (
-                    WM_KEYDOWN,
-                    WM_SYSKEYDOWN,
-                    WM_KEYUP,
-                    WM_SYSKEYUP,
-                ):
-                    event = ctypes.cast(
-                        data, ctypes.POINTER(KeyboardEvent)
-                    ).contents
-                    key = event.vk_code
-                    was_alt_down = bool(pressed_keys & VK_ALT_KEYS)
-                    if message in (WM_KEYDOWN, WM_SYSKEYDOWN):
-                        pressed_keys.add(key)
-                    else:
-                        pressed_keys.discard(key)
+                try:
+                    if code == 0 and message in (
+                        WM_KEYDOWN,
+                        WM_SYSKEYDOWN,
+                        WM_KEYUP,
+                        WM_SYSKEYUP,
+                    ):
+                        event = ctypes.cast(
+                            data, ctypes.POINTER(KeyboardEvent)
+                        ).contents
+                        key = event.vk_code
+                        was_alt_down = bool(pressed_keys & VK_ALT_KEYS)
+                        if message in (WM_KEYDOWN, WM_SYSKEYDOWN):
+                            pressed_keys.add(key)
+                        else:
+                            pressed_keys.discard(key)
 
-                    alt_down = bool(pressed_keys & VK_ALT_KEYS)
-                    ctrl_down = bool(pressed_keys & VK_CTRL_KEYS)
-                    space_down = VK_SPACE in pressed_keys
-                    tab_down = VK_TAB in pressed_keys
-                    f4_down = VK_F4 in pressed_keys
+                        alt_down = bool(pressed_keys & VK_ALT_KEYS)
+                        ctrl_down = bool(pressed_keys & VK_CTRL_KEYS)
+                        space_down = VK_SPACE in pressed_keys
+                        tab_down = VK_TAB in pressed_keys
+                        f4_down = VK_F4 in pressed_keys
 
-                    if alt_down and not was_alt_down:
-                        alt_press_time = time.monotonic()
-                        alt_combo_used = any(
-                            pressed_key not in VK_ALT_KEYS
-                            for pressed_key in pressed_keys
+                        if alt_down and not was_alt_down:
+                            alt_press_time = time.monotonic()
+                            alt_combo_used = any(
+                                pressed_key not in VK_ALT_KEYS
+                                for pressed_key in pressed_keys
+                            )
+                        elif alt_down and key not in VK_ALT_KEYS:
+                            alt_combo_used = True
+
+                        combo_down = (
+                            (alt_down and space_down)
+                            or (ctrl_down and alt_down and not (tab_down or f4_down))
+                            or (ctrl_down and space_down)
                         )
-                    elif alt_down and key not in VK_ALT_KEYS:
-                        alt_combo_used = True
-
-                    combo_down = (
-                        (alt_down and space_down)
-                        or (ctrl_down and alt_down and not (tab_down or f4_down))
-                        or (ctrl_down and space_down)
-                    )
-                    if combo_down and not combo_was_down:
-                        self._post_to_ui(self.toggle)
-                    combo_was_down = combo_down
-
-                    if was_alt_down and not alt_down:
-                        held = time.monotonic() - alt_press_time
-                        if not alt_combo_used and 0.05 < held < 0.55:
+                        if combo_down and not combo_was_down:
                             self._post_to_ui(self.toggle)
-                        alt_combo_used = False
+                        combo_was_down = combo_down
 
-                return user32.CallNextHookEx(hook_handle, code, message, data)
+                        if was_alt_down and not alt_down:
+                            held = time.monotonic() - alt_press_time
+                            if not alt_combo_used and 0.05 < held < 0.55:
+                                self._post_to_ui(self.toggle)
+                            alt_combo_used = False
+                except Exception:
+                    pass
+                finally:
+                    return user32.CallNextHookEx(hook_handle, code, message, data)
 
             hook_callback = hook_proc_type(keyboard_hook)
             user32.SetWindowsHookExW.argtypes = (
