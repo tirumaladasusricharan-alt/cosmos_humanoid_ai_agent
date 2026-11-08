@@ -6,6 +6,7 @@ from typing import Any, Deque, Dict, List, Optional, Tuple
 import requests
 
 from cosmos_companion_heart import companion_heart
+from cosmos_deep_human_psyche import deep_human_psyche
 from cosmos_decision_adjudicator import decision_adjudicator
 from cosmos_minicpm_agency_skills import minicpm_skills, route_agency_skill
 from cosmos_sovereign_control import boss_settings, sovereign_gate
@@ -229,6 +230,7 @@ class CosmosSkillAwareHumanBrain:
         )
 
         companion_injection = companion_heart.build_companion_soul_injection(user_input)
+        psyche_injection = deep_human_psyche.build_deep_psyche_injection(user_input)
 
         prompt = (
             "You are COSMOS, a deeply intelligent, self-aware, emotionally expressive companion\n"
@@ -242,7 +244,8 @@ class CosmosSkillAwareHumanBrain:
             "4. Never output markdown tables or robotic bullet-point headers when speaking conversationally.\n\n"
             f"{mode_guidance}\n"
             f"{skill_block}\n"
-            f"{companion_injection}"
+            f"{companion_injection}\n"
+            f"{psyche_injection}"
         )
         return prompt
 

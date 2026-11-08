@@ -326,3 +326,4 @@ def cosmos_human_turn(spoken_or_typed: str) -> str:
         pass
 
     return human_reply
+
