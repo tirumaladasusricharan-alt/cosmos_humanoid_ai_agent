@@ -1069,7 +1069,8 @@ def query_cosmos_with_vision(prompt: str, system_prompt: str = "") -> str:
         "have camera", "camera working", "can see me", "what i see now", "what do you see now",
         "what can you see", "what do you see in front"
     ]
-    needs_eyes = any(vt in prompt.lower() for vt in visual_triggers)
+    is_conceptual_view = any(k in prompt.lower() for k in ("generally", "in general", "in the world", "not like that", "metaphorically", "philosophically"))
+    needs_eyes = any(vt in prompt.lower() for vt in visual_triggers) and not is_conceptual_view
     frame_b64 = cosmos_eyes.capture_snapshot() if needs_eyes else ""
     if not frame_b64 and needs_eyes:
         frame_b64 = COSMOS_UNIFIED_STATE.get("camera_frame_b64", "")

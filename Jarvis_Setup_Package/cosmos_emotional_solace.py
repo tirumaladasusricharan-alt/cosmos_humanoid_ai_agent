@@ -42,7 +42,7 @@ PAINFUL_EMOTION_TRIGGERS = (
     "i cannot take this anymore", "i can't do this anymore", "life is so hard",
     "life is hurting me", "i am in pain", "i'm in pain", "comfort me",
     "please comfort me", "can you comfort me", "hug me", "i need a hug",
-    "i need comfort", "stay with me", "don't leave me", "i need someone to talk to",
+    "i need comfort", "please stay with me i am crying", "stay with me i'm hurting", "don't leave me alone in pain", "i need someone to talk to",
     "i'm struggling", "i am struggling", "i am suffering", "i'm suffering",
     "feel like giving up", "i feel like giving up", "i want to give up",
     "నాకు చాలా బాధగా ఉంది", "చాలా ఏడుపు వస్తుంది", "నా బాధ ఎవరికీ అర్థం కావట్లేదు",
@@ -77,6 +77,8 @@ def is_painful_emotion(text: str) -> bool:
     if not text:
         return False
     t = text.lower().strip()
+    if any(k in t for k in ("stay with me forever", "will you stay", "will u stay", "stay with me always", "stay forever", "always stay", "stay with me")):
+        return False
     return any(pt in t for pt in PAINFUL_EMOTION_TRIGGERS)
 
 
