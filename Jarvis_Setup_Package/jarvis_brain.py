@@ -38,7 +38,7 @@ except ImportError:
 KEYFILE = os.path.expanduser("~/.openjarvis/free.key")
 LOCAL_KEYFILE = os.path.join(os.path.dirname(__file__), ".groq_key")
 LOCAL_ENV = os.path.join(os.path.dirname(__file__), ".env")
-MODELS = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"]
+MODELS = ["qwen/qwen3.8-27b", "openai/gpt-oss-120b", "openai/gpt-oss-20b"]
 
 _client = None
 _history = []
@@ -903,17 +903,17 @@ def _creator_memory_response(q):
         )
 
     name_question = re.search(
-        r"\b(?:what(?:'s| is) his name|who is he|who is your creator|"
-        r"who created you|who made you|what is your creator(?:'s)? name)\b",
+        r"\b(?:what(?:'s| is) his name|who is he|who is (?:your|ur) creator|"
+        r"who created (?:you|u)|who made (?:you|u)|what is (?:your|ur) creator(?:'s)? name)\b",
         q,
         re.IGNORECASE,
     )
     creator_question = re.search(
-        r"\b(?:who (?:is|are) (?:your )?(?:creator|boss)|"
-        r"who (?:created|made|built) you|"
-        r"tell me about (?:your )?(?:creator|boss)|"
-        r"what is your (?:creator|boss)(?:'s)? name|"
-        r"describe your (?:creator|boss)|"
+        r"\b(?:who (?:is|are) (?:(?:your|ur) )?(?:creator|boss)|"
+        r"who (?:created|made|built) (?:you|u)|"
+        r"tell me about (?:(?:your|ur) )?(?:creator|boss)|"
+        r"what is (?:your|ur) (?:creator|boss)(?:'s)? name|"
+        r"describe (?:your|ur) (?:creator|boss)|"
         r"who is sri charan|who is tirumaladasu|who is the creator)\b",
         q,
         re.IGNORECASE,

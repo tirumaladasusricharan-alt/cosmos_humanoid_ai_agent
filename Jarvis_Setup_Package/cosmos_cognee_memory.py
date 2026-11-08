@@ -391,10 +391,10 @@ class CosmosKnowledgeGraph:
         results.sort(key=lambda x: x["score"], reverse=True)
         return results[:top_k]
 
-    def render_context(self, query: str, top_k: int = 3) -> str:
+    def render_context(self, query: str, top_k: int = 3, max_chars: int = 1200) -> str:
         """
         Renders a high-signal, token-efficient context block suitable for
-        direct injection into LLM prompts without hallucination.
+        direct injection into LLM prompts without hallucination or TPM explosion.
         """
         matches = self.search_graph(query, top_k=top_k)
         if not matches:
@@ -405,22 +405,43 @@ class CosmosKnowledgeGraph:
 
         for match in matches:
             node = match["node"]
-            lines.append(f"- Entity: {node.get('label')} (Type: {node.get('type')})")
+            lbl = node.get("label", "")
+            ntype = node.get("type", "")
+            lines.append(f"- Entity: {lbl} (Type: {ntype})")
             props = node.get("properties", {})
             for k, v in props.items():
-                if isinstance(v, (str, int, float, list)):
+                if k in ("raw_content", "user_prompt", "bot_reply") and isinstance(v, str) and len(v) > 80:
+                    v = v[:77] + "..."
+                if isinstance(v, (str, int, float)) and len(str(v)) <= 150:
+                    lines.append(f"  * {k}: {v}")
+                elif isinstance(v, list) and len(v) <= 10:
                     lines.append(f"  * {k}: {v}")
 
-            # Include related edges
+            # Include related edges (filter out historical interaction logs to prevent token bloat)
+            edge_count = 0
             for edge in match["neighborhood"].get("edges", []):
+                s_id = str(edge.get("source", ""))
+                t_id = str(edge.get("target", ""))
+                if s_id.startswith("interaction_") or t_id.startswith("interaction_"):
+                    continue
                 edge_sig = (edge["source"], edge["relation"], edge["target"])
                 if edge_sig not in seen_edges:
                     seen_edges.add(edge_sig)
                     s_label = self.nodes.get(edge["source"], {}).get("label", edge["source"])
                     t_label = self.nodes.get(edge["target"], {}).get("label", edge["target"])
-                    lines.append(f"  * Relationship: [{s_label}] --({edge['relation']})--> [{t_label}]")
+                    rel = edge.get("relation", "RELATED_TO")
+                    lines.append(f"  * Relationship: [{s_label}] --({rel})--> [{t_label}]")
+                    edge_count += 1
+                    if edge_count >= 5:
+                        break
 
-        return "\n".join(lines)
+            if sum(len(line) for line in lines) >= max_chars:
+                break
+
+        res = "\n".join(lines)
+        if len(res) > max_chars:
+            res = res[:max_chars].rsplit("\n", 1)[0]
+        return res
 
 
 # Singleton instance
