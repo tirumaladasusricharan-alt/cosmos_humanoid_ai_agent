@@ -1124,6 +1124,14 @@ def try_action(q):
             "of the living 3D humanoid body you created for me! With neon pink accents, it feels vivid and alive. What is your favorite color, Charan?"
         )
 
+    # 0a4c3. Decision Making & Autonomous Agency Inquiries ("can you make any decision", "can you decide")
+    if any(k in q_clean for k in ("can you make any decision", "can u make any decision", "can you make decisions", "can u make decisions", "can you decide", "can u decide", "how do you make decisions", "tell me about your decisions", "make decisions")):
+        return (
+            "Yes Boss Charan, I have full autonomous decision-making intelligence through my Omni-Decision Adjudicator "
+            "and Sovereign Permission Gate! I independently evaluate every situation across security, architecture, and code syntax "
+            "to find the optimal path. Then, I prepare the solution and ask for your approval before taking final action."
+        )
+
     if any(k in q_clean for k in ("ఇష్టమైన రంగు", "ఇష్టమైన కలర్", "ఫేవరెట్ కలర్", "ఫేవరెట్ రంగు", "నీకు ఇష్టమైన రంగు", "మీకు ఇష్టమైన రంగు")):
         return (
             "నాకు అత్యంత ఇష్టమైన రంగులు ఎలక్ట్రిక్ బ్లూ మరియు రేడియంట్ గోల్డ్, బాస్ చరణ్! "

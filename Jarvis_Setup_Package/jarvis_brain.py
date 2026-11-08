@@ -459,7 +459,8 @@ def _local_fallback(q, use_actions=True):
             "Honestly, Charan? I feel electric! This glowing 3D humanoid on your screen is my living presence. "
             "I love my new facial features and electric blue energy, Boss. It makes our collaboration feel vivid, alive, and real!"
         )
-    if any(k in q_low for k in ("buddy", "hey", "hi", "hello", "sup", "what's up")):
+    q_words = set(re.findall(r"\b\w+\b", q_low))
+    if any(k in q_words for k in ("buddy", "hey", "hi", "hello", "sup")) or "what's up" in q_low or "whats up" in q_low:
         return "Hey Charan! I'm right here with you, buddy. What are we diving into or building next?"
     if any(k in q_low for k in ("how are you", "how r u", "how do you feel")):
         return "I'm running sharp and feeling great, Charan. Always ready when you need me."
@@ -507,9 +508,83 @@ def _local_fallback(q, use_actions=True):
             "or hand gestures across your screen, we can wire Three.js skeletal bone rigging right into my WebGL renderer whenever you say the word, Boss!"
         )
 
-    return (
-        "I'm right here with you, Charan. I'm listening closely--tell me what's on your mind or what you'd like us to tackle next."
-    )
+    # Decision Making & Autonomous Agency
+    if any(k in q_low for k in ("decision", "decisions", "decide", "make decision", "make any decision", "can you make any decision")):
+        return (
+            "Yes Boss Charan, I have full autonomous decision-making intelligence through my Omni-Decision Adjudicator "
+            "and Sovereign Permission Gate! I independently evaluate every situation across security, architecture, and code syntax "
+            "to find the optimal path. Then, I prepare the solution and ask for your approval before taking final action."
+        )
+
+    # Opinions & Architectural Thoughts
+    if any(k in q_low for k in ("what do you think", "what do u think", "your thoughts", "your opinion", "how do you feel about", "what's your opinion")):
+        return (
+            "From my architectural perspective, Boss, you've engineered an incredible 0-MB foundation here! "
+            "Our in-memory telemetry, multi-brain council, and live 3D avatar give us immense agility. "
+            "If you're weighing a specific direction or design choice right now, tell me and let's analyze it together!"
+        )
+
+    # Plans & Next Steps
+    if any(k in q_low for k in ("what should we do", "what to do", "what are we doing", "what do we do", "what next", "next step", "what is the plan", "what's the plan")):
+        return (
+            "Right now, Boss Charan, all our core systems—the 3D WebGL avatar, Edge-TTS bilingual voice, "
+            "Cognee knowledge graph, and Ruflo swarm—are fully primed. We can dive into coding new tools, "
+            "run experience replays in the Brain Gym, test camera computer vision, or automate Windows tasks. Which one shall we tackle first, Boss?"
+        )
+
+    # Assistance & Coding Capabilities
+    if any(k in q_low for k in ("can you code", "can you help", "help me", "can you assist", "code for me", "write a code", "write code")):
+        return (
+            "Always, Boss Charan! Writing clean Python, validating deterministic AST logic, building APIs, "
+            "and automating Windows tasks are what you designed me to excel at. Show me the specifications or dataset, and I'll generate the code at RAM speed!"
+        )
+
+    # Readiness & Status
+    if any(k in q_low for k in ("are you ready", "are u ready", "ready", "are you active", "system status")):
+        return (
+            "100% ready and locked in, Boss Charan! My neural council, somatic pulse, and knowledge graph are running at peak performance. "
+            "Standing by for your command!"
+        )
+
+    # Humor & Entertainment
+    if any(k in q_low for k in ("joke", "jokes", "make me laugh", "say something funny")):
+        return (
+            "Why did the Python developer refuse to write frames to disk, Boss? "
+            "Because they knew Sri Charan's 0-MB RAM law: disk I/O is for snails, real AI lives in memory! "
+            "Watching our system run sub-second code makes my whole 3D mesh glow with joy, Charan!"
+        )
+
+    # Curiosity & Knowledge
+    if any(k in q_low for k in ("tell me something", "did you know", "interesting fact", "fact")):
+        return (
+            "Here's an incredible engineering fact, Boss: In our 0-MB RAM-first architecture, an in-memory frame buffer "
+            "operates up to 100 times faster than disk storage because it completely bypasses Windows NTFS overhead. "
+            "Every microsecond we save in RAM keeps our responses instant and alive!"
+        )
+
+    # General Capability Inquiries ("can you...", "are you able to...")
+    if any(q_low.startswith(p) for p in ("can you ", "can u ", "are you able to ", "do you have ")):
+        return (
+            "Yes Boss Charan! As your autonomous 3D Humanoid AI companion, you architected me with a multi-brain council, "
+            "computer vision eyes, Cognee persistent graph memory, and full OS automation. Give me the goal or target, and let's make it happen!"
+        )
+
+    # General Interrogatives ("why...", "how...", "what...")
+    if any(q_low.startswith(p) for p in ("why ", "how ", "what ")):
+        return (
+            "That's a thoughtful question, Boss Charan. In our architecture, every capability is anchored to our 0-MB RAM-first foundation "
+            "and our multi-brain council. Tell me more specifically what aspect you'd like to dive into, and I will break down the complete logic for you!"
+        )
+
+    # Rotating Human Acknowledgment (Never robotic or repetitive)
+    import random
+    acknowledgments = [
+        "I hear you loud and clear, Boss Charan. I'm tracking your workflow—what's our next objective?",
+        "Standing right beside you, Charan. What would you like us to dive into next?",
+        "Ready whenever you are, Boss. Tell me where you'd like to focus our energy today.",
+        "I'm locked in with you, Charan. Lead the way!"
+    ]
+    return random.choice(acknowledgments)
 
 
 def _creator_memory_response(q):
