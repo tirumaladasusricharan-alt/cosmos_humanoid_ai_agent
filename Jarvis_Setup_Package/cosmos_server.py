@@ -275,6 +275,11 @@ def speak_cosmos(text: str, full_chat_text: Optional[str] = None):
     proc = cosmos_live_voice.dual_channel_process(text)
     chat_display = full_chat_text if full_chat_text else proc["chat_text"]
     voice_to_speak = proc["voice_text"]
+    try:
+        from cosmos_embodied_presence import embodied_presence
+        voice_to_speak = embodied_presence.shape_text_for_human_breathing(voice_to_speak)
+    except Exception:
+        pass
 
     # Code blocks are delivered cleanly to the side chat UI without hijacking the user's OS clipboard
     # (Preserves the user's manual copy/paste autonomy across other applications)
@@ -528,10 +533,12 @@ def extended_listener_worker():
                         if current_state != "talking":
                             current_state = "listening"
 
+                    listen_start = time.time()
                     try:
                         audio = recognizer.listen(source, timeout=5, phrase_time_limit=15)
                     except sr.WaitTimeoutError:
                         continue
+                    speech_duration = max(0.5, time.time() - listen_start)
 
                     if not mic_enabled or not voice_ready_event.is_set():
                         continue
@@ -588,6 +595,14 @@ def extended_listener_worker():
 
                     if not query:
                         continue
+
+                    # Paralinguistic delivery inference (cadence, hesitation, speed)
+                    try:
+                        from cosmos_embodied_presence import embodied_presence
+                        vocal_subtext = embodied_presence.analyze_boss_vocal_delivery(query, speech_duration_sec=speech_duration)
+                        print(f"{vocal_subtext}", flush=True)
+                    except Exception:
+                        pass
 
                     # Filter out STT noise artifacts (e.g. isolated spaced characters like "క ర స మన క న య హ యర")
                     tokens = query.strip().split()
@@ -889,8 +904,20 @@ async def get_state():
         elif not mic_enabled or is_sleeping:
             effective_state = "idle"
 
+        embodiment_state = {
+            "gaze_target": "direct_boss_eye_contact",
+            "blink_rate_rpm": 14,
+            "gesture": "calm_eye_contact"
+        }
+        try:
+            from cosmos_embodied_presence import embodied_presence
+            embodiment_state = embodied_presence.get_avatar_embodiment_state(is_thinking=(effective_state == "thinking"))
+        except Exception:
+            pass
+
         return {
             "state": effective_state,
+            "embodiment": embodiment_state,
             "mic_enabled": mic_enabled,
             "muted": is_muted,
             "is_sleeping": is_sleeping,

@@ -7,6 +7,7 @@ import requests
 
 from cosmos_companion_heart import companion_heart
 from cosmos_deep_human_psyche import deep_human_psyche
+from cosmos_embodied_presence import embodied_presence
 from cosmos_decision_adjudicator import decision_adjudicator
 from cosmos_minicpm_agency_skills import minicpm_skills, route_agency_skill
 from cosmos_sovereign_control import boss_settings, sovereign_gate
@@ -362,6 +363,12 @@ class CosmosSkillAwareHumanBrain:
                 reply = jarvis_brain._local_fallback(user_input)
             except Exception:
                 reply = f"I hear you clearly, Charan. What would you like us to explore next?"
+
+        # Apply acoustic breath shaping (micro-pauses, dashes) without touching audio volume/rate/pitch
+        try:
+            reply = embodied_presence.shape_text_for_human_breathing(reply)
+        except Exception:
+            pass
 
         # Save turn into rolling RAM conversation history
         self.dialogue_history.append({"role": "user", "content": user_input})
