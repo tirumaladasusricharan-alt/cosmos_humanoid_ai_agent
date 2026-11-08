@@ -1323,10 +1323,13 @@ def try_action(q):
     try:
         import cosmos_autonomous_mind
         if cosmos_autonomous_mind.should_trigger_autonomous_mind(q_clean, q_text):
+            auto_ans = None
             try:
-                return cosmos_multi_model_solve(q_text)
+                auto_ans = cosmos_multi_model_solve(q_text)
             except Exception:
-                return cosmos_autonomous_mind.cosmos_think_and_solve(q_text)
+                auto_ans = cosmos_autonomous_mind.cosmos_think_and_solve(q_text)
+            if auto_ans and "could not connect" not in auto_ans.lower():
+                return auto_ans
     except Exception as e:
         print(f"[COSMOS MULTI-BRAIN ACTION ERROR] {e}")
 

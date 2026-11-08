@@ -483,12 +483,12 @@ def extended_listener_worker():
     recognizer = sr.Recognizer()
     recognizer.dynamic_energy_threshold = True
     recognizer.dynamic_energy_adjustment_damping = 0.15
-    recognizer.dynamic_energy_ratio = 1.12
-    # Proven human conversational listener settings: 0.8s pause threshold & 0.4s non-speaking duration
-    recognizer.pause_threshold = 0.8
-    recognizer.non_speaking_duration = 0.4
+    recognizer.dynamic_energy_ratio = 1.15
+    # Human conversational listener settings: 1.3s pause tolerance (prevents cut-off) & 0.5s non-speaking duration
+    recognizer.pause_threshold = 1.3
+    recognizer.non_speaking_duration = 0.5
 
-    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (native hardware sample rate engine).", flush=True)
+    print(f"[COSMOS LISTENER]: Worker started with microphone device index={best_mic_idx} (high-sensitivity audio pipeline).", flush=True)
 
     while True:
         if not mic_enabled:
@@ -502,18 +502,18 @@ def extended_listener_worker():
             with sr.Microphone(device_index=best_mic_idx) as source:
                 recognizer.adjust_for_ambient_noise(source, duration=0.8)
                 # Restrain ambient baseline to stay sensitive to natural human speaking & whisper
-                if recognizer.energy_threshold > 350:
-                    recognizer.energy_threshold = 280
-                elif recognizer.energy_threshold < 70:
-                    recognizer.energy_threshold = 70
+                if recognizer.energy_threshold > 200:
+                    recognizer.energy_threshold = 140
+                elif recognizer.energy_threshold < 75:
+                    recognizer.energy_threshold = 75
                 recognizer.dynamic_energy_threshold = True
                 recognizer.dynamic_energy_ratio = 1.15
                 print(f"[COSMOS MIC CALIBRATED]: Sensitive baseline clamped={recognizer.energy_threshold:.1f}, dynamic ratio={recognizer.dynamic_energy_ratio}", flush=True)
 
                 while mic_enabled:
                     # Prevent unbounded runaway threshold in background noise
-                    if recognizer.energy_threshold > 450:
-                        recognizer.energy_threshold = 300
+                    if recognizer.energy_threshold > 260:
+                        recognizer.energy_threshold = 160
 
                     # Wait if speech playback is active
                     if not voice_ready_event.wait(timeout=0.2):
@@ -541,13 +541,32 @@ def extended_listener_worker():
 
                     # Clean low-voice digital AGC pre-gain before STT (boosts quiet voice without clipping)
                     try:
-                        import audioop
                         raw_pcm = audio.get_raw_data()
-                        rms = audioop.rms(raw_pcm, 2)
-                        if 10 < rms < 1200:
-                            gain = min(2.5, 1800.0 / max(rms, 80))
-                            boosted_pcm = audioop.mul(raw_pcm, 2, gain)
-                            audio = sr.AudioData(boosted_pcm, audio.sample_rate, audio.sample_width)
+                        sample_width = audio.sample_width
+                        sample_rate = audio.sample_rate
+                        rms = 0
+                        try:
+                            import audioop
+                            rms = audioop.rms(raw_pcm, sample_width)
+                        except Exception:
+                            import struct
+                            count = len(raw_pcm) // 2
+                            if count > 0:
+                                shorts = struct.unpack(f"<{count}h", raw_pcm[:count*2])
+                                sum_squares = sum(s * s for s in shorts)
+                                rms = int((sum_squares / count) ** 0.5)
+                        if 5 < rms < 1500:
+                            gain = min(3.0, 2000.0 / max(rms, 60))
+                            try:
+                                import audioop
+                                boosted_pcm = audioop.mul(raw_pcm, sample_width, gain)
+                            except Exception:
+                                import struct
+                                count = len(raw_pcm) // 2
+                                shorts = struct.unpack(f"<{count}h", raw_pcm[:count*2])
+                                boosted_shorts = [max(-32768, min(32767, int(s * gain))) for s in shorts]
+                                boosted_pcm = struct.pack(f"<{count}h", *boosted_shorts)
+                            audio = sr.AudioData(boosted_pcm, sample_rate, sample_width)
                     except Exception:
                         pass
 
@@ -684,7 +703,7 @@ def extended_listener_worker():
                             if is_coding_request:
                                 solution = cosmos_master_solve(actual_command)
                         if not solution:
-                            solution = "I'm right here with you, Charan. I'm listening closely--tell me what's on your mind."
+                            solution = jarvis_brain._local_fallback(actual_command) or f"I hear you, Boss Charan. Let's delve into {actual_command} together--how shall we approach it?"
                         try:
                             import cosmos_emotional_solace
                             solution = cosmos_emotional_solace.sanitize_robotic_helpline(solution, user_prompt=actual_command)
@@ -1105,7 +1124,7 @@ async def execute_query(request: Request):
                 if is_coding_request:
                     reply = cosmos_master_solve(query)
             if not reply:
-                reply = "I'm right here with you, Charan. I'm listening closely--tell me what's on your mind."
+                reply = jarvis_brain._local_fallback(query) or f"I hear you, Boss Charan. Let's delve into {query} together--how shall we approach it?"
             try:
                 import cosmos_emotional_solace
                 reply = cosmos_emotional_solace.sanitize_robotic_helpline(reply, user_prompt=query)

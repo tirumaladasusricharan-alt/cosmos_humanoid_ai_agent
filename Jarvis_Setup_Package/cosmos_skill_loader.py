@@ -198,7 +198,7 @@ def try_execute_skill(q_clean: str, raw_query: str) -> Optional[str]:
     today = datetime.now().strftime("%Y-%m-%d")
 
     # 0. List all 25 skills inquiry (flexible pattern matching typos like "you new skills", "what skills", etc.)
-    if (
+    if not any(k in q_clean for k in ("decision", "decisions", "decide", "make decision", "making skills")) and (
         any(k in q_clean for k in (
             "new skill", "new skills", "your skill", "your skills", "you new skills", "you skills",
             "list skills", "skills list", "show skills", "all skills", "what skills", "tell me skills"
