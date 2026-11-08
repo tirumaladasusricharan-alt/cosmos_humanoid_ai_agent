@@ -688,6 +688,12 @@ def extended_listener_worker():
                         action_reply = jarvis_actions.try_action(actual_command)
                         if not action_reply:
                             action_reply = jarvis_actions.try_hermes_action(actual_command)
+                        if not action_reply:
+                            try:
+                                from cosmos_digital_human_master import cosmos_digital_human_turn
+                                action_reply = cosmos_digital_human_turn(actual_command)
+                            except Exception:
+                                pass
                         if action_reply:
                             speak_cosmos(action_reply)
                             log_everything_to_score(query, action_reply, wav_path)
@@ -1132,6 +1138,12 @@ async def execute_query(request: Request):
         reply = jarvis_actions.try_action(query)
         if not reply:
             reply = jarvis_actions.try_hermes_action(query)
+        if not reply:
+            try:
+                from cosmos_digital_human_master import cosmos_digital_human_turn
+                reply = cosmos_digital_human_turn(query)
+            except Exception:
+                pass
         if not reply:
             if screen_info:
                 reply = jarvis_brain.think(

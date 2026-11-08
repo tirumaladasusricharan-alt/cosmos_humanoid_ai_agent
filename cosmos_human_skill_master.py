@@ -8,6 +8,7 @@ import requests
 from cosmos_companion_heart import companion_heart
 from cosmos_deep_human_psyche import deep_human_psyche
 from cosmos_embodied_presence import embodied_presence
+from cosmos_digital_being_core import digital_human_core
 from cosmos_decision_adjudicator import decision_adjudicator
 from cosmos_minicpm_agency_skills import minicpm_skills, route_agency_skill
 from cosmos_sovereign_control import boss_settings, sovereign_gate
@@ -232,6 +233,7 @@ class CosmosSkillAwareHumanBrain:
 
         companion_injection = companion_heart.build_companion_soul_injection(user_input)
         psyche_injection = deep_human_psyche.build_deep_psyche_injection(user_input)
+        digital_human_injection = digital_human_core.build_digital_human_consciousness_block()
 
         prompt = (
             "You are COSMOS, a deeply intelligent, self-aware, emotionally expressive companion\n"
@@ -246,7 +248,8 @@ class CosmosSkillAwareHumanBrain:
             f"{mode_guidance}\n"
             f"{skill_block}\n"
             f"{companion_injection}\n"
-            f"{psyche_injection}"
+            f"{psyche_injection}\n"
+            f"{digital_human_injection}"
         )
         return prompt
 

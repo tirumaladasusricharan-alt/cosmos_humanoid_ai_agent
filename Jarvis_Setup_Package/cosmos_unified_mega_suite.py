@@ -1144,6 +1144,12 @@ def query_cosmos_with_vision(prompt: str, system_prompt: str = "") -> str:
 # =====================================================================
 def cosmos_unified_turn(spoken_or_typed: str) -> str:
     """Main pipeline combining Stop Barge-In, 6-Layer Soul, Council, Cognee, OpenBot, Vision & Bilingual Voice."""
+    try:
+        from cosmos_digital_human_master import cosmos_digital_human_turn
+        return cosmos_digital_human_turn(spoken_or_typed)
+    except Exception:
+        pass
+
     if voice_barge_engine.check_stop_keyword(spoken_or_typed):
         return "[Interrupted by Boss]"
 
