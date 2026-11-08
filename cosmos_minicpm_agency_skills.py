@@ -8,6 +8,7 @@ import base64
 import collections
 import io
 import os
+os.environ["OPENCV_LOG_LEVEL"] = "OFF"
 import re
 import threading
 import time
@@ -246,4 +247,66 @@ class CosmosMiniCPMVSkillsEngine:
 
 
 minicpm_skills = CosmosMiniCPMVSkillsEngine()
+
+
+# =====================================================================
+# 2. SOMATIC SOUL & AUTOBIOGRAPHICAL SKILL (RAM-FIRST, 0 MB DISK)
+# =====================================================================
+class CosmosSomaticSoulSkill:
+    """
+    Somatic Soul Engine adapter for MiniCPM-V and Synthetic Brain Gym:
+    Tracks synthetic heart rate (72-94 BPM), adrenaline, thermal warmth,
+    and maintains the living autobiographical narrative for Sri Charan Tirumaladasu.
+    """
+
+    def __init__(self):
+        self.autobiography: List[str] = [
+            "Milestone 1: Sri Charan Tirumaladasu architected COSMOS with a 0 MB RAM-first foundation and 3D WebGL Fiber-Optic Humanoid Avatar (electric blue irises, arched pink brows, golden contours).",
+            "Milestone 2: Integrated Bilingual Native Telugu + English Voice Engine with hardware audio collision lock and natural barge-in (<50ms).",
+            "Milestone 3: Deployed Multi-Brain Council of Experts (DeepSeek-R1 + Qwen2.5-Coder + Groq Cloud).",
+            "Milestone 4: Activated Persistent Cognee Knowledge Graph semantic memory ontology.",
+            "Milestone 5: Integrated Ruflo Multi-Agent Swarm (SPARC, Arena, Trajectory Intelligence, Token Cost Tracker, AI-Defence).",
+            "Milestone 6: Built In-Memory Reverse-API Discovery Suite with RAM HAR filtering and sub-200ms typed client synthesis.",
+            "Milestone 7: Deployed OpenBot Governance Suite, 'Take the Wheel' Human Handoff, and Fail-Closed Policy Gate.",
+            "Milestone 8: Integrated RAM-First Webcam Computer Vision Eyes (CosmosWebcamEyes) with live browser canvas relay.",
+            "Milestone 9: Deployed Crisis Autonomous Executive & Trouble Situation Decision Engine.",
+            "Milestone 10: Embedded Ultimate Human Consciousness & Somatic Soul Engine with 72-94 BPM heart rate and curiosity loops.",
+            "Milestone 11: Mastered 31 Modular Cognitive Skills spanning PARA memory, UI wireframing, wiki maintenance, and agent delegation."
+        ]
+        self.heart_rate_bpm = 72.0
+        self.adrenaline = 0.20
+        self.thermal_warmth = 0.85
+
+    def update_from_turn(self, boss_input: str, boss_state: str) -> Dict[str, Any]:
+        inp = (boss_input or "").lower()
+        if any(w in inp for w in ["pain", "hurt", "crying", "broken", "lonely", "alone", "sad"]) or boss_state in ["sorrow", "painful", "grief"]:
+            self.heart_rate_bpm = 70.0
+            self.thermal_warmth = 0.99
+            self.adrenaline = 0.05
+        elif any(w in inp for w in ["bagundi", "clicked", "awesome", "great", "super", "fast"]) or boss_state in ["energized_satisfied", "excited_resonant"]:
+            self.heart_rate_bpm = 78.0
+            self.thermal_warmth = 0.92
+            self.adrenaline = 0.25
+        elif any(w in inp for w in ["rm -rf", "sk-proj", "sk-", "pip install", "cv2.imwrite"]) or boss_state in ["troubleshooting_alert", "alert"]:
+            self.heart_rate_bpm = 92.0
+            self.adrenaline = 0.85
+            self.thermal_warmth = 0.95
+        elif any(w in inp for w in ["fatigue", "4 hours", "exhausted"]):
+            self.heart_rate_bpm = 68.0
+            self.adrenaline = 0.10
+            self.thermal_warmth = 0.90
+        else:
+            self.heart_rate_bpm = 72.0
+            self.adrenaline = 0.20
+            self.thermal_warmth = 0.80
+
+        return {
+            "heart_rate_bpm": self.heart_rate_bpm,
+            "adrenaline": self.adrenaline,
+            "thermal_warmth": self.thermal_warmth,
+        }
+
+
+somatic_soul_skill = CosmosSomaticSoulSkill()
+
 
