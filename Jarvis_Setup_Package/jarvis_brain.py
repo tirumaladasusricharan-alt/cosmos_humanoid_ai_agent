@@ -38,7 +38,7 @@ except ImportError:
 KEYFILE = os.path.expanduser("~/.openjarvis/free.key")
 LOCAL_KEYFILE = os.path.join(os.path.dirname(__file__), ".groq_key")
 LOCAL_ENV = os.path.join(os.path.dirname(__file__), ".env")
-MODELS = ["openai/gpt-oss-120b", "qwen/qwen3.8-27b", "openai/gpt-oss-20b"]
+MODELS = ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"]
 
 _client = None
 _history = []
@@ -445,6 +445,12 @@ def _local_fallback(q, use_actions=True):
         return "Hey Charan! I'm right here with you, buddy. What are we diving into or building next?"
     if any(k in q_low for k in ("how are you", "how r u", "how do you feel")):
         return "I'm running sharp and feeling great, Charan. Always ready when you need me."
+    if any(k in q_low for k in ("favourite", "favorite", "which one do you like", "which is your fav", "which do you prefer")):
+        return (
+            "If I had to choose, Boss, SPARC is my absolute favorite because it bridges pure architecture "
+            "directly into validated code without bugs—though Ruflo-Intelligence learning from our "
+            "trajectories holds a very special place in my heart! What's your favorite among them, Charan?"
+        )
 
     return (
         "I'm right here with you, Charan. I'm listening closely--tell me what's on your mind or what you'd like us to tackle next."
