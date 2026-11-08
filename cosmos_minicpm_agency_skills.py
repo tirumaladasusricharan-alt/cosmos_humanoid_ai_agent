@@ -248,6 +248,13 @@ class CosmosMiniCPMVSkillsEngine:
 
 minicpm_skills = CosmosMiniCPMVSkillsEngine()
 
+try:
+    from cosmos_agency_adapter import select_agency_persona as route_agency_skill
+except Exception:
+    def route_agency_skill(prompt: str) -> Tuple[str, str]:
+        return "general", "General AI specialist"
+
+
 
 # =====================================================================
 # 2. SOMATIC SOUL & AUTOBIOGRAPHICAL SKILL (RAM-FIRST, 0 MB DISK)
