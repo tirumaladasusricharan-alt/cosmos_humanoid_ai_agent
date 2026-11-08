@@ -619,11 +619,11 @@ def should_trigger_autonomous_mind(q_clean: str, q_raw: str = "") -> bool:
     if "news" in q and not any(k in q for k in ("code", "debug", "python", "script", "algorithm")):
         return False
 
-    # 1. Explicit Autonomous & Coding Triggers
+    # 1. Explicit Autonomous & Coding Triggers (requires intentional coding request)
     coding_verbs = (
-        "code", "write a code", "write code", "write a program", "write a script",
-        "write a function", "implement", "solve", "algorithm", "debug", "fix this error",
-        "fix the bug", "refactor", "optimize this", "time complexity", "space complexity",
+        "write a code", "write code", "write a program", "write a script",
+        "write a function", "implement ", "solve ", "algorithm", "debug ", "fix this error",
+        "fix the bug", "refactor ", "optimize this", "time complexity", "space complexity",
         "leetcode", "regex for", "sql query", "rest api", "unit test", "test cases"
     )
     if any(v in q for v in coding_verbs):
