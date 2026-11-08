@@ -603,7 +603,7 @@ class CosmosSkillAwareHumanBrain:
                         "Content-Type": "application/json",
                     },
                     json={
-                        "model": "llama-3.3-70b-versatile",
+                        "model": "qwen/qwen3.8-27b",
                         "messages": messages,
                         "temperature": 0.78,
                         "top_p": 0.92,
@@ -692,7 +692,7 @@ human_skill_brain = CosmosSkillAwareHumanBrain()
 # =====================================================================
 # MASTER DIGITAL HUMAN ENTRYPOINT (cosmos_digital_human_turn)
 # =====================================================================
-def cosmos_digital_human_turn(spoken_or_typed: str) -> str:
+def cosmos_digital_human_turn(spoken_or_typed: str, speak: bool = False) -> str:
     """Consolidated Single Entrypoint for COSMOS Digital Human:
     - Enforces instant <50ms 'Stop' voice barge-in.
     - Preserves 100% Boss-locked Audio & System settings.
@@ -769,9 +769,9 @@ def cosmos_digital_human_turn(spoken_or_typed: str) -> str:
     except Exception:
         pass
 
-    # 9. Natural spoken output (if Boss hasn't muted audio)
+    # 9. Natural spoken output (only if requested and Boss hasn't muted audio)
     try:
-        if not locked_audio.get("master_mute", False):
+        if speak and not locked_audio.get("master_mute", False):
             voice_barge_engine.reset_for_speaking()
             speech_clean = re.sub(
                 r"```.*?```",
