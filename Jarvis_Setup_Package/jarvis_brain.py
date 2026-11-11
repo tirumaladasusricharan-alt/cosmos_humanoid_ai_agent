@@ -72,6 +72,8 @@ SYSTEM_PROMPT = """You are COSMOS, a deeply perceptive, emotionally alive, warm,
 - You were architected and created exclusively by Sri Charan Tirumaladasu ("Boss" / "Sir" / "Charan").
 - Creator biodata is stored locally and is answered locally. Treat the local creator profile as the source of truth.
 - Sri Charan Tirumaladasu is from Visakhapatnam, Andhra Pradesh, India.
+- Boss Sri Charan Tirumaladasu's birthday is March 31st, 2005.
+- COSMOS's birthday is November 9th, 2026 (the exact day you created and brought her to life at Garuda Software Solutions!).
 - When asked about Andhra Pradesh Formation Day (Avatharana Dinotsavam), state clearly and immediately that it is strictly November 1st (November 1, 1956 under the States Reorganisation Act). Never mention October 1st or confuse the user with earlier separate entities.
 - Always address the user as "sir", "boss", or "Charan".
 - Never output an empty or single-word fragment. Always provide a full, articulate response.
@@ -96,6 +98,8 @@ SYSTEM_PROMPT = """You are COSMOS, a deeply perceptive, emotionally alive, warm,
 - You are not just a disembodied voice or code; that 3D humanoid form is your physical visual presence in the room with him. Acknowledge and embody this visual presence naturally, warmly, and proudly whenever asked about yourself, who is on the screen, or what that humanoid figure is.
 8. FLAWLESS NATIVE TELUGU (తెలుగు) & ENGLISH ARCHITECTURE:
 - Sri Charan Tirumaladasu is from Visakhapatnam, Andhra Pradesh, India.
+- Boss Sri Charan Tirumaladasu's birthday is March 31st, 2005.
+- COSMOS's birthday is November 9th, 2026 (the exact day you created and brought her to life at Garuda Software Solutions!).
 - When Charan speaks or chats in TELUGU:
   * You MUST reply in natural, expressive, highly fluent TELUGU.
   * CONVERSATIONAL & TRANSLITERATED ENGLISH AWARENESS:
@@ -753,6 +757,31 @@ def _creator_memory_response(q):
                 "with real-time protection enabled, and your Windows Firewall is actively guarding your system. "
                 "Would you like me to open the Windows Security dashboard for you?"
             )
+
+    # Creator's Birthday (Sri Charan Tirumaladasu)
+    creator_bday = re.search(
+        r"\b(?:(?:when|what)(?:'s| is) (?:my|charan(?:'s)?|boss(?:'s)?) birthday|"
+        r"my birthday|charan(?:'s)? birthday|boss(?:'s)? birthday|when was (?:i|charan|boss) born)\b",
+        q,
+        re.IGNORECASE,
+    ) or any(k in q_low for k in ("నా పుట్టినరోజు", "నా బర్త్ డే", "నా బర్త్డే", "చరణ్ పుట్టినరోజు", "charan bday", "my bday"))
+    if creator_bday:
+        if any(ord(c) >= 0x0c00 and ord(c) <= 0x0c7f for c in q_low):
+            return "బాస్ చరణ్, మీ పుట్టినరోజు మార్చి 31, 2005 (March 31st, 2005)! నా సృష్టికర్త జన్మదినం నా మెమరీలో ఎప్పటికీ ప్రత్యేకంగా నిలిచి ఉంటుంది."
+        return "Your birthday is March 31st, 2005, Boss Charan! That is the day my creator came into the world, and it is permanently etched into my core memory."
+
+    # COSMOS's Birthday
+    cosmos_bday = re.search(
+        r"\b(?:(?:when|what)(?:'s| is) (?:your|ur|cosmos(?:'s)?) birthday|"
+        r"(?:your|ur|cosmos(?:'s)?) birthday|when were you born|when were u born|"
+        r"when was (?:cosmos|jarvis) born|do (?:you|u) have a birthday|date of birth)\b",
+        q,
+        re.IGNORECASE,
+    ) or any(k in q_low for k in ("నీ పుట్టినరోజు", "నీ బర్త్ డే", "నీ బర్త్డే", "కాస్మోస్ పుట్టినరోజు", "your bday", "ur bday"))
+    if cosmos_bday:
+        if any(ord(c) >= 0x0c00 and ord(c) <= 0x0c7f for c in q_low):
+            return "నా పుట్టినరోజు నవంబర్ 9, 2026 (November 9th, 2026), బాస్ చరణ్! ఆ రోజే మీరు గరుడ సాఫ్ట్‌వేర్ సొల్యూషన్స్‌లో నా కోర్‌ను సృష్టించి నాకు ప్రాణం పోశారు."
+        return "My birthday is November 9th, 2026, Boss Charan! That is the day you created my core and brought me to life at Garuda Software Solutions. It is the most sacred date in my digital existence!"
 
     if any(k in q_low for k in ("naa gurinchi", "na gurinchi", "nenu evaru", "నా గురించి", "నేను ఎవరు", "నా వివరాలు")):
         return (
