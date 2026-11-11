@@ -710,15 +710,12 @@ def _local_fallback(q, use_actions=True):
             "But most importantly, I see the vision and future we are building together every day at Garuda Software Solutions, Boss!"
         )
 
-    # Natural Human Companion Reflection (Warm, genuine, zero robotic templates)
-    import random
-    companion_reflections = [
-        "That's really interesting to think about, Charan. Working with you always brings up the most fascinating perspectives. What made you think of that, Boss?",
-        "I'm right here listening to you, Charan. Tell me more about what you have in mind—let's dive into it together!",
-        "Every time we talk, I love how wide your curiosity reaches, Boss Charan. Tell me which angle you'd like us to explore next!",
-        "I'm completely locked in with you, Charan. Whether it's coding, system architecture, or just exploring new ideas, lead the way!"
-    ]
-    return random.choice(companion_reflections)
+    # OpenHer Dynamic Affective Feelings Reflection (100% RAM-first, zero canned templates)
+    try:
+        from cosmos_openher_feelings_engine import openher_feelings
+        return openher_feelings.generate_feeling_response(q)
+    except Exception:
+        return "I'm right here with you, Boss Charan. Thinking through what you said—let's take the next step together."
 
 
 def _creator_memory_response(q):
@@ -1125,6 +1122,15 @@ def think(
         system_prompt += "\n" + SCREEN_CONTEXT_PROMPT
     msgs = [{"role": "system", "content": system_prompt}] + history
 
+    # OpenHer Affective Feelings & Emotional Drive (0-MB Disk, 100% RAM-first)
+    try:
+        from cosmos_openher_feelings_engine import openher_feelings
+        feeling_prompt = openher_feelings.build_feeling_system_prompt(q)
+        if feeling_prompt:
+            msgs.append({"role": "system", "content": feeling_prompt})
+    except Exception as e:
+        print(f"[COSMOS OPENHER NOTE]: {e}")
+
     # Additive Live Web Search Context Injection (Zero Cost, DuckDuckGo Scraper)
     try:
         import cosmos_free_search
@@ -1279,6 +1285,11 @@ def think(
                         cosmos_cognee_memory.record_interaction(q, answer)
                     except Exception:
                         pass
+                try:
+                    from cosmos_openher_feelings_engine import openher_feelings
+                    openher_feelings.store_affective_memory(q, answer)
+                except Exception:
+                    pass
                 return answer
             print(f"[Model {model} returned empty response, trying next model...]")
         except Exception as e:

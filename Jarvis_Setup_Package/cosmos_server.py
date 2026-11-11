@@ -915,9 +915,17 @@ async def get_state():
         except Exception:
             pass
 
+        openher_state = {}
+        try:
+            from cosmos_openher_feelings_engine import openher_feelings
+            openher_state = openher_feelings.get_frontend_telemetry()
+        except Exception:
+            pass
+
         return {
             "state": effective_state,
             "embodiment": embodiment_state,
+            "openher_feelings": openher_state,
             "mic_enabled": mic_enabled,
             "muted": is_muted,
             "is_sleeping": is_sleeping,
