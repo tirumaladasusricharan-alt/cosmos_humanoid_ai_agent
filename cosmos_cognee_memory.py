@@ -46,7 +46,7 @@ os.environ.setdefault("EMBEDDING_BATCH_SIZE", "5")
 # Optional Groq key injection if configured locally
 _groq_key_paths = [
     os.path.join(os.path.dirname(__file__), ".groq_key"),
-    os.path.join(os.path.dirname(__file__), "Jarvis_Setup_Package", ".groq_key"),
+    os.path.join(os.path.dirname(__file__), "..", ".groq_key"),
 ]
 for _kp in _groq_key_paths:
     if os.path.exists(_kp):
@@ -79,7 +79,6 @@ except Exception as _cognee_err:
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 GRAPH_CANDIDATE_PATHS = [
     os.path.join(BASE_DIR, "cosmos_agent_company", "cognee_fallback_graph.json"),
-    os.path.join(BASE_DIR, "Jarvis_Setup_Package", "cosmos_agent_company", "cognee_fallback_graph.json"),
     os.path.join(BASE_DIR, "..", "cosmos_agent_company", "cognee_fallback_graph.json"),
 ]
 
@@ -551,20 +550,28 @@ def record_interaction(user_prompt: str, bot_reply: str):
         try:
             graph = get_graph()
             timestamp = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-            node_id = f"interaction_{int(time.time() * 1000)}"
+            lower = user_prompt.lower()
+            is_core = any(p in lower for p in ["remember this", "core memory", "never forget", "anchor this", "mark this down", "గుర్తుంచుకో", "గుర్తుపెట్టుకో"])
+            node_type = "CoreMemory" if is_core else "Interaction"
+            weight = 1.0 if is_core else 0.7
+            relation_charan = "CRYSTALLIZED_ANCHOR" if is_core else "SPOKE"
+            node_id = f"core_mem_{int(time.time() * 1000)}" if is_core else f"interaction_{int(time.time() * 1000)}"
+            label = f"Crystallized Core Memory at {timestamp}" if is_core else f"User Interaction at {timestamp}"
+
             graph.add_node(
                 node_id=node_id,
-                node_type="Interaction",
-                label=f"User Interaction at {timestamp}",
+                node_type=node_type,
+                label=label,
                 properties={
                     "user_prompt": user_prompt,
                     "bot_reply": bot_reply[:250],
-                    "timestamp": timestamp
+                    "timestamp": timestamp,
+                    "gravitational_mass": 1.0 if is_core else 0.7,
                 },
                 auto_save=False
             )
-            graph.add_edge(source_id="charan", target_id=node_id, relation="SPOKE", weight=0.7, auto_save=False)
-            graph.add_edge(source_id="cosmos", target_id=node_id, relation="RESPONDED_TO", weight=0.7, auto_save=False)
+            graph.add_edge(source_id="charan", target_id=node_id, relation=relation_charan, weight=weight, auto_save=False)
+            graph.add_edge(source_id="cosmos", target_id=node_id, relation="PRESERVED", weight=weight, auto_save=False)
             graph.save()
         except Exception as e:
             print(f"[COSMOS MEMORY RECORD NOTE]: {e}", flush=True)
