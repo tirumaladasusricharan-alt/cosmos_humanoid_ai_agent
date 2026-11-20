@@ -93,7 +93,7 @@ async def mint_nuance_token(req: NuanceTokenRequest = NuanceTokenRequest()):
                 json=payload,
             )
 
-        if resp.status_code != 200:
+        if resp.status_code not in (200, 201):
             # Log error detail server-side only (never expose the key)
             error_text = resp.text[:300]
             print(f"[COSMOS NUANCE BRIDGE] Token mint failed HTTP {resp.status_code}: {error_text}", flush=True)
