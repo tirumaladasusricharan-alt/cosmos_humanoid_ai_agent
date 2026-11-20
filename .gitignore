@@ -11,6 +11,9 @@ __pycache__/
 
 # Private credentials & sensitive keys
 .env
+.env.local
+.env.*
+!.env.example
 .groq_key
 *.key
 

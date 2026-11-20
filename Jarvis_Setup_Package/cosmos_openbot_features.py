@@ -522,7 +522,7 @@ if __name__ == "__main__":
     print("\n--- COSMOS OPENBOT ARCHITECTURAL INTEGRATION VERIFICATION ---")
 
     # 1. Test Secret Scrubber
-    raw_prompt = "Login to API with sk-proj-1234567890abcdefghijklmnopqrstuvwxyz and token gsk_999888777666555444333222111"
+    raw_prompt = "Login to API with sk-proj-placeholder-token and token redacted_demo_key_999"
     scrubbed = scrub_openbot_secrets(raw_prompt)
     print(f"\n[Test 1: Secret Scrubbing]:\nRaw:      {raw_prompt}\nScrubbed: {scrubbed}")
     assert "sk-" not in scrubbed
